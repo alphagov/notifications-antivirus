@@ -1,2 +1,4 @@
 # notifications-antivirus
-GOV.UK Notify Anti-Virus application
+notifications-antivirus
+
+GOV.UK Notify Anti-Virus service.
