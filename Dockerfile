@@ -27,10 +27,13 @@ RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 
-COPY app/ /app
 WORKDIR /app
 
+COPY app/requirements.txt requirements.txt
+
 RUN pip install -r requirements.txt
+
+COPY app/ /app
 
 ADD scripts/run_app.sh /
 
