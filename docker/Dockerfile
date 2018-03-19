@@ -7,6 +7,8 @@ RUN echo "deb http://http.debian.net/debian/ jessie main contrib non-free" > /et
     echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        git \
+        build-essential \
         clamav-daemon=${CLAMAV_VERSION}* \
         clamav-freshclam=${CLAMAV_VERSION}* \
         libclamunrar7 \
@@ -29,12 +31,13 @@ RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
 
 WORKDIR /app
 
-COPY app/requirements.txt requirements.txt
+COPY app app
+COPY requirements.txt .
+COPY application.py .
+COPY run_celery.py .
 
 RUN pip install -r requirements.txt
 
-COPY app/ /app
+ADD scripts/run_celery.sh /
 
-ADD scripts/run_app.sh /
-
-CMD ["/run_app.sh"]
+CMD ["/run_celery.sh"]

@@ -4,7 +4,7 @@ pysftp==0.2.9
 wheel==0.29.0
 statsd==3.2.1
 credstash==1.8.0
-Flask==0.10.1
+Flask==0.12.2
 Flask-Script==2.0.5
 celery==3.1.25
 monotonic==1.2

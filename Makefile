@@ -9,12 +9,12 @@ GIT_BRANCH ?= $(shell git symbolic-ref --short HEAD 2> /dev/null || echo "detach
 GIT_COMMIT ?= $(shell git rev-parse HEAD)
 
 
-DOCKER_IMAGE = govuknotify/notifications-ftp
+DOCKER_IMAGE = govuknotify/notifications-av
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:master
-DOCKER_BUILDER_IMAGE_NAME = govuk/notify-ftp-builder:master
+DOCKER_BUILDER_IMAGE_NAME = govuk/notify-av-builder:master
 DOCKER_TTY ?= $(if ${JENKINS_HOME},,t)
 
-BUILD_TAG ?= notifications-ftp-manual
+BUILD_TAG ?= notifications-av
 BUILD_NUMBER ?= 0
 DEPLOY_BUILD_NUMBER ?= ${BUILD_NUMBER}
 BUILD_URL ?=
@@ -27,10 +27,16 @@ help:
 
 .PHONY: check-env-vars
 check-env-vars: ## Check mandatory environment variables
-	$(if ${DEPLOY_ENV},,$(error Must specify DEPLOY_ENV))
-	$(if ${DNS_NAME},,$(error Must specify DNS_NAME))
+	$(if ${STATSD_PREFIX},,$(error Must specify STATSD_PREFIX))
+	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
+	$(if ${NOTIFY_ENVIRONMENT},,$(error Must specify NOTIFY_ENVIRONMENT))
+	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
+	$(if ${FLASK_APP},,$(error Must specify FLASK_APP))
+	$(if ${FLASK_DEBUG},,$(error Must specify FLASK_DEBUG))
+	$(if ${WERKZEUG_DEBUG_PIN},,$(error Must specify WERKZEUG_DEBUG_PIN))
 	$(if ${AWS_ACCESS_KEY_ID},,$(error Must specify AWS_ACCESS_KEY_ID))
 	$(if ${AWS_SECRET_ACCESS_KEY},,$(error Must specify AWS_SECRET_ACCESS_KEY))
+
 
 .PHONY: preview
 preview: ## Set environment to preview
@@ -54,10 +60,6 @@ production: ## Set environment to production
 _generate-version-file: ## Generates the app version file
 	@echo -e "__travis_commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"\n__travis_job_number__ = \"${BUILD_NUMBER}\"\n__travis_job_url__ = \"${BUILD_URL}\"" > ${APP_VERSION_FILE}
 
-.PHONY: test
-test: ## run unit tests
-	./scripts/run_tests.sh
-
 .PHONY: prepare-docker-build-image
 prepare-docker-build-image: _generate-version-file ## Prepare the Docker builder image
 	docker build -f docker/Dockerfile \
@@ -72,20 +74,23 @@ build-with-docker: ;
 define run_docker_container
 	docker run -i${DOCKER_TTY} --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-${1}" \
-		-e http_proxy="${HTTP_PROXY}" \
-		-e HTTP_PROXY="${HTTP_PROXY}" \
-		-e https_proxy="${HTTPS_PROXY}" \
-		-e HTTPS_PROXY="${HTTPS_PROXY}" \
+		-e STATSD_PREFIX=${STATSD_PREFIX} \
+		-e NOTIFICATION_QUEUE_PREFIX=${NOTIFICATION_QUEUE_PREFIX} \
+		-e NOTIFY_ENVIRONMENT=${NOTIFY_ENVIRONMENT} \
+		-e NOTIFICATION_QUEUE_PREFIX=${NOTIFICATION_QUEUE_PREFIX} \
+		-e FLASK_APP=${FLASK_APP} \
+		-e FLASK_DEBUG=${FLASK_DEBUG} \
+		-e WERKZEUG_DEBUG_PIN=${WERKZEUG_DEBUG_PIN} \
+		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
 		${DOCKER_IMAGE_NAME} \
 		${2}
 endef
 
-.PHONY: test-with-docker
-test-with-docker: prepare-docker-build-image ## Run tests inside a Docker container
-	$(call run_docker_container,test, make test)
+.PHONY: run-with-docker
+run-with-docker: prepare-docker-build-image ## Build inside a Docker container
+	$(call run_docker_container,build)
 
-.PHONY: coverage-with-docker
-coverage-with-docker: ;
 
 .PHONY: clean-docker-containers
 clean-docker-containers: ## Clean up any remaining docker containers
@@ -94,18 +99,3 @@ clean-docker-containers: ## Clean up any remaining docker containers
 .PHONY: clean
 clean:
 	rm -rf cache target venv .coverage build tests/.cache wheelhouse
-
-.PHONY: build-codedeploy-artifact
-build-codedeploy-artifact: ## Build the deploy artifact for CodeDeploy
-	rm -rf target
-	mkdir -p target
-	zip -y -q -r -x@deploy-exclude.lst target/notifications-ftp.zip ./
-
-.PHONY: upload-codedeploy-artifact ## Upload the deploy artifact for CodeDeploy
-upload-codedeploy-artifact: check-env-vars
-	$(if ${DEPLOY_BUILD_NUMBER},,$(error Must specify DEPLOY_BUILD_NUMBER))
-	aws s3 cp --region eu-west-1 --sse AES256 target/notifications-ftp.zip s3://${DNS_NAME}-codedeploy/notifications-ftp-${DEPLOY_BUILD_NUMBER}.zip
-
-.PHONY: deploy
-deploy: check-env-vars ## Trigger CodeDeploy for the api
-	aws deploy create-deployment --application-name notify-ftp --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name notify-ftp --s3-location bucket=${DNS_NAME}-codedeploy,key=notifications-ftp-${DEPLOY_BUILD_NUMBER}.zip,bundleType=zip --region eu-west-1

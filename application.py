@@ -2,7 +2,9 @@
 
 from __future__ import print_function
 import os
-from flask.ext.script import Manager, Server
+
+from flask_script import Manager, Server
+
 from app import create_app
 
 application = create_app()
