@@ -22,7 +22,7 @@ class Config(object):
     # Default config values ###
     ###########################
 
-    NOTIFY_APP_NAME = 'api'
+    NOTIFY_APP_NAME = 'antivirus'
     AWS_REGION = os.getenv('AWS_REGION', 'eu-west-1')
     NOTIFY_LOG_PATH = '/var/log/notify/application.log'
 
