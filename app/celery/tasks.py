@@ -18,11 +18,9 @@ def scan_file(filename):
     else:
         task_name = 'process-virus-scan-failed'
 
-    # filename looks like '2018-01-13/NOTIFY.ABCDEF1234567890.D.2.C.C.20180113120000.PDF'
-    reference = filename.split('.')[1]
-    current_app.logger.info('Calling task: {} to process {} on API'.format(task_name, reference))
+    current_app.logger.info('Calling task: {} to process {} on API'.format(task_name, filename))
     notify_celery.send_task(
         name=task_name,
-        kwargs={'reference': reference},
+        kwargs={'filename': filename},
         queue=QueueNames.LETTERS,
     )
