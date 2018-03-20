@@ -24,7 +24,7 @@ class Config(object):
 
     NOTIFY_APP_NAME = 'antivirus'
     AWS_REGION = os.getenv('AWS_REGION', 'eu-west-1')
-    NOTIFY_LOG_PATH = '/var/log/notify/application.log'
+    NOTIFY_LOG_PATH = os.getenv('NOTIFY_LOG_PATH')
 
     BROKER_URL = 'sqs://'
     BROKER_TRANSPORT_OPTIONS = {

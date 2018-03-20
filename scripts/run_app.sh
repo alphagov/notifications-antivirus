@@ -2,4 +2,4 @@
 
 set -e
 
-python3 application.py runserver
+flask run -p 6016

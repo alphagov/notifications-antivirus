@@ -1,17 +1,20 @@
 import os
 
-from flask import Flask, request, jsonify, g
+from flask import request, jsonify, g
 from monotonic import monotonic
 
 from app.celery.celery import NotifyCelery
 from notifications_utils import logging
 from notifications_utils.clients.statsd.statsd_client import StatsdClient
+
+from app.commands import setup_commands
+
 notify_celery = NotifyCelery()
 statsd_client = StatsdClient()
 
 
-def create_app():
-    application = Flask(__name__)
+def create_app(application):
+    setup_commands(application)
 
     from app.config import configs
 

@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-from app import notify_celery, create_app  # noqa: notify_celery required to get celery running
 
-application = create_app()
+from flask import Flask
+
+# notify_celery is referenced from manifest_delivery_base.yml, and cannot be removed
+from app import notify_celery, create_app  # noqa
+
+
+application = Flask('antivirus')
+create_app(application)
 application.app_context().push()

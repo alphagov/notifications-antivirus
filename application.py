@@ -1,17 +1,15 @@
-#!/usr/bin/env python
-
-from __future__ import print_function
 import os
 
-from flask_script import Manager, Server
+from flask import Flask
+from whitenoise import WhiteNoise
 
 from app import create_app
 
-application = create_app()
-manager = Manager(application)
-port = int(os.environ.get('PORT', 6016))
-manager.add_command("runserver", Server(host='0.0.0.0', port=port))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'app', 'static')
+STATIC_URL = 'static/'
 
+app = Flask('app')
 
-if __name__ == '__main__':
-    manager.run()
+create_app(app)
+application = WhiteNoise(app, STATIC_ROOT, STATIC_URL)
