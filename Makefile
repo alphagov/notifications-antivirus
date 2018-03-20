@@ -7,7 +7,7 @@ APP_VERSION_FILE = app/version.py
 GIT_BRANCH ?= $(shell git symbolic-ref --short HEAD 2> /dev/null || echo "detached")
 GIT_COMMIT ?= $(shell git rev-parse HEAD 2> /dev/null || cat commit || echo "")
 
-BUILD_TAG ?= notifications-template-preview-manual
+BUILD_TAG ?= notifications-antivirus-manual
 BUILD_NUMBER ?= manual
 BUILD_URL ?= manual
 DEPLOY_BUILD_NUMBER ?= ${BUILD_NUMBER}
@@ -167,31 +167,31 @@ generate-manifest:
 cf-deploy: ## Deploys the app to Cloud Foundry
 	$(if ${CF_SPACE},,$(error Must specify CF_SPACE))
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-template-preview || exit 1
-	cf rename notify-template-preview notify-template-preview-rollback
-	cf push notify-template-preview -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
-	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid notify-template-preview-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") notify-template-preview
-	cf stop notify-template-preview-rollback
-	cf delete -f notify-template-preview-rollback
+	@cf app --guid notify-antivirus || exit 1
+	cf rename notify-antivirus notify-antivirus-rollback
+	cf push notify-antivirus -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
+	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid notify-antivirus-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") notify-antivirus
+	cf stop notify-antivirus-rollback
+	cf delete -f notify-antivirus-rollback
 
 .PHONY: cf-rollback
 cf-rollback: ## Rollbacks the app to the previous release
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-template-preview-rollback || exit 1
-	@[ $$(cf curl /v2/apps/`cf app --guid notify-template-preview-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because notify-template-preview-rollback is not in a started state" && exit 1)
-	cf delete -f notify-template-preview || true
-	cf rename notify-template-preview-rollback notify-template-preview
+	@cf app --guid notify-antivirus-rollback || exit 1
+	@[ $$(cf curl /v2/apps/`cf app --guid notify-antivirus-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because notify-antivirus-rollback is not in a started state" && exit 1)
+	cf delete -f notify-antivirus || true
+	cf rename notify-antivirus-rollback notify-antivirus
 
 .PHONY: build-paas-artifact
 build-paas-artifact: ## Build the deploy artifact for PaaS
 	rm -rf target
 	mkdir -p target
 	$(if ${GIT_COMMIT},echo ${GIT_COMMIT} > commit)
-	zip -y -q -r -x@deploy-exclude.lst target/template-preview.zip ./
+	zip -y -q -r -x@deploy-exclude.lst target/antivirus.zip ./
 
 
 .PHONY: upload-paas-artifact ## Upload the deploy artifact for PaaS
 upload-paas-artifact:
 	$(if ${DEPLOY_BUILD_NUMBER},,$(error Must specify DEPLOY_BUILD_NUMBER))
 	$(if ${JENKINS_S3_BUCKET},,$(error Must specify JENKINS_S3_BUCKET))
-	aws s3 cp --region eu-west-1 --sse AES256 target/template-preview.zip s3://${JENKINS_S3_BUCKET}/build/${CODEDEPLOY_PREFIX}/${DEPLOY_BUILD_NUMBER}.zip
+	aws s3 cp --region eu-west-1 --sse AES256 target/antivirus.zip s3://${JENKINS_S3_BUCKET}/build/${CODEDEPLOY_PREFIX}/${DEPLOY_BUILD_NUMBER}.zip
