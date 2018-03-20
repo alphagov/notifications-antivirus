@@ -4,6 +4,7 @@ from app import notify_celery
 from app.config import QueueNames
 from app.statsd_decorators import statsd
 
+
 @notify_celery.task(name="scan-file")
 @statsd(namespace="tasks")
 def scan_file(filename):
