@@ -2,4 +2,4 @@
 
 set -e
 
-celery -A run_celery.notify_celery worker --pidfile="/tmp/celery-celery.pid" --loglevel=INFO --concurrency=1
+celery -A run_celery.notify_celery worker --pidfile="/tmp/celery-celery.pid" --loglevel=INFO --concurrency=10

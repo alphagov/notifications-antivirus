@@ -4,7 +4,6 @@ DATE = $(shell date +%Y-%m-%dT%H:%M:%S)
 
 APP_VERSION_FILE = app/version.py
 
-GIT_BRANCH ?= $(shell git symbolic-ref --short HEAD 2> /dev/null || echo "detached")
 GIT_COMMIT ?= $(shell git rev-parse HEAD 2> /dev/null || cat commit || echo "")
 
 BUILD_TAG ?= notifications-antivirus-manual
@@ -57,10 +56,6 @@ production: ## Set environment to production
 
 # ---- LOCAL FUNCTIONS ---- #
 # should only call these from inside docker or this makefile
-
-.PHONY: _dependencies
-_dependencies:
-	pip install -r requirements.txt
 
 .PHONY: _run
 _run:
