@@ -48,10 +48,6 @@ class Config(object):
     CELERY_QUEUES = [
         Queue(QueueNames.ANTIVIRUS, Exchange('default'), routing_key=QueueNames.ANTIVIRUS)
     ]
-    # restart workers after each task is executed - this will help prevent any memory leaks (not that we should be
-    # encouraging sloppy memory management). Since we only run a handful of tasks per day, and none are time sensitive,
-    # the extra couple of seconds overhead isn't seen to be a huge issue.
-    CELERYD_MAX_TASKS_PER_CHILD = 1
 
     STATSD_ENABLED = False
     STATSD_HOST = "statsd.hostedgraphite.com"
@@ -103,5 +99,5 @@ configs = {
     'test': Test,
     'preview': Preview,
     'staging': Staging,
-    'live': Production,
+    'production': Production,
 }
