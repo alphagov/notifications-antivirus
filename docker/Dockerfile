@@ -31,13 +31,22 @@ RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
 
 WORKDIR /app
 
-COPY app app
 COPY requirements.txt .
-COPY application.py .
-COPY run_celery.py .
-
 RUN pip install -r requirements.txt
 
-ADD scripts/run_celery.sh /
+COPY app app
+COPY application.py .
+COPY run_celery.py .
+COPY Makefile .
 
-CMD ["/run_celery.sh"]
+
+COPY scripts/run_celery.sh scripts/run_celery.sh
+
+ARG CI_NAME
+ARG CI_BUILD_NUMBER
+ARG CI_BUILD_URL
+ENV CI_NAME=$CI_NAME
+ENV CI_BUILD_NUMBER=$CI_BUILD_NUMBER
+ENV CI_BUILD_URL=$CI_BUILD_URL
+
+RUN make _generate-version-file

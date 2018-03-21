@@ -1,8 +1,10 @@
 ---
 
-command: ./scripts/celery.sh
+command: ./scripts/run_celery.sh
 instances: 1
 memory: 1G
+health-check-type: none
+
 env:
   NOTIFY_APP_NAME: notify-antivirus
   STATSD_ENABLED: 1

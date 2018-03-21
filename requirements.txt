@@ -1,15 +1,6 @@
-cffi==1.10.0
-pyftpdlib==1.5.0
-pysftp==0.2.9
-wheel==0.29.0
-statsd==3.2.1
-credstash==1.8.0
 Flask==0.12.2
-Flask-Script==2.0.5
 celery==3.1.25
-monotonic==1.2
 boto3==1.4.4
-whitenoise==3.3.1
 
 git+https://github.com/alphagov/notifications-utils.git@25.2.0#egg=notifications-utils==25.2.0
 

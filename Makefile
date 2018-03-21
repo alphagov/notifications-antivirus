@@ -62,6 +62,11 @@ production: ## Set environment to production
 _dependencies:
 	pip install -r requirements.txt
 
+.PHONY: _run
+_run:
+	# since we're inside docker container, assume the dependencies are already run
+	./scripts/run_celery.sh
+
 .PHONY: _generate-version-file
 _generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"\n__jenkins_job_number__ = \"${BUILD_NUMBER}\"\n__jenkins_job_url__ = \"${BUILD_URL}\"" > ${APP_VERSION_FILE}
@@ -95,7 +100,7 @@ endef
 
 .PHONY: run-with-docker
 run-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,build)
+	$(call run_docker_container,build, make _run)
 
 .PHONY: bash-with-docker
 bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
