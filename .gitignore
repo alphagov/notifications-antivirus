@@ -113,3 +113,7 @@ tmtagsHistory
 *.sublime-project
 *.sublime-workspace
 .bundle
+
+# environment file
+.environment.sh
+environment.sh
