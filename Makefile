@@ -27,7 +27,8 @@ $(eval export CF_HOME)
 CF_SPACE ?= sandbox
 
 DOCKER_IMAGE = govuknotify/notifications-antivirus
-DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:master
+DOCKER_IMAGE_TAG = ${CF_SPACE}
+DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
 DOCKER_TTY ?= $(if ${JENKINS_HOME},,t)
 
 .PHONY: help
