@@ -1,21 +1,19 @@
-import os
-import shutil
-
 import pytest
-from flask import current_app, Flask
+from flask import Flask
 
 from app import create_app
 
 
 @pytest.fixture(scope='session')
 def notify_antivirus():
-    app = Flask('app')
-    create_app(app)
+    application = Flask('app')
 
-    ctx = app.app_context()
+    create_app(application)
+
+    ctx = application.app_context()
     ctx.push()
 
-    yield app
+    yield application
 
     ctx.pop()
 
