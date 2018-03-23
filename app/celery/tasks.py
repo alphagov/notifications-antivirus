@@ -18,6 +18,7 @@ def scan_file(filename):
         task_name = 'process-virus-scan-passed'
     else:
         task_name = 'process-virus-scan-failed'
+        current_app.logger.error('VIRUS FOUND for file: {}'.format(filename))
 
     current_app.logger.info('Calling task: {} to process {} on API'.format(task_name, filename))
     notify_celery.send_task(
