@@ -4,7 +4,7 @@ from app.config import QueueNames
 TEST_FILENAME = "EXAMPLE-SCAN-LETTER.pdf"
 
 
-def test_test_scan_no_virus(notify_antivirus, mocker):
+def test_scan_no_virus(notify_antivirus, mocker):
     mocker.patch('app.celery.tasks._get_letter_pdf', return_value=b"test")
     mocker.patch('app.celery.tasks.clamav_scan', return_value=True)
     mock_send_task = mocker.patch('app.notify_celery.send_task')
@@ -18,7 +18,7 @@ def test_test_scan_no_virus(notify_antivirus, mocker):
     )
 
 
-def test_test_scan_virus_detected(notify_antivirus, mocker):
+def test_scan_virus_detected(notify_antivirus, mocker):
 
     mocker.patch('app.celery.tasks._get_letter_pdf', return_value=b"test")
     mocker.patch('app.celery.tasks.clamav_scan', return_value=False)
