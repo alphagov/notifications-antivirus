@@ -87,6 +87,13 @@ define run_docker_container
 		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
 	    -e NOTIFY_LOG_PATH=${NOTIFY_LOG_PATH} \
+		-e BUILD_NUMBER=${BUILD_NUMBER} \
+		-e BUILD_URL=${BUILD_URL} \
+		-e http_proxy="${HTTP_PROXY}" \
+		-e HTTP_PROXY="${HTTP_PROXY}" \
+		-e https_proxy="${HTTPS_PROXY}" \
+		-e HTTPS_PROXY="${HTTPS_PROXY}" \
+		-e NO_PROXY="${NO_PROXY}" \
 		${DOCKER_IMAGE_NAME} \
 		${2}
 endef
