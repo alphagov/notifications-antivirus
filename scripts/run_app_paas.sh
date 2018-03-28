@@ -2,7 +2,7 @@
 
 set -e -o pipefail
 
-TERMINATE_TIMEOUT=30
+TERMINATE_TIMEOUT=10
 
 function check_params {
   if [ -z "${NOTIFY_APP_NAME}" ]; then
@@ -24,7 +24,7 @@ state_file = /app/awslogs/awslogs-state
 
 [/app/logs/app.log]
 file = /app/logs/app.log*
-log_group_name = ${CW_APP_NAME}
+log_group_name = paas-${CW_APP_NAME}-application
 log_stream_name = {hostname}
 EOF
 }
@@ -49,11 +49,9 @@ function on_exit {
   kill 0
 }
 
-function start_appplication {
-  exec "$@" 2>&1 | while read line; do echo $line; echo $line >> /app/logs/app.log.`date +%Y-%m-%d`; done &
-  LOGGER_PID=$!
+function start_application {
+  exec "$@" &
   APP_PID=`jobs -p`
-  echo "Logger process pid: ${LOGGER_PID}"
   echo "Application process pid: ${APP_PID}"
 }
 
@@ -66,7 +64,6 @@ function start_aws_logs_agent {
 function run {
   while true; do
     kill -0 ${APP_PID} 2&>/dev/null || break
-    kill -0 ${LOGGER_PID} 2&>/dev/null || break
     kill -0 ${AWSLOGS_AGENT_PID} 2&>/dev/null || start_aws_logs_agent
     sleep 1
   done
