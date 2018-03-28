@@ -24,7 +24,7 @@ state_file = /app/awslogs/awslogs-state
 
 [/app/logs/app.log]
 file = /app/logs/app.log*
-log_group_name = paas-${CW_APP_NAME}-application
+log_group_name = ${CW_APP_NAME}
 log_stream_name = {hostname}
 EOF
 }
