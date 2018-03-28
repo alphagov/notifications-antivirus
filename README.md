@@ -2,8 +2,7 @@
 
 GOV.UK Notify Antivirus service. Read and write scan jobs via a scan queue.  Retrieves the supplied filename from the scan S3 bucket and uses ClamAV to scan the file. Sends the scan status back via a queue to update the notification status.
 
-
-### `environment.sh`
+##  Environment Variables
 
 Creating the environment.sh file. Replace [unique-to-environment] with your something unique to the environment. Your AWS credentials should be set up for notify-tools (the development/CI AWS account).
 

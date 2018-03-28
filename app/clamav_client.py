@@ -3,7 +3,7 @@ from flask import current_app
 from notifications_utils.statsd_decorators import statsd
 
 
-@statsd(namespace="tasks")
+@statsd(namespace="antivirus")
 def clamav_scan(stream):
 
     cd = clamd.ClamdUnixSocket()
