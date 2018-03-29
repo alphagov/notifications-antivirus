@@ -29,7 +29,7 @@ RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 
-WORKDIR /app
+WORKDIR /home/vcap/app/
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -38,7 +38,6 @@ COPY app app
 COPY application.py .
 COPY run_celery.py .
 COPY Makefile .
-
 
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
