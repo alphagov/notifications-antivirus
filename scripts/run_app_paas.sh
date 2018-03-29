@@ -18,6 +18,9 @@ function check_params {
 function configure_aws_logs {
   aws configure set plugins.cwlogs cwlogs
 
+  mkdir -p /app/awslogs
+  mkdir -p /app/logs
+  touch /app/logs/app.log
   cat > /app/awslogs/awslogs.conf << EOF
 [general]
 state_file = /app/awslogs/awslogs-state
@@ -50,6 +53,9 @@ function on_exit {
 }
 
 function start_application {
+  freshclam -d
+  clamd
+  sleep 15
   exec "$@" &
   APP_PID=`jobs -p`
   echo "Application process pid: ${APP_PID}"
@@ -78,7 +84,7 @@ trap "on_exit" EXIT
 configure_aws_logs
 
 # The application has to start first!
-start_appplication "$@"
+start_application "$@"
 
 start_aws_logs_agent
 
