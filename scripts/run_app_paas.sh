@@ -16,18 +16,26 @@ function check_params {
 }
 
 function configure_aws_logs {
+  # create files so that aws logs agent doesn't complain
+  mkdir -p /home/vcap/logs/
+  mkdir -p /home/vcap/app/
+  touch /home/vcap/logs/gunicorn_error.log
+  touch /home/vcap/logs/app.log.json
+
   aws configure set plugins.cwlogs cwlogs
 
-  mkdir -p /app/awslogs
-  mkdir -p /app/logs
-  touch /app/logs/app.log
-  cat > /app/awslogs/awslogs.conf << EOF
+  cat > /home/vcap/app/awslogs.conf << EOF
 [general]
-state_file = /app/awslogs/awslogs-state
+state_file = /home/vcap/logs/awslogs-state
 
-[/app/logs/app.log]
-file = /app/logs/app.log*
+[/home/vcap/logs/app.log]
+file = /home/vcap/logs/app.log.json
 log_group_name = paas-${CW_APP_NAME}-application
+log_stream_name = {hostname}
+
+[/home/vcap/logs/gunicorn_error.log]
+file = /home/vcap/logs/gunicorn_error.log
+log_group_name = paas-${CW_APP_NAME}-gunicorn
 log_stream_name = {hostname}
 EOF
 }
@@ -62,7 +70,7 @@ function start_application {
 }
 
 function start_aws_logs_agent {
-  exec aws logs push --region eu-west-1 --config-file /app/awslogs/awslogs.conf &
+  exec aws logs push --region eu-west-1 --config-file /home/vcap/logs/awslogs.conf &
   AWSLOGS_AGENT_PID=$!
   echo "AWS logs agent pid: ${AWSLOGS_AGENT_PID}"
 }
