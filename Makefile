@@ -93,6 +93,7 @@ define run_docker_container
 		-e HTTP_PROXY="${HTTP_PROXY}" \
 		-e https_proxy="${HTTPS_PROXY}" \
 		-e HTTPS_PROXY="${HTTPS_PROXY}" \
+		-e STATSD_PREFIX="{CF_SPACE}" \
 		-e NO_PROXY="${NO_PROXY}" \
 		${DOCKER_IMAGE_NAME} \
 		${2}
