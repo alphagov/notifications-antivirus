@@ -55,8 +55,8 @@ function on_exit {
 }
 
 function start_application {
-  freshclam -d
-  clamd
+  freshclam -d &
+  clamd &
   sleep 15
   exec "$@" &
   APP_PID=`jobs -p`
@@ -64,7 +64,7 @@ function start_application {
 }
 
 function start_aws_logs_agent {
-  exec aws logs push --region eu-west-1 --config-file /home/vcap/logs/awslogs.conf &
+  exec aws logs push --region eu-west-1 --config-file /home/vcap/app/awslogs.conf &
   AWSLOGS_AGENT_PID=$!
   echo "AWS logs agent pid: ${AWSLOGS_AGENT_PID}"
 }
