@@ -29,6 +29,8 @@ RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 
+RUN useradd -ms /bin/bash celeryuser
+
 WORKDIR /home/vcap/app/
 
 COPY requirements.txt .
