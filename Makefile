@@ -63,6 +63,9 @@ _run:
 	# since we're inside docker container, assume the dependencies are already run
 	./scripts/run_celery.sh
 
+_run_app:
+	./scripts/run_app.sh
+
 .PHONY: _generate-version-file
 _generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"\n__jenkins_job_number__ = \"${BUILD_NUMBER}\"\n__jenkins_job_url__ = \"${BUILD_URL}\"" > ${APP_VERSION_FILE}
@@ -95,6 +98,7 @@ define run_docker_container
 		-e HTTPS_PROXY="${HTTPS_PROXY}" \
 		-e STATSD_PREFIX="{CF_SPACE}" \
 		-e NO_PROXY="${NO_PROXY}" \
+		${3} \
 		${DOCKER_IMAGE_NAME} \
 		${2}
 endef
@@ -105,6 +109,10 @@ endef
 .PHONY: run-with-docker
 run-with-docker: prepare-docker-build-image ## Build inside a Docker container
 	$(call run_docker_container,build, make _run)
+
+.PHONY: run-with-docker
+run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
+	$(call run_docker_container,build, make _run_app, -p 6016:6016)
 
 .PHONY: bash-with-docker
 bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
