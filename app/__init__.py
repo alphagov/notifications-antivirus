@@ -17,6 +17,7 @@ def create_app(application):
     setup_commands(application)
 
     from app.config import configs
+    from app.views import main_blueprint
 
     notify_environment = os.environ['NOTIFY_ENVIRONMENT']
 
@@ -27,6 +28,8 @@ def create_app(application):
     notify_celery.init_app(application)
     statsd_client.init_app(application)
     logging.init_app(application, statsd_client)
+
+    application.register_blueprint(main_blueprint)
 
     return application
 
