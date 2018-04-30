@@ -16,7 +16,7 @@ DOCKER_CONTAINER_PREFIX = ${USER}-${BUILD_TAG}
 NOTIFY_CREDENTIALS ?= ~/.notify-credentials
 CF_MANIFEST_FILE ?= manifest-${CF_SPACE}.yml
 
-NOTIFY_APP_NAME ?= notify-antivirus
+CF_APP ?= notify-antivirus
 
 CODEDEPLOY_PREFIX ?= notifications-antivirus
 
@@ -184,20 +184,20 @@ generate-manifest:
 cf-deploy: ## Deploys the app to Cloud Foundry
 	$(if ${CF_SPACE},,$(error Must specify CF_SPACE))
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-antivirus || exit 1
-	cf rename notify-antivirus notify-antivirus-rollback
-	cf push notify-antivirus -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
-	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid notify-antivirus-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") notify-antivirus
-	cf stop notify-antivirus-rollback
-	cf delete -f notify-antivirus-rollback
+	@cf app --guid ${CF_APP} || exit 1
+	cf rename ${CF_APP} ${CF_APP}-rollback
+	cf push ${CF_APP} -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
+	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid ${CF_APP}-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") ${CF_APP}
+	cf stop ${CF_APP}-rollback
+	cf delete -f ${CF_APP}-rollback
 
 .PHONY: cf-rollback
 cf-rollback: ## Rollbacks the app to the previous release
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-antivirus-rollback || exit 1
-	@[ $$(cf curl /v2/apps/`cf app --guid notify-antivirus-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because notify-antivirus-rollback is not in a started state" && exit 1)
-	cf delete -f notify-antivirus || true
-	cf rename notify-antivirus-rollback notify-antivirus
+	@cf app --guid ${CF_APP}-rollback || exit 1
+	@[ $$(cf curl /v2/apps/`cf app --guid ${CF_APP}-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because ${CF_APP}-rollback is not in a started state" && exit 1)
+	cf delete -f ${CF_APP} || true
+	cf rename ${CF_APP}-rollback ${CF_APP}
 
 .PHONY: build-paas-artifact
 build-paas-artifact: ## Build the deploy artifact for PaaS
