@@ -1,0 +1,22 @@
+---
+
+applications:
+  - name: notify-antivirus
+
+    command: ./scripts/run_app_paas.sh celery -A run_celery.notify_celery worker --loglevel=INFO --concurrency=5 --uid=`id -u celeryuser`
+    instances: 1
+    memory: 1G
+    health-check-type: none
+
+    env:
+      NOTIFY_APP_NAME: notify-antivirus
+      CW_APP_NAME: antivirus
+      STATSD_ENABLED: 1
+      REDIS_ENABLED: {{ REDIS_ENABLED }}
+      REDIS_URL: {{ REDIS_URL }}
+
+      # Credentials variables
+      AWS_ACCESS_KEY_ID:  {{ AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
+      STATSD_PREFIX: {{ STATSD_PREFIX }}
+      NOTIFICATION_QUEUE_PREFIX: {{ NOTIFICATION_QUEUE_PREFIX }}
