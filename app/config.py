@@ -33,6 +33,8 @@ class Config(object):
     AWS_REGION = os.getenv('AWS_REGION', 'eu-west-1')
     NOTIFY_LOG_PATH = os.getenv('NOTIFY_LOG_PATH')
 
+    ANTIVIRUS_API_KEY = os.getenv('ANTIVIRUS_API_KEY')
+
     BROKER_URL = 'sqs://'
     BROKER_TRANSPORT_OPTIONS = {
         'region': AWS_REGION,
@@ -65,6 +67,8 @@ class Development(Config):
     NOTIFICATION_QUEUE_PREFIX = 'development'
     DEBUG = True
 
+    ANTIVIRUS_API_KEY = 'test-key'
+
     LETTERS_SCAN_BUCKET_NAME = 'development-letters-scan'
 
 
@@ -73,6 +77,8 @@ class Test(Config):
     STATSD_ENABLED = True
     STATSD_HOST = "localhost"
     STATSD_PORT = 1000
+
+    ANTIVIRUS_API_KEY = 'test-key'
 
     LETTERS_SCAN_BUCKET_NAME = 'test-letters-pdf'
 
