@@ -29,7 +29,7 @@ applications:
     health-check-type: none
 
     routes:
-      - route: {{ environment }}-notify-antivirus.cloudapps.digital
+      - route: notify-antivirus-{{ environment }}.cloudapps.digital
 
     env:
       NOTIFY_APP_NAME: notify-antivirus-api
