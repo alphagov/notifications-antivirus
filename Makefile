@@ -14,9 +14,9 @@ DEPLOY_BUILD_NUMBER ?= ${BUILD_NUMBER}
 DOCKER_CONTAINER_PREFIX = ${USER}-${BUILD_TAG}
 
 NOTIFY_CREDENTIALS ?= ~/.notify-credentials
-CF_MANIFEST_FILE ?= manifest-${CF_SPACE}.yml
 
 CF_APP ?= notify-antivirus
+CF_MANIFEST_FILE ?= manifest$(subst notify-antivirus,,${CF_APP}).yml.j2
 
 CODEDEPLOY_PREFIX ?= notifications-antivirus
 
@@ -176,7 +176,7 @@ generate-manifest:
 	$(if $(shell which gpg2), $(eval export GPG=gpg2), $(eval export GPG=gpg))
 	$(if ${GPG_PASSPHRASE_TXT}, $(eval export DECRYPT_CMD=echo -n $$$${GPG_PASSPHRASE_TXT} | ${GPG} --quiet --batch --passphrase-fd 0 --pinentry-mode loopback -d), $(eval export DECRYPT_CMD=${GPG} --quiet --batch -d))
 
-	@jinja2 --strict manifest.yml.j2 \
+	@jinja2 --strict ${CF_MANIFEST_FILE} \
 	    -D environment=${CF_SPACE} --format=yaml \
 	    <(${DECRYPT_CMD} ${NOTIFY_CREDENTIALS}/credentials/${CF_SPACE}/paas/environment-variables.gpg) 2>&1
 
