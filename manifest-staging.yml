@@ -1,6 +1,0 @@
----
-
-inherit: manifest-base.yml
-
-routes:
-  - route: staging-notify-antivirus.cloudapps.digital

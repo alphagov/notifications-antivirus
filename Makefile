@@ -16,7 +16,7 @@ DOCKER_CONTAINER_PREFIX = ${USER}-${BUILD_TAG}
 NOTIFY_CREDENTIALS ?= ~/.notify-credentials
 CF_MANIFEST_FILE ?= manifest-${CF_SPACE}.yml
 
-NOTIFY_APP_NAME ?= notify-antivirus
+CF_APP ?= notify-antivirus
 
 CODEDEPLOY_PREFIX ?= notifications-antivirus
 
@@ -63,6 +63,9 @@ _run:
 	# since we're inside docker container, assume the dependencies are already run
 	./scripts/run_celery.sh
 
+_run_app:
+	./scripts/run_app.sh
+
 .PHONY: _generate-version-file
 _generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"\n__jenkins_job_number__ = \"${BUILD_NUMBER}\"\n__jenkins_job_url__ = \"${BUILD_URL}\"" > ${APP_VERSION_FILE}
@@ -95,6 +98,7 @@ define run_docker_container
 		-e HTTPS_PROXY="${HTTPS_PROXY}" \
 		-e STATSD_PREFIX="{CF_SPACE}" \
 		-e NO_PROXY="${NO_PROXY}" \
+		${3} \
 		${DOCKER_IMAGE_NAME} \
 		${2}
 endef
@@ -105,6 +109,10 @@ endef
 .PHONY: run-with-docker
 run-with-docker: prepare-docker-build-image ## Build inside a Docker container
 	$(call run_docker_container,build, make _run)
+
+.PHONY: run-with-docker
+run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
+	$(call run_docker_container,build, make _run_app, -p 6016:6016)
 
 .PHONY: bash-with-docker
 bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
@@ -168,27 +176,28 @@ generate-manifest:
 	$(if $(shell which gpg2), $(eval export GPG=gpg2), $(eval export GPG=gpg))
 	$(if ${GPG_PASSPHRASE_TXT}, $(eval export DECRYPT_CMD=echo -n $$$${GPG_PASSPHRASE_TXT} | ${GPG} --quiet --batch --passphrase-fd 0 --pinentry-mode loopback -d), $(eval export DECRYPT_CMD=${GPG} --quiet --batch -d))
 
-	@./scripts/generate_manifest.py ${CF_MANIFEST_FILE} \
-	    <(${DECRYPT_CMD} ${NOTIFY_CREDENTIALS}/credentials/${CF_SPACE}/paas/environment-variables.gpg)
+	@jinja2 --strict manifest.yml.j2 \
+	    -D environment=${CF_SPACE} --format=yaml \
+	    <(${DECRYPT_CMD} ${NOTIFY_CREDENTIALS}/credentials/${CF_SPACE}/paas/environment-variables.gpg) 2>&1
 
 .PHONY: cf-deploy
 cf-deploy: ## Deploys the app to Cloud Foundry
 	$(if ${CF_SPACE},,$(error Must specify CF_SPACE))
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-antivirus || exit 1
-	cf rename notify-antivirus notify-antivirus-rollback
-	cf push notify-antivirus -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
-	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid notify-antivirus-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") notify-antivirus
-	cf stop notify-antivirus-rollback
-	cf delete -f notify-antivirus-rollback
+	@cf app --guid ${CF_APP} || exit 1
+	cf rename ${CF_APP} ${CF_APP}-rollback
+	cf push ${CF_APP} -f <(make -s generate-manifest) --docker-image ${DOCKER_IMAGE_NAME}
+	cf scale -i $$(cf curl /v2/apps/$$(cf app --guid ${CF_APP}-rollback) | jq -r ".entity.instances" 2>/dev/null || echo "1") ${CF_APP}
+	cf stop ${CF_APP}-rollback
+	cf delete -f ${CF_APP}-rollback
 
 .PHONY: cf-rollback
 cf-rollback: ## Rollbacks the app to the previous release
 	cf target -s ${CF_SPACE}
-	@cf app --guid notify-antivirus-rollback || exit 1
-	@[ $$(cf curl /v2/apps/`cf app --guid notify-antivirus-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because notify-antivirus-rollback is not in a started state" && exit 1)
-	cf delete -f notify-antivirus || true
-	cf rename notify-antivirus-rollback notify-antivirus
+	@cf app --guid ${CF_APP}-rollback || exit 1
+	@[ $$(cf curl /v2/apps/`cf app --guid ${CF_APP}-rollback` | jq -r ".entity.state") = "STARTED" ] || (echo "Error: rollback is not possible because ${CF_APP}-rollback is not in a started state" && exit 1)
+	cf delete -f ${CF_APP} || true
+	cf rename ${CF_APP}-rollback ${CF_APP}
 
 .PHONY: build-paas-artifact
 build-paas-artifact: ## Build the deploy artifact for PaaS
