@@ -27,7 +27,9 @@ RUN mkdir /var/run/clamav && \
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
+    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf && \
+    sed -i 's/^Checks .*$/Checks 12/g' /etc/clamav/freshclam.conf && \
+    printf "# Proxy: http://egress.internal:8080\\n# HTTPProxyServer egress.internal\\n# HTTPProxyPort 8080" >> /etc/clamav/freshclam.conf
 
 RUN useradd -ms /bin/bash celeryuser
 RUN usermod -a -G clamav celeryuser
