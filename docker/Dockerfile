@@ -26,10 +26,7 @@ RUN mkdir /var/run/clamav && \
     chmod 750 /var/run/clamav
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
-    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf && \
-    sed -i 's/^Checks .*$/Checks 12/g' /etc/clamav/freshclam.conf && \
-    printf "# Proxy: http://egress.internal:8080\\n# HTTPProxyServer egress.internal\\n# HTTPProxyPort 8080" >> /etc/clamav/freshclam.conf
+    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
 RUN useradd -ms /bin/bash celeryuser
 RUN usermod -a -G clamav celeryuser
@@ -48,6 +45,8 @@ COPY Makefile .
 COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
+
+COPY config/freshclam.conf /etc/clamav
 
 ARG CI_NAME
 ARG CI_BUILD_NUMBER
