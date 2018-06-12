@@ -41,6 +41,8 @@ CMD ["/run_celery.sh"]
 
 FROM parent as production
 
+RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
+
 WORKDIR /home/vcap/app/
 
 COPY requirements.txt .
