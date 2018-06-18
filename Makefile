@@ -108,11 +108,11 @@ endef
 
 .PHONY: run-with-docker
 run-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,build, make _run)
+	$(call run_docker_container,celery-build, make _run)
 
 .PHONY: run-with-docker
 run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,build, make _run_app, -p 6016:6016)
+	$(call run_docker_container,app-build, make _run_app, -p 6016:6016)
 
 .PHONY: bash-with-docker
 bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
