@@ -150,7 +150,8 @@ prepare-docker-build-image: ## Build docker image
 
 .PHONY: prepare-docker-test-build-image
 prepare-docker-test-build-image: ## Build docker image which will be used for testing
-	docker build -f docker/Dockerfile_for_test \
+	docker build -f docker/Dockerfile \
+	    --target test \
 		--build-arg http_proxy="${http_proxy}" \
 		--build-arg https_proxy="${https_proxy}" \
 		--build-arg NO_PROXY="${NO_PROXY}" \

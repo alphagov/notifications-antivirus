@@ -1,17 +1,13 @@
-FROM python:3.6-slim
+FROM python:3.6-slim as parent
 
 ENV CLAMAV_VERSION 0.99
 
-RUN echo "deb http://http.debian.net/debian/ jessie main contrib non-free" > /etc/apt/sources.list && \
-    echo "deb http://http.debian.net/debian/ jessie-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list && \
-    apt-get update && \
+RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         git \
         build-essential \
         clamav-daemon=${CLAMAV_VERSION}* \
         clamav-freshclam=${CLAMAV_VERSION}* \
-        libclamunrar7 \
         wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -26,10 +22,31 @@ RUN mkdir /var/run/clamav && \
     chmod 750 /var/run/clamav
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
-    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
+    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
+    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 
-RUN useradd -ms /bin/bash celeryuser
-RUN usermod -a -G clamav celeryuser
+
+##### Test Image ##############################################################
+
+FROM parent as test
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+COPY requirements_for_test.txt requirements_for_test.txt
+RUN pip install -r requirements_for_test.txt
+
+COPY . .
+
+ADD scripts/run_celery.sh /
+
+CMD ["/run_celery.sh"]
+
+##### Production Image #######################################################
+
+FROM parent as production
+
+RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
 
 WORKDIR /home/vcap/app/
 
