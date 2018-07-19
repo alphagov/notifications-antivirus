@@ -110,7 +110,7 @@ endef
 run-with-docker: prepare-docker-build-image ## Build inside a Docker container
 	$(call run_docker_container,celery-build, make _run)
 
-.PHONY: run-with-docker
+.PHONY: run-app-with-docker
 run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
 	$(call run_docker_container,app-build, make _run_app, -p 6016:6016)
 
