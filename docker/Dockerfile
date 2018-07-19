@@ -1,4 +1,4 @@
-FROM python:3.6-slim as parent
+FROM python:3.6-slim-jessie as parent
 
 ENV CLAMAV_VERSION 0.99
 
