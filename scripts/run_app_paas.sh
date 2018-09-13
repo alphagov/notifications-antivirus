@@ -104,7 +104,7 @@ trap "on_exit" EXIT
 
 configure_aws_logs
 
-start_freshclamd
+start_freshclam
 start_clamd
 
 # The application has to start first!
