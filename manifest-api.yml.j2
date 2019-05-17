@@ -4,7 +4,6 @@ applications:
   - name: notify-antivirus-api
 
     command: ./scripts/run_app_paas.sh gunicorn -c gunicorn_config.py application
-    instances: 1
     memory: 2G
     disk_quota: 2G
 
