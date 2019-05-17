@@ -1,6 +1,14 @@
 import io
 import json
 
+from flask import url_for
+
+
+def test_status(client):
+    response = client.get(url_for('main.status'))
+    assert response.status_code == 200
+    assert response.get_data(as_text=True) == 'ok'
+
 
 def test_scan_document_no_auth(client, mocker):
     mocker.patch('app.views.clamav_scan', return_value=True)

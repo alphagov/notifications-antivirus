@@ -7,9 +7,9 @@ applications:
     instances: 1
     memory: 2G
     disk_quota: 2G
-    health-check-type: none
-
-    no-route: true
+    health-check-type: process
+    routes:
+      - route: notify-antivirus-celery-{{ environment }}.cloudapps.digital
 
     env:
       NOTIFY_APP_NAME: notify-antivirus
