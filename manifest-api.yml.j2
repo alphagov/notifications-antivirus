@@ -4,13 +4,14 @@ applications:
   - name: notify-antivirus-api
 
     command: ./scripts/run_app_paas.sh gunicorn -c gunicorn_config.py application
-    instances: 1
     memory: 2G
     disk_quota: 2G
-    health-check-type: none
 
     routes:
       - route: notify-antivirus-{{ environment }}.cloudapps.digital
+
+    health-check-type: http
+    health-check-endpoint: /_status
 
     env:
       NOTIFY_APP_NAME: notify-antivirus-api

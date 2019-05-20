@@ -8,6 +8,11 @@ main_blueprint = Blueprint('main', __name__, url_prefix='')
 auth = HTTPTokenAuth()
 
 
+@main_blueprint.route('/_status')
+def status():
+    return 'ok', 200
+
+
 @auth.verify_token
 def verify_token(token):
     return token == current_app.config['ANTIVIRUS_API_KEY']
