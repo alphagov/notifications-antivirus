@@ -11,7 +11,7 @@ applications:
       - route: notify-antivirus-{{ environment }}.cloudapps.digital
 
     health-check-type: http
-    health-check-endpoint: /_status
+    health-check-http-endpoint: /_status
 
     env:
       NOTIFY_APP_NAME: notify-antivirus-api
