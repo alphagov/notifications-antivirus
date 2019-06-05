@@ -1,5 +1,5 @@
 clamd==1.0.2
-Flask==0.12.2
+Flask==0.12.4
 celery==3.1.25
 boto3==1.6.4
 
