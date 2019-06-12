@@ -1,0 +1,14 @@
+clamd==1.0.2
+Flask==0.12.2
+celery==3.1.25
+boto3==1.6.4
+
+Flask-HTTPAuth==3.2.3
+gunicorn==19.7.1
+
+# PaaS
+awscli-cwlogs>=1.4,<1.5
+
+git+https://github.com/alphagov/notifications-utils.git@26.3.0#egg=notifications-utils==26.3.0
+
+git+https://github.com/alphagov/boto.git@2.43.0-patch3#egg=boto==2.43.0-patch3

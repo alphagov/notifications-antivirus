@@ -36,7 +36,7 @@ source environment.sh
 
 ##  To run the application
 
-The simplest way to run the application, is to run it inside a docker instance (recommended) 
+The simplest way to run the application, is to run it inside a docker instance (recommended)
 
 ```
 make run-with-docker
@@ -51,8 +51,21 @@ scripts/run_celery.sh
 
 ##  To test the application
 
-To run the tests 
+To run the tests
 
 ```
 make test-with-docker
 ```
+
+## To update application dependencies
+
+`requirements.txt` file is generated from the `requirements-app.txt` in order to pin
+versions of all nested dependencies. If `requirements-app.txt` has been changed (or
+we want to update the unpinned nested dependencies) `requirements.txt` should be
+regenerated with
+
+```
+make freeze-requirements
+```
+
+`requirements.txt` should be committed alongside `requirements-app.txt` changes.
