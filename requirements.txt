@@ -9,19 +9,19 @@ gunicorn==19.7.1
 # PaaS
 awscli-cwlogs>=1.4,<1.5
 
-git+https://github.com/alphagov/notifications-utils.git@32.0.1#egg=notifications-utils==32.0.1
+git+https://github.com/alphagov/notifications-utils.git@33.0.0#egg=notifications-utils==33.0.0
 
 git+https://github.com/alphagov/boto.git@2.43.0-patch3#egg=boto==2.43.0-patch3
 
 ## The following requirements were added by pip freeze:
 amqp==1.4.9
 anyjson==0.3.3
-awscli==1.16.176
+awscli==1.16.185
 billiard==3.3.0.23
 bleach==3.1.0
 boto3==1.6.16
-botocore==1.12.166
-certifi==2019.3.9
+botocore==1.12.175
+certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
 colorama==0.3.9
@@ -42,7 +42,7 @@ PyPDF2==1.26.0
 python-dateutil==2.8.0
 python-json-logger==0.1.11
 pytz==2019.1
-PyYAML==3.13
+PyYAML==4.2b1
 redis==3.2.1
 requests==2.21.0
 rsa==3.4.2
