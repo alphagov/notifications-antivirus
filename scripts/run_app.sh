@@ -2,7 +2,6 @@
 
 set -e
 
-freshclam -d &
 clamd &
 # sleep for because clamav needs to start and maybe download the virus database
 sleep 15

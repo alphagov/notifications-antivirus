@@ -7,7 +7,6 @@ RUN apt-get update && \
         git \
         build-essential \
         clamav-daemon=${CLAMAV_VERSION}* \
-        clamav-freshclam=${CLAMAV_VERSION}* \
         wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -22,8 +21,7 @@ RUN mkdir /var/run/clamav && \
     chmod 750 /var/run/clamav
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
-    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
+    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
 
 ##### Test Image ##############################################################
@@ -62,8 +60,6 @@ COPY Makefile .
 COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
-
-COPY config/freshclam.conf /etc/clamav
 
 ARG CI_NAME
 ARG CI_BUILD_NUMBER
