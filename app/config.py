@@ -18,6 +18,9 @@ class QueueNames(object):
 class Config(object):
     # Hosted graphite statsd prefix
     STATSD_PREFIX = os.getenv('STATSD_PREFIX')
+    STATSD_ENABLED = False
+    STATSD_HOST = os.getenv('STATSD_HOST')
+    STATSD_PORT = 8125
 
     NOTIFICATION_QUEUE_PREFIX = os.getenv('NOTIFICATION_QUEUE_PREFIX')
 
@@ -50,10 +53,6 @@ class Config(object):
     CELERY_QUEUES = [
         Queue(QueueNames.ANTIVIRUS, Exchange('default'), routing_key=QueueNames.ANTIVIRUS)
     ]
-
-    STATSD_ENABLED = False
-    STATSD_HOST = "statsd.hostedgraphite.com"
-    STATSD_PORT = 8125
 
     LETTERS_SCAN_BUCKET_NAME = None
 
