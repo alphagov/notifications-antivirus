@@ -12,7 +12,6 @@ applications:
     env:
       NOTIFY_APP_NAME: notify-antivirus
       CW_APP_NAME: antivirus
-      STATSD_ENABLED: 1
       STATSD_HOST: 'notify-statsd-exporter-{{ environment }}.apps.internal'
       REDIS_ENABLED: '{{ REDIS_ENABLED }}'
       REDIS_URL: '{{ REDIS_URL }}'
