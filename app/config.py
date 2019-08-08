@@ -18,7 +18,7 @@ class QueueNames(object):
 class Config(object):
     # Hosted graphite statsd prefix
     STATSD_PREFIX = os.getenv('STATSD_PREFIX')
-    STATSD_ENABLED = False
+    STATSD_ENABLED = True
     STATSD_HOST = os.getenv('STATSD_HOST')
     STATSD_PORT = 8125
 
@@ -73,7 +73,6 @@ class Development(Config):
 
 class Test(Config):
     DEBUG = True
-    STATSD_ENABLED = True
     STATSD_HOST = "localhost"
     STATSD_PORT = 1000
 
@@ -88,13 +87,11 @@ class Preview(Config):
 
 
 class Staging(Config):
-    STATSD_ENABLED = True
 
     LETTERS_SCAN_BUCKET_NAME = 'staging-letters-scan'
 
 
 class Production(Config):
-    STATSD_ENABLED = True
 
     LETTERS_SCAN_BUCKET_NAME = 'production-letters-scan'
 
