@@ -65,6 +65,7 @@ class Config(object):
 class Development(Config):
     NOTIFICATION_QUEUE_PREFIX = 'development'
     DEBUG = True
+    STATSD_ENABLED = False
 
     ANTIVIRUS_API_KEY = 'test-key'
 
