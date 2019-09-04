@@ -9,6 +9,9 @@ applications:
     routes:
       - route: notify-antivirus-celery-{{ environment }}.cloudapps.digital
 
+    services:
+      - logit-ssl-syslog-drain
+
     env:
       NOTIFY_APP_NAME: notify-antivirus
       CW_APP_NAME: antivirus

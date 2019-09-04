@@ -12,6 +12,9 @@ applications:
     health-check-type: http
     health-check-http-endpoint: /_status
 
+    services:
+      - logit-ssl-syslog-drain
+
     env:
       NOTIFY_APP_NAME: notify-antivirus-api
       CW_APP_NAME: antivirus
