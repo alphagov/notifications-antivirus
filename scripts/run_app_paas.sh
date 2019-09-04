@@ -61,12 +61,6 @@ function on_exit {
   kill 0
 }
 
-function start_freshclam {
-  freshclam -d &
-  FRESHCLAM_PID=$!
-  echo "Freshclam pid: ${FRESHCLAM_PID}"
-}
-
 function start_clamd {
   clamd &
   CLAMD_PID=$!
@@ -89,7 +83,6 @@ function start_aws_logs_agent {
 function run {
   while true; do
     kill -0 ${APP_PID} 2&>/dev/null || break
-    kill -0 ${FRESHCLAM_PID} 2&>/dev/null || start_freshclam
     kill -0 ${CLAMD_PID} 2&>/dev/null || start_clamd
     kill -0 ${AWSLOGS_AGENT_PID} 2&>/dev/null || start_aws_logs_agent
     sleep 1
@@ -104,7 +97,6 @@ trap "on_exit" EXIT
 
 configure_aws_logs
 
-start_freshclam
 start_clamd
 
 # The application has to start first!
