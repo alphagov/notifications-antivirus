@@ -4,10 +4,20 @@ import json
 from flask import url_for
 
 
-def test_status(client):
+def test_status_when_clamd_is_running(mocker, client):
+    mocker.patch('app.views.clamd.ClamdUnixSocket.ping', return_value='PONG')
+
     response = client.get(url_for('main.status'))
     assert response.status_code == 200
     assert response.get_data(as_text=True) == 'ok'
+
+
+def test_status_when_clamd_returns_error(mocker, client):
+    mocker.patch('app.views.clamd.ClamdUnixSocket.ping', side_effect=FileNotFoundError())
+
+    response = client.get(url_for('main.status'))
+    assert response.status_code == 500
+    assert response.get_data(as_text=True) == ''
 
 
 def test_scan_document_no_auth(client, mocker):

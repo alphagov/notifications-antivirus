@@ -62,10 +62,7 @@ function on_exit {
 }
 
 function start_clamd {
-  clamd &
-  CLAMD_PID=$!
-  echo "clamd pid: ${CLAMD_PID}"
-  sleep 15
+  clamd
 }
 
 function start_application {
@@ -83,7 +80,7 @@ function start_aws_logs_agent {
 function run {
   while true; do
     kill -0 ${APP_PID} 2&>/dev/null || break
-    kill -0 ${CLAMD_PID} 2&>/dev/null || start_clamd
+    python -c "import clamd, sys; clamd.ClamdUnixSocket().ping()" || break
     kill -0 ${AWSLOGS_AGENT_PID} 2&>/dev/null || start_aws_logs_agent
     sleep 1
   done
