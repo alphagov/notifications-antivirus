@@ -1,6 +1,6 @@
 FROM python:3.6-slim-jessie as parent
 
-ENV CLAMAV_VERSION 0.100
+ENV CLAMAV_VERSION 0.100.3+dfsg-0+deb8u1
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -11,17 +11,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
-    wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
-    wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
-    chown clamav:clamav /var/lib/clamav/*.cvd
-
 RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
     chmod 750 /var/run/clamav
 
-RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
-    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
+RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
 
 ##### Test Image ##############################################################
@@ -35,6 +29,11 @@ COPY requirements_for_test.txt requirements_for_test.txt
 RUN pip install -r requirements_for_test.txt
 
 COPY . .
+
+RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
+    wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
+    wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
+    chown clamav:clamav /var/lib/clamav/*.cvd
 
 ADD scripts/run_celery.sh /
 
@@ -67,5 +66,10 @@ ARG CI_BUILD_URL
 ENV CI_NAME=$CI_NAME
 ENV CI_BUILD_NUMBER=$CI_BUILD_NUMBER
 ENV CI_BUILD_URL=$CI_BUILD_URL
+
+RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
+    wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
+    wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
+    chown clamav:clamav /var/lib/clamav/*.cvd
 
 RUN make _generate-version-file

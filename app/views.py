@@ -1,3 +1,5 @@
+import clamd
+
 from flask import Blueprint, current_app, jsonify, request
 from flask_httpauth import HTTPTokenAuth
 
@@ -10,6 +12,11 @@ auth = HTTPTokenAuth()
 
 @main_blueprint.route('/_status')
 def status():
+    try:
+        clamd.ClamdUnixSocket().ping()
+    except Exception:
+        return '', 500
+
     return 'ok', 200
 
 
