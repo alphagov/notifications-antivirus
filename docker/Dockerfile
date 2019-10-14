@@ -1,6 +1,6 @@
 FROM python:3.6-slim-jessie as parent
 
-ENV CLAMAV_VERSION 0.100.3+dfsg-0+deb8u1
+ENV CLAMAV_VERSION 0.101.4+dfsg-0+deb8u2
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
