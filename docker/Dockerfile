@@ -30,9 +30,9 @@ RUN pip install -r requirements_for_test.txt
 
 COPY . .
 
-RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
-    wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
-    wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
+RUN wget -nv -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
+    wget -nv -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
+    wget -nv -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
     chown clamav:clamav /var/lib/clamav/*.cvd
 
 ADD scripts/run_celery.sh /
@@ -67,9 +67,9 @@ ENV CI_NAME=$CI_NAME
 ENV CI_BUILD_NUMBER=$CI_BUILD_NUMBER
 ENV CI_BUILD_URL=$CI_BUILD_URL
 
-RUN wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
-    wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
-    wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
+RUN wget -nv -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
+    wget -nv -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
+    wget -nv -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
     chown clamav:clamav /var/lib/clamav/*.cvd
 
 RUN make _generate-version-file
