@@ -27,7 +27,7 @@ export NOTIFY_LOG_PATH='/var/log/notify/antivirus'
 NOTES:
 
  * Replace the placeholder key and prefix values as appropriate
- * The  unique prefix for the queue names prevents clashing with others' queues in shared amazon environment and enables filtering by queue name in the SQS interface.
+ * The unique prefix for the queue names prevents clashing with others' queues in shared amazon environment and enables filtering by queue name in the SQS interface.
 
 
 ```
