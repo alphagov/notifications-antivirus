@@ -17,12 +17,11 @@ RUN mkdir /var/run/clamav && \
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
+WORKDIR /home/vcap/app/
 
 ##### Test Image ##############################################################
 
 FROM parent as test
-
-WORKDIR /app
 
 COPY requirements.txt requirements.txt
 COPY requirements_for_test.txt requirements_for_test.txt
@@ -44,8 +43,6 @@ CMD ["/run_celery.sh"]
 FROM parent as production
 
 RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
-
-WORKDIR /home/vcap/app/
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
