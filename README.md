@@ -36,17 +36,10 @@ source environment.sh
 
 ##  To run the application
 
-The simplest way to run the application, is to run it inside a docker instance (recommended)
+The simplest way to run the application, is to run it inside a Docker container:
 
 ```
 make run-with-docker
-```
-
-Or to run it in a virtualenv (Nb. OS level dependencies such as ClamAV, should be resolved manually)
-Run `pip install -r requirements.txt` to install Python dependencies.
-
-```
-scripts/run_celery.sh
 ```
 
 ##  To test the application

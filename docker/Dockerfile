@@ -57,13 +57,6 @@ COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
 
-ARG CI_NAME
-ARG CI_BUILD_NUMBER
-ARG CI_BUILD_URL
-ENV CI_NAME=$CI_NAME
-ENV CI_BUILD_NUMBER=$CI_BUILD_NUMBER
-ENV CI_BUILD_URL=$CI_BUILD_URL
-
 RUN wget -nv -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd && \
     wget -nv -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd && \
     wget -nv -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd && \
