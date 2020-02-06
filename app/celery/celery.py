@@ -23,8 +23,8 @@ class NotifyCelery(Celery):
 
         super().__init__(
             app.import_name,
-            broker=app.config['celery']['broker_url'],
+            broker=app.config['CELERY']['broker_url'],
             task_cls=NotifyTask,
         )
 
-        self.conf.update(app.config['celery'])
+        self.conf.update(app.config['CELERY'])

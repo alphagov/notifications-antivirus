@@ -38,7 +38,7 @@ class Config(object):
 
     ANTIVIRUS_API_KEY = os.getenv('ANTIVIRUS_API_KEY')
 
-    celery = {
+    CELERY = {
         'broker_url': 'sqs://',
         'broker_transport_options': {
             'region': AWS_REGION,
