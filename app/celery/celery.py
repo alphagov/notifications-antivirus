@@ -13,7 +13,7 @@ class NotifyCelery(Celery):
             def on_failure(self, exc, task_id, args, kwargs, einfo):
                 # ensure task will log exceptions to correct handlers
                 with app.app_context():
-                    app.logger.exception('Celery task failed')
+                    app.logger.exception('Celery task {} failed'.format(self.name))
                     super().on_failure(exc, task_id, args, kwargs, einfo)
 
             def __call__(self, *args, **kwargs):
@@ -23,8 +23,8 @@ class NotifyCelery(Celery):
 
         super().__init__(
             app.import_name,
-            broker=app.config['BROKER_URL'],
+            broker=app.config['CELERY']['broker_url'],
             task_cls=NotifyTask,
         )
 
-        self.conf.update(app.config)
+        self.conf.update(app.config['CELERY'])

@@ -38,21 +38,20 @@ class Config(object):
 
     ANTIVIRUS_API_KEY = os.getenv('ANTIVIRUS_API_KEY')
 
-    BROKER_URL = 'sqs://'
-    BROKER_TRANSPORT_OPTIONS = {
-        'region': AWS_REGION,
-        'polling_interval': 1,
-        'visibility_timeout': 310,
-        'queue_name_prefix': NOTIFICATION_QUEUE_PREFIX
+    CELERY = {
+        'broker_url': 'sqs://',
+        'broker_transport_options': {
+            'region': AWS_REGION,
+            'visibility_timeout': 310,
+            'queue_name_prefix': NOTIFICATION_QUEUE_PREFIX,
+            'wait_time_seconds': 20  # enable long polling, with a wait time of 20 seconds
+        },
+        'timezone': 'Europe/London',
+        'imports': ['app.celery.tasks'],
+        'task_queues': [
+            Queue(QueueNames.ANTIVIRUS, Exchange('default'), routing_key=QueueNames.ANTIVIRUS)
+        ],
     }
-    CELERY_ENABLE_UTC = True
-    CELERY_TIMEZONE = 'Europe/London'
-    CELERY_ACCEPT_CONTENT = ['json']
-    CELERY_TASK_SERIALIZER = 'json'
-    CELERY_IMPORTS = ('app.celery.tasks', )
-    CELERY_QUEUES = [
-        Queue(QueueNames.ANTIVIRUS, Exchange('default'), routing_key=QueueNames.ANTIVIRUS)
-    ]
 
     LETTERS_SCAN_BUCKET_NAME = None
 
