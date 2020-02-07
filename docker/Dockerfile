@@ -1,13 +1,16 @@
-FROM python:3.6-slim-jessie as parent
+FROM python:3.6-slim as parent
 
-ENV CLAMAV_VERSION 0.101.4+dfsg-0+deb8u2
+ENV CLAMAV_VERSION 0.101.4
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         git \
         build-essential \
         clamav-daemon=${CLAMAV_VERSION}* \
-        wget && \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        wget \
+    && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
