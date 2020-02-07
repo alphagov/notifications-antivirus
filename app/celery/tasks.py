@@ -2,7 +2,7 @@ from io import BytesIO
 
 import boto3
 import clamd
-from boto.exception import BotoClientError
+from botocore.exceptions import ClientError as BotoClientError
 from flask import current_app
 from notifications_utils.statsd_decorators import statsd
 
