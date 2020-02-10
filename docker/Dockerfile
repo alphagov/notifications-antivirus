@@ -1,6 +1,6 @@
 FROM python:3.6-slim as parent
 
-ENV CLAMAV_VERSION 0.101.4
+ENV CLAMAV_VERSION 0.102.1
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
