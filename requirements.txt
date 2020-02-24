@@ -15,7 +15,7 @@ git+https://github.com/alphagov/notifications-utils.git@36.5.0#egg=notifications
 amqp==2.5.2
 awscli==1.17.12
 billiard==3.6.2.0
-bleach==3.1.0
+bleach==3.1.1
 boto3==1.11.12
 botocore==1.14.12
 certifi==2019.11.28
