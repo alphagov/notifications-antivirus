@@ -19,7 +19,7 @@ def scan_file(self, filename):
     try:
 
         if clamav_scan(BytesIO(_get_letter_pdf(filename))):
-            task_name = 'process-virus-scan-passed'
+            task_name = 'sanitise-letter'
         else:
             task_name = 'process-virus-scan-failed'
             current_app.logger.error('VIRUS FOUND for file: {}'.format(filename))

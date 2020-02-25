@@ -16,7 +16,7 @@ def test_scan_no_virus(notify_antivirus, mocker):
     scan_file(TEST_FILENAME)
 
     mock_send_task.assert_called_once_with(
-        name='process-virus-scan-passed',
+        name='sanitise-letter',
         kwargs={'filename': TEST_FILENAME},
         queue=QueueNames.LETTERS,
     )
