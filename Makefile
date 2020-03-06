@@ -84,7 +84,6 @@ test-requirements:
 define run_docker_container
 	docker run -it --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-${1}" \
-		-e STATSD_PREFIX=${STATSD_PREFIX} \
 		-e NOTIFICATION_QUEUE_PREFIX=${NOTIFICATION_QUEUE_PREFIX} \
 		-e NOTIFY_ENVIRONMENT=${NOTIFY_ENVIRONMENT} \
 		-e FLASK_APP=${FLASK_APP} \
@@ -93,7 +92,6 @@ define run_docker_container
 		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
 		-e NOTIFY_LOG_PATH=${NOTIFY_LOG_PATH} \
-		-e STATSD_PREFIX="{CF_SPACE}" \
 		${3} \
 		${DOCKER_IMAGE_NAME} \
 		${2}

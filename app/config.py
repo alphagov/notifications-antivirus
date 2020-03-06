@@ -16,8 +16,6 @@ class QueueNames(object):
 
 
 class Config(object):
-    # Hosted graphite statsd prefix
-    STATSD_PREFIX = os.getenv('STATSD_PREFIX')
     STATSD_ENABLED = True
     STATSD_HOST = os.getenv('STATSD_HOST')
     STATSD_PORT = 8125

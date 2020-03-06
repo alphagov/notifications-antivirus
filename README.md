@@ -11,7 +11,6 @@ Create a local environment.sh file containing the following:
 ```
 echo "
 
-export STATSD_PREFIX='development'
 export NOTIFICATION_QUEUE_PREFIX='YOUR_OWN_PREFIX'
 export NOTIFY_ENVIRONMENT='development'
 export FLASK_APP=application.py
