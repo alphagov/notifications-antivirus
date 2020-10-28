@@ -15,7 +15,8 @@ CF_API ?= api.cloud.service.gov.uk
 CF_ORG ?= govuk-notify
 CF_SPACE ?= development
 
-DOCKER_IMAGE = govuknotify/notifications-antivirus
+DOCKER_USER_NAME = govuknotify
+DOCKER_IMAGE = ${DOCKER_USER_NAME}/notifications-antivirus
 DOCKER_IMAGE_TAG = $(shell git describe --always --dirty)
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
 DOCKER_CONTAINER_PREFIX = ${USER}-notifications-antivirus-manual
@@ -171,7 +172,7 @@ cf-deploy: ## Deploys the app to Cloud Foundry
 	cf v3-cancel-zdt-push ${CF_APP} || true
 
 	cf v3-apply-manifest ${CF_APP} -f <(make -s generate-manifest)
-	cf v3-zdt-push ${CF_APP} --docker-image ${DOCKER_IMAGE_NAME} --wait-for-deploy-complete  # fails after 5 mins if deploy doesn't work
+	cf v3-zdt-push ${CF_APP} --docker-image ${DOCKER_IMAGE_NAME} --docker-username ${DOCKER_USER_NAME} --wait-for-deploy-complete  # fails after 5 mins if deploy doesn't work
 
 .PHONY: cf-rollback
 cf-rollback: ## Rollbacks the app to the previous release
