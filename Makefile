@@ -9,7 +9,8 @@ GIT_COMMIT ?= $(shell git rev-parse HEAD)
 NOTIFY_CREDENTIALS ?= ~/.notify-credentials
 
 CF_APP ?= notify-antivirus
-CF_MANIFEST_FILE ?= manifest$(subst notify-antivirus,,${CF_APP}).yml.j2
+CF_MANIFEST_TEMPLATE_PATH ?= manifest$(subst notify-antivirus,,${CF_APP}).yml.j2
+CF_MANIFEST_PATH ?= /tmp/manifest.yml
 
 CF_API ?= api.cloud.service.gov.uk
 CF_ORG ?= govuk-notify
@@ -157,7 +158,7 @@ generate-manifest:
 	$(if $(shell which gpg2), $(eval export GPG=gpg2), $(eval export GPG=gpg))
 	$(if ${GPG_PASSPHRASE_TXT}, $(eval export DECRYPT_CMD=echo -n $$$${GPG_PASSPHRASE_TXT} | ${GPG} --quiet --batch --passphrase-fd 0 --pinentry-mode loopback -d), $(eval export DECRYPT_CMD=${GPG} --quiet --batch -d))
 
-	@jinja2 --strict ${CF_MANIFEST_FILE} \
+	@jinja2 --strict ${CF_MANIFEST_TEMPLATE_PATH} \
 	    -D environment=${CF_SPACE} --format=yaml \
 	    <(${DECRYPT_CMD} ${NOTIFY_CREDENTIALS}/credentials/${CF_SPACE}/paas/environment-variables.gpg) 2>&1
 
@@ -169,12 +170,14 @@ cf-deploy: ## Deploys the app to Cloud Foundry
 	@cf app --guid ${CF_APP} || exit 1
 
 	# cancel any existing deploys to ensure we can apply manifest (if a deploy is in progress you'll see ScaleDisabledDuringDeployment)
-	cf v3-cancel-zdt-push ${CF_APP} || true
-
-	cf v3-apply-manifest ${CF_APP} -f <(make -s generate-manifest)
-	cf v3-zdt-push ${CF_APP} --docker-image ${DOCKER_IMAGE_NAME} --docker-username ${DOCKER_USER_NAME} --wait-for-deploy-complete  # fails after 5 mins if deploy doesn't work
+	cf cancel-deployment ${CF_APP} || true
+	make -s generate-manifest > ${CF_MANIFEST_PATH}
+	# fails after 5 mins if deploy doesn't work
+	cf push ${CF_APP} --strategy=rolling -f ${CF_MANIFEST_PATH} --docker-image ${DOCKER_IMAGE_NAME} --docker-username ${DOCKER_USER_NAME}
+	rm -f ${CF_MANIFEST_PATH}
 
 .PHONY: cf-rollback
 cf-rollback: ## Rollbacks the app to the previous release
 	$(if ${CF_APP},,$(error Must specify CF_APP))
-	cf v3-cancel-zdt-push ${CF_APP}
+	cf cancel-deployment ${CF_APP}
+	rm -f ${CF_MANIFEST_PATH}
