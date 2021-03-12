@@ -1,7 +1,7 @@
 import os
+import time
 
 from flask import request, jsonify, g
-from monotonic import monotonic
 
 from app.celery.celery import NotifyCelery
 from notifications_utils import logging
@@ -37,7 +37,7 @@ def create_app(application):
 def init_app(app):
     @app.before_request
     def record_request_details():
-        g.start = monotonic()
+        g.start = time.monotonic()
         g.endpoint = request.endpoint
 
     @app.after_request

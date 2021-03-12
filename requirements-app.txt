@@ -1,11 +1,10 @@
 clamd==1.0.2
 Flask==1.1.1
 celery[sqs]==4.4.0
-
 Flask-HTTPAuth==3.3.0
 gunicorn==20.0.4
 
 # PaaS
 awscli-cwlogs==1.4.6
 
-git+https://github.com/alphagov/notifications-utils.git@43.5.4#egg=notifications-utils==43.5.4
+git+https://github.com/alphagov/notifications-utils.git@43.9.0#egg=notifications-utils==43.9.0
