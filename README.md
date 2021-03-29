@@ -1,8 +1,10 @@
 # notifications-antivirus
 
-GOV.UK Notify Antivirus service. Read and write scan jobs via a scan queue.  Retrieves the supplied filename from the scan S3 bucket and uses ClamAV to scan the file. Sends the scan status back via a queue to update the notification status.
+Reads jobs from a queue, using the supplied filename to fetch files from an S3 bucket, and ClamAV to scan them. Sends the scan status back by creating a new job to update the notification status.
 
-## First-time setup
+## Setting up
+
+### Docker container
 
 This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
 
@@ -12,29 +14,19 @@ This app uses dependencies that are difficult to install locally. In order to ma
 
 Because the container caches things like Python packages, you will need to run this again if you change things like "requirements.txt".
 
-##  Environment Variables
+### `environment.sh`
 
-Creating the environment.sh file. Replace [unique-to-environment] with your something unique to the environment. Your AWS credentials should be set up for notify-tools (the development/CI AWS account).
-
-Create a local environment.sh file containing the following:
+In the root directory of the application, run:
 
 ```
 echo "
-
 export NOTIFICATION_QUEUE_PREFIX='YOUR_OWN_PREFIX'
-
 "> environment.sh
 ```
 
-NOTES:
+Things to change:
 
- * Replace the placeholder key and prefix values as appropriate
- * The unique prefix for the queue names prevents clashing with others' queues in shared amazon environment and enables filtering by queue name in the SQS interface.
-
-
-```
-source environment.sh
-```
+- Replace YOUR_OWN_PREFIX with local_dev_\<first name\> (to match other apps).
 
 ##  To run the application
 
