@@ -22,13 +22,6 @@ Create a local environment.sh file containing the following:
 echo "
 
 export NOTIFICATION_QUEUE_PREFIX='YOUR_OWN_PREFIX'
-export NOTIFY_ENVIRONMENT='development'
-export FLASK_APP=application.py
-export FLASK_DEBUG=1
-export WERKZEUG_DEBUG_PIN=off
-export AWS_ACCESS_KEY_ID='YOUR_TOOLS_AWS_ACCESS_KEY'
-export AWS_SECRET_ACCESS_KEY='YOUR_TOOLS_AWS_SECRET_KEY'
-export NOTIFY_LOG_PATH='/var/log/notify/antivirus'
 
 "> environment.sh
 ```
@@ -57,6 +50,12 @@ To run the tests
 
 ```
 make test-with-docker
+```
+
+If you need to run a specific command, such as a single test, you can use the `run_with_docker.sh` script. This is what `test-with-docker` and other `make` rules use.
+
+```shell
+./scripts/run_with_docker.sh pytest tests/some_specific_test.py
 ```
 
 ## To update application dependencies

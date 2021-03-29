@@ -83,46 +83,24 @@ test-requirements:
 	         echo "Run 'make freeze-requirements' to update."; exit 1; } \
 || { echo "requirements.txt is up to date"; exit 0; }
 
-define run_docker_container
-	docker run -it --rm \
-		--name "${DOCKER_CONTAINER_PREFIX}-${1}" \
-		-e NOTIFICATION_QUEUE_PREFIX=${NOTIFICATION_QUEUE_PREFIX} \
-		-e NOTIFY_ENVIRONMENT=${NOTIFY_ENVIRONMENT} \
-		-e FLASK_APP=${FLASK_APP} \
-		-e FLASK_DEBUG=${FLASK_DEBUG} \
-		-e WERKZEUG_DEBUG_PIN=${WERKZEUG_DEBUG_PIN} \
-		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-		-e NOTIFY_LOG_PATH=${NOTIFY_LOG_PATH} \
-		-v $(shell pwd):/home/vcap/app \
-		${3} \
-		notifications-antivirus \
-		${2}
-endef
-
-
 # ---- DOCKER COMMANDS ---- #
 
 .PHONY: bootstrap
 bootstrap: _generate-version-file
 	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
-
 .PHONY: run-with-docker
 run-with-docker:
-	$(call run_docker_container,celery-build, make _run)
+	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
+	./scripts/run_with_docker.sh make _run
 
 .PHONY: run-app-with-docker
 run-app-with-docker:
-	$(call run_docker_container,app-build, make _run_app, -p 6016:6016)
-
-.PHONY: bash-with-docker
-bash-with-docker:
-	$(call run_docker_container,build, bash)
+	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh make _run_app
 
 .PHONY: test-with-docker
 test-with-docker:
-	$(call run_docker_container,test, make _test)
+	./scripts/run_with_docker.sh make _test
 
 .PHONY: clean-docker-containers
 clean-docker-containers: ## Clean up any remaining docker containers
