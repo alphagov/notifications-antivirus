@@ -27,21 +27,6 @@ DOCKER_CONTAINER_PREFIX = ${USER}-notifications-antivirus-manual
 help:
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: preview
-preview: ## Set environment to preview
-	$(eval export CF_SPACE=preview)
-	@true
-
-.PHONY: staging
-staging: ## Set environment to staging
-	$(eval export CF_SPACE=staging)
-	@true
-
-.PHONY: production
-production: ## Set environment to production
-	$(eval export CF_SPACE=production)
-	@true
-
 # ---- LOCAL FUNCTIONS ---- #
 # should only call these from inside docker or this makefile
 
@@ -98,7 +83,22 @@ upload-to-dockerhub: ## Upload the current version of the docker image to docker
 	@docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
 	docker push ${DOCKER_IMAGE_NAME}
 
-# ---- PAAS COMMANDS ---- #
+# ---- DEPLOYMENT ---- #
+
+.PHONY: preview
+preview: ## Set environment to preview
+	$(eval export CF_SPACE=preview)
+	@true
+
+.PHONY: staging
+staging: ## Set environment to staging
+	$(eval export CF_SPACE=staging)
+	@true
+
+.PHONY: production
+production: ## Set environment to production
+	$(eval export CF_SPACE=production)
+	@true
 
 .PHONY: cf-login
 cf-login: ## Log in to Cloud Foundry
