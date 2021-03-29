@@ -2,6 +2,16 @@
 
 GOV.UK Notify Antivirus service. Read and write scan jobs via a scan queue.  Retrieves the supplied filename from the scan S3 bucket and uses ClamAV to scan the file. Sends the scan status back via a queue to update the notification status.
 
+## First-time setup
+
+This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
+
+```shell
+  make bootstrap
+```
+
+Because the container caches things like Python packages, you will need to run this again if you change things like "requirements.txt".
+
 ##  Environment Variables
 
 Creating the environment.sh file. Replace [unique-to-environment] with your something unique to the environment. Your AWS credentials should be set up for notify-tools (the development/CI AWS account).

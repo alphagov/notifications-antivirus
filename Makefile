@@ -94,28 +94,34 @@ define run_docker_container
 		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
 		-e NOTIFY_LOG_PATH=${NOTIFY_LOG_PATH} \
+		-v $(shell pwd):/home/vcap/app \
 		${3} \
-		${DOCKER_IMAGE_NAME} \
+		notifications-antivirus \
 		${2}
 endef
 
 
 # ---- DOCKER COMMANDS ---- #
 
+.PHONY: bootstrap
+bootstrap: _generate-version-file
+	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
+
+
 .PHONY: run-with-docker
-run-with-docker: prepare-docker-build-image ## Build inside a Docker container
+run-with-docker:
 	$(call run_docker_container,celery-build, make _run)
 
 .PHONY: run-app-with-docker
-run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
+run-app-with-docker:
 	$(call run_docker_container,app-build, make _run_app, -p 6016:6016)
 
 .PHONY: bash-with-docker
-bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
+bash-with-docker:
 	$(call run_docker_container,build, bash)
 
 .PHONY: test-with-docker
-test-with-docker: prepare-docker-test-build-image ## Run tests inside a Docker container
+test-with-docker:
 	$(call run_docker_container,test, make _test)
 
 .PHONY: clean-docker-containers
@@ -123,24 +129,12 @@ clean-docker-containers: ## Clean up any remaining docker containers
 	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
 
 .PHONY: upload-to-dockerhub
-upload-to-dockerhub: prepare-docker-build-image ## Upload the current version of the docker image to dockerhub
+upload-to-dockerhub: ## Upload the current version of the docker image to dockerhub
+	docker build -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME} .
 	$(if ${DOCKERHUB_USERNAME},,$(error Must specify DOCKERHUB_USERNAME))
 	$(if ${DOCKERHUB_PASSWORD},,$(error Must specify DOCKERHUB_PASSWORD))
 	@docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
 	docker push ${DOCKER_IMAGE_NAME}
-
-.PHONY: prepare-docker-build-image
-prepare-docker-build-image: ## Build docker image
-	docker build -f docker/Dockerfile \
-		-t ${DOCKER_IMAGE_NAME} \
-		.
-
-.PHONY: prepare-docker-test-build-image
-prepare-docker-test-build-image: ## Build docker image which will be used for testing
-	docker build -f docker/Dockerfile \
-		--target test \
-		-t ${DOCKER_IMAGE_NAME} \
-		.
 
 # ---- PAAS COMMANDS ---- #
 
