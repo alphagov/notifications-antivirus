@@ -20,7 +20,6 @@ DOCKER_USER_NAME = govuknotify
 DOCKER_IMAGE = ${DOCKER_USER_NAME}/notifications-antivirus
 DOCKER_IMAGE_TAG = $(shell git describe --always --dirty)
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
-DOCKER_CONTAINER_PREFIX = ${USER}-notifications-antivirus-manual
 
 
 .PHONY: help
@@ -70,10 +69,6 @@ run-flask: ## Run flask in Docker container
 .PHONY: test
 test: ## Run tests in Docker container
 	./scripts/run_with_docker.sh ./scripts/run_tests.sh
-
-.PHONY: clean
-clean: ## Clean up any remaining docker containers
-	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
 
 .PHONY: upload-to-dockerhub
 upload-to-dockerhub: ## Upload the current version of the docker image to dockerhub
