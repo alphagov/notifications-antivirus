@@ -38,21 +38,27 @@ source environment.sh
 
 ##  To run the application
 
-The simplest way to run the application, is to run it inside a Docker container:
-
 ```
-make run-with-docker
+# install dependencies, etc.
+make bootstrap
+
+# run the web app
+make run-flask
+
+# run the background tasks
+make run-celery
 ```
 
 ##  To test the application
 
-To run the tests
-
 ```
-make test-with-docker
+# install dependencies, etc.
+make bootstrap
+
+make test
 ```
 
-If you need to run a specific command, such as a single test, you can use the `run_with_docker.sh` script. This is what `test-with-docker` and other `make` rules use.
+If you need to run a specific command, such as a single test, you can use the `run_with_docker.sh` script. This is what `test` and other `make` rules use.
 
 ```shell
 ./scripts/run_with_docker.sh pytest tests/some_specific_test.py

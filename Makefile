@@ -55,24 +55,24 @@ test-requirements:
 # ---- DOCKER COMMANDS ---- #
 
 .PHONY: bootstrap
-bootstrap: _generate-version-file
+bootstrap: _generate-version-file ## Setup environment to run app commands
 	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
-.PHONY: run-with-docker
-run-with-docker:
+.PHONY: run-celery
+run-celery: ## Run celery in Docker container
 	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
 	./scripts/run_with_docker.sh ./scripts/run_celery.sh
 
-.PHONY: run-app-with-docker
-run-app-with-docker:
+.PHONY: run-flask
+run-flask: ## Run flask in Docker container
 	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
-.PHONY: test-with-docker
-test-with-docker:
+.PHONY: test
+test: ## Run tests in Docker container
 	./scripts/run_with_docker.sh ./scripts/run_tests.sh
 
-.PHONY: clean-docker-containers
-clean-docker-containers: ## Clean up any remaining docker containers
+.PHONY: clean
+clean: ## Clean up any remaining docker containers
 	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
 
 .PHONY: upload-to-dockerhub
