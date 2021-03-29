@@ -30,8 +30,8 @@ help:
 # ---- LOCAL FUNCTIONS ---- #
 # should only call these from inside docker or this makefile
 
-.PHONY: _generate-version-file
-_generate-version-file:
+.PHONY: generate-version-file
+generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
 
 .PHONY: freeze-requirements
@@ -55,7 +55,7 @@ test-requirements:
 # ---- DOCKER COMMANDS ---- #
 
 .PHONY: bootstrap
-bootstrap: _generate-version-file ## Setup environment to run app commands
+bootstrap: generate-version-file ## Setup environment to run app commands
 	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
 .PHONY: run-celery

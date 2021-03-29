@@ -53,4 +53,4 @@ COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
 
-RUN make _generate-version-file
+RUN make generate-version-file
