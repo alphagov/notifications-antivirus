@@ -34,10 +34,6 @@ RUN pip install -r requirements_for_test.txt
 
 COPY . .
 
-ADD scripts/run_celery.sh /
-
-CMD ["/run_celery.sh"]
-
 ##### Production Image #######################################################
 
 FROM parent as production

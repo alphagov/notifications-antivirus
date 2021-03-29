@@ -45,25 +45,9 @@ production: ## Set environment to production
 # ---- LOCAL FUNCTIONS ---- #
 # should only call these from inside docker or this makefile
 
-.PHONY: _run
-_run:
-	# since we're inside docker container, assume the dependencies are already run
-	./scripts/run_celery.sh
-
-_run_app:
-	./scripts/run_app.sh
-
 .PHONY: _generate-version-file
 _generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
-
-.PHONY: _test-dependencies
-_test-dependencies:
-	pip install -r requirements_for_test.txt
-
-.PHONY: _test
-_test: _test-dependencies
-	./scripts/run_tests.sh
 
 .PHONY: freeze-requirements
 freeze-requirements:
@@ -92,15 +76,15 @@ bootstrap: _generate-version-file
 .PHONY: run-with-docker
 run-with-docker:
 	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
-	./scripts/run_with_docker.sh make _run
+	./scripts/run_with_docker.sh ./scripts/run_celery.sh
 
 .PHONY: run-app-with-docker
 run-app-with-docker:
-	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh make _run_app
+	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
 .PHONY: test-with-docker
 test-with-docker:
-	./scripts/run_with_docker.sh make _test
+	./scripts/run_with_docker.sh ./scripts/run_tests.sh
 
 .PHONY: clean-docker-containers
 clean-docker-containers: ## Clean up any remaining docker containers
