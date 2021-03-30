@@ -30,7 +30,10 @@ make test-requirements
 display_result $? 1 "Requirements check"
 
 flake8 .
-display_result $? 1 "Code style check"
+display_result $? 2 "Code style check"
+
+isort --check-only ./app ./tests
+display_result $? 3 "Import order check"
 
 PYTHONPATH=. py.test -vv
-display_result $? 2 "Unit tests"
+display_result $? 4 "Unit tests"
