@@ -24,9 +24,9 @@ def create_app(application):
 
     init_app(application)
 
-    notify_celery.init_app(application)
     statsd_client.init_app(application)
     logging.init_app(application, statsd_client)
+    notify_celery.init_app(application)
 
     application.register_blueprint(main_blueprint)
 
