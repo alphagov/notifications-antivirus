@@ -34,10 +34,6 @@ RUN pip install -r requirements_for_test.txt
 
 COPY . .
 
-ADD scripts/run_celery.sh /
-
-CMD ["/run_celery.sh"]
-
 ##### Production Image #######################################################
 
 FROM parent as production
@@ -57,4 +53,4 @@ COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
 
-RUN make _generate-version-file
+RUN make generate-version-file

@@ -1,5 +1,4 @@
 import clamd
-
 from flask import Blueprint, current_app, jsonify, request
 from flask_httpauth import HTTPTokenAuth
 

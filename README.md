@@ -1,52 +1,63 @@
 # notifications-antivirus
 
-GOV.UK Notify Antivirus service. Read and write scan jobs via a scan queue.  Retrieves the supplied filename from the scan S3 bucket and uses ClamAV to scan the file. Sends the scan status back via a queue to update the notification status.
+Reads jobs from a queue, using the supplied filename to fetch files from an S3 bucket, and ClamAV to scan them. Sends the scan status back by creating a new job to update the notification status.
 
-##  Environment Variables
+## Setting up
 
-Creating the environment.sh file. Replace [unique-to-environment] with your something unique to the environment. Your AWS credentials should be set up for notify-tools (the development/CI AWS account).
+### Docker container
 
-Create a local environment.sh file containing the following:
+This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
+
+```shell
+  make bootstrap
+```
+
+Because the container caches things like Python packages, you will need to run this again if you change things like "requirements.txt".
+
+### AWS credentials
+
+To run the app you will need appropriate AWS credentials. See the [Wiki](https://github.com/alphagov/notifications-manuals/wiki/aws-accounts#how-to-set-up-local-development) for more details.
+
+### `environment.sh`
+
+In the root directory of the application, run:
 
 ```
 echo "
-
 export NOTIFICATION_QUEUE_PREFIX='YOUR_OWN_PREFIX'
-export NOTIFY_ENVIRONMENT='development'
-export FLASK_APP=application.py
-export FLASK_DEBUG=1
-export WERKZEUG_DEBUG_PIN=off
-export AWS_ACCESS_KEY_ID='YOUR_TOOLS_AWS_ACCESS_KEY'
-export AWS_SECRET_ACCESS_KEY='YOUR_TOOLS_AWS_SECRET_KEY'
-export NOTIFY_LOG_PATH='/var/log/notify/antivirus'
-
 "> environment.sh
 ```
 
-NOTES:
+Things to change:
 
- * Replace the placeholder key and prefix values as appropriate
- * The unique prefix for the queue names prevents clashing with others' queues in shared amazon environment and enables filtering by queue name in the SQS interface.
-
-
-```
-source environment.sh
-```
+- Replace YOUR_OWN_PREFIX with local_dev_\<first name\> (to match other apps).
 
 ##  To run the application
 
-The simplest way to run the application, is to run it inside a Docker container:
-
 ```
-make run-with-docker
+# install dependencies, etc.
+make bootstrap
+
+# run the web app
+make run-flask
+
+# run the background tasks
+make run-celery
 ```
 
 ##  To test the application
 
-To run the tests
-
 ```
-make test-with-docker
+# install dependencies, etc.
+make bootstrap
+
+make test
+```
+
+If you need to run a specific command, such as a single test, you can use the `run_with_docker.sh` script. This is what `test` and other `make` rules use.
+
+```shell
+./scripts/run_with_docker.sh pytest tests/some_specific_test.py
 ```
 
 ## To update application dependencies

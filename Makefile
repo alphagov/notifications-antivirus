@@ -20,50 +20,18 @@ DOCKER_USER_NAME = govuknotify
 DOCKER_IMAGE = ${DOCKER_USER_NAME}/notifications-antivirus
 DOCKER_IMAGE_TAG = $(shell git describe --always --dirty)
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
-DOCKER_CONTAINER_PREFIX = ${USER}-notifications-antivirus-manual
 
 
 .PHONY: help
 help:
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: preview
-preview: ## Set environment to preview
-	$(eval export CF_SPACE=preview)
-	@true
-
-.PHONY: staging
-staging: ## Set environment to staging
-	$(eval export CF_SPACE=staging)
-	@true
-
-.PHONY: production
-production: ## Set environment to production
-	$(eval export CF_SPACE=production)
-	@true
-
 # ---- LOCAL FUNCTIONS ---- #
 # should only call these from inside docker or this makefile
 
-.PHONY: _run
-_run:
-	# since we're inside docker container, assume the dependencies are already run
-	./scripts/run_celery.sh
-
-_run_app:
-	./scripts/run_app.sh
-
-.PHONY: _generate-version-file
-_generate-version-file:
+.PHONY: generate-version-file
+generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
-
-.PHONY: _test-dependencies
-_test-dependencies:
-	pip install -r requirements_for_test.txt
-
-.PHONY: _test
-_test: _test-dependencies
-	./scripts/run_tests.sh
 
 .PHONY: freeze-requirements
 freeze-requirements:
@@ -83,66 +51,49 @@ test-requirements:
 	         echo "Run 'make freeze-requirements' to update."; exit 1; } \
 || { echo "requirements.txt is up to date"; exit 0; }
 
-define run_docker_container
-	docker run -it --rm \
-		--name "${DOCKER_CONTAINER_PREFIX}-${1}" \
-		-e NOTIFICATION_QUEUE_PREFIX=${NOTIFICATION_QUEUE_PREFIX} \
-		-e NOTIFY_ENVIRONMENT=${NOTIFY_ENVIRONMENT} \
-		-e FLASK_APP=${FLASK_APP} \
-		-e FLASK_DEBUG=${FLASK_DEBUG} \
-		-e WERKZEUG_DEBUG_PIN=${WERKZEUG_DEBUG_PIN} \
-		-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-		-e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-		-e NOTIFY_LOG_PATH=${NOTIFY_LOG_PATH} \
-		${3} \
-		${DOCKER_IMAGE_NAME} \
-		${2}
-endef
-
-
 # ---- DOCKER COMMANDS ---- #
 
-.PHONY: run-with-docker
-run-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,celery-build, make _run)
+.PHONY: bootstrap
+bootstrap: generate-version-file ## Setup environment to run app commands
+	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
-.PHONY: run-app-with-docker
-run-app-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,app-build, make _run_app, -p 6016:6016)
+.PHONY: run-celery
+run-celery: ## Run celery in Docker container
+	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
+	./scripts/run_with_docker.sh ./scripts/run_celery.sh
 
-.PHONY: bash-with-docker
-bash-with-docker: prepare-docker-build-image ## Build inside a Docker container
-	$(call run_docker_container,build, bash)
+.PHONY: run-flask
+run-flask: ## Run flask in Docker container
+	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
-.PHONY: test-with-docker
-test-with-docker: prepare-docker-test-build-image ## Run tests inside a Docker container
-	$(call run_docker_container,test, make _test)
-
-.PHONY: clean-docker-containers
-clean-docker-containers: ## Clean up any remaining docker containers
-	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
+.PHONY: test
+test: ## Run tests in Docker container
+	./scripts/run_with_docker.sh ./scripts/run_tests.sh
 
 .PHONY: upload-to-dockerhub
-upload-to-dockerhub: prepare-docker-build-image ## Upload the current version of the docker image to dockerhub
+upload-to-dockerhub: ## Upload the current version of the docker image to dockerhub
+	docker build -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME} .
 	$(if ${DOCKERHUB_USERNAME},,$(error Must specify DOCKERHUB_USERNAME))
 	$(if ${DOCKERHUB_PASSWORD},,$(error Must specify DOCKERHUB_PASSWORD))
 	@docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
 	docker push ${DOCKER_IMAGE_NAME}
 
-.PHONY: prepare-docker-build-image
-prepare-docker-build-image: ## Build docker image
-	docker build -f docker/Dockerfile \
-		-t ${DOCKER_IMAGE_NAME} \
-		.
+# ---- DEPLOYMENT ---- #
 
-.PHONY: prepare-docker-test-build-image
-prepare-docker-test-build-image: ## Build docker image which will be used for testing
-	docker build -f docker/Dockerfile \
-		--target test \
-		-t ${DOCKER_IMAGE_NAME} \
-		.
+.PHONY: preview
+preview: ## Set environment to preview
+	$(eval export CF_SPACE=preview)
+	@true
 
-# ---- PAAS COMMANDS ---- #
+.PHONY: staging
+staging: ## Set environment to staging
+	$(eval export CF_SPACE=staging)
+	@true
+
+.PHONY: production
+production: ## Set environment to production
+	$(eval export CF_SPACE=production)
+	@true
 
 .PHONY: cf-login
 cf-login: ## Log in to Cloud Foundry
