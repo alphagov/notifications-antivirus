@@ -4,7 +4,6 @@ import boto3
 import clamd
 from botocore.exceptions import ClientError as BotoClientError
 from flask import current_app
-from notifications_utils.statsd_decorators import statsd
 
 from app import notify_celery
 from app.clamav_client import clamav_scan
@@ -12,7 +11,6 @@ from app.config import QueueNames
 
 
 @notify_celery.task(bind=True, name="scan-file", max_retries=5, default_retry_delay=300)
-@statsd(namespace="antivirus")
 def scan_file(self, filename):
     current_app.logger.info('Scanning file: {}'.format(filename))
 

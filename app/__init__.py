@@ -2,7 +2,7 @@ import os
 import time
 
 from flask import g, jsonify, request
-from notifications_utils import logging
+from notifications_utils import logging, request_helper
 from notifications_utils.clients.statsd.statsd_client import StatsdClient
 
 from app.celery.celery import NotifyCelery
@@ -24,9 +24,10 @@ def create_app(application):
 
     init_app(application)
 
-    notify_celery.init_app(application)
     statsd_client.init_app(application)
     logging.init_app(application, statsd_client)
+    request_helper.init_app(application)
+    notify_celery.init_app(application)
 
     application.register_blueprint(main_blueprint)
 
