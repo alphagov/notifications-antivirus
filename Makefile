@@ -67,7 +67,7 @@ run-flask-with-docker: ## Run flask in Docker container
 	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
 .PHONY: test
-test: ## Run tests (used by Concourse)
+test: test-requirements ## Run tests (used by Concourse)
 	./scripts/run_tests.sh
 
 .PHONY: test-with-docker
