@@ -57,18 +57,22 @@ test-requirements:
 bootstrap: generate-version-file ## Setup environment to run app commands
 	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
-.PHONY: run-celery
-run-celery: ## Run celery in Docker container
+.PHONY: run-celery-with-docker
+run-celery-with-docker: ## Run celery in Docker container
 	$(if ${NOTIFICATION_QUEUE_PREFIX},,$(error Must specify NOTIFICATION_QUEUE_PREFIX))
 	./scripts/run_with_docker.sh ./scripts/run_celery.sh
 
-.PHONY: run-flask
-run-flask: ## Run flask in Docker container
+.PHONY: run-flask-with-docker
+run-flask-with-docker: ## Run flask in Docker container
 	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
 .PHONY: test
-test: ## Run tests in Docker container
-	./scripts/run_with_docker.sh ./scripts/run_tests.sh
+test: test-requirements ## Run tests (used by Concourse)
+	./scripts/run_tests.sh
+
+.PHONY: test-with-docker
+test-with-docker: ## Run tests in Docker container
+	./scripts/run_with_docker.sh make test
 
 .PHONY: upload-to-dockerhub
 upload-to-dockerhub: ## Upload the current version of the docker image to dockerhub

@@ -39,10 +39,10 @@ Things to change:
 make bootstrap
 
 # run the web app
-make run-flask
+make run-flask-with-docker
 
 # run the background tasks
-make run-celery
+make run-celery-with-docker
 ```
 
 ##  To test the application
@@ -51,7 +51,7 @@ make run-celery
 # install dependencies, etc.
 make bootstrap
 
-make test
+make test-with-docker
 ```
 
 If you need to run a specific command, such as a single test, you can use the `run_with_docker.sh` script. This is what `test` and other `make` rules use.
