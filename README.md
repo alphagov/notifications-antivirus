@@ -9,7 +9,7 @@ Reads jobs from a queue, using the supplied filename to fetch files from an S3 b
 This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
 
 ```shell
-  make bootstrap
+make bootstrap-with-docker
 ```
 
 Because the container caches things like Python packages, you will need to run this again if you change things like "requirements.txt".

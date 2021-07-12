@@ -33,6 +33,10 @@ help:
 generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
 
+.PHONY: bootstrap
+bootstrap: generate-version-file
+	pip install -r requirements_for_test.txt
+
 .PHONY: freeze-requirements
 freeze-requirements:
 	rm -rf venv-freeze
@@ -53,8 +57,8 @@ test-requirements:
 
 # ---- DOCKER COMMANDS ---- #
 
-.PHONY: bootstrap
-bootstrap: generate-version-file ## Setup environment to run app commands
+.PHONY: bootstrap-with-docker
+bootstrap-with-docker: ## Setup environment to run app commands
 	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
 
 .PHONY: run-celery-with-docker
