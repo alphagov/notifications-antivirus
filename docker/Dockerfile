@@ -28,11 +28,9 @@ WORKDIR /home/vcap/app/
 
 FROM parent as test
 
-COPY requirements.txt requirements.txt
-COPY requirements_for_test.txt requirements_for_test.txt
-RUN pip install -r requirements_for_test.txt
-
 COPY . .
+
+RUN make bootstrap
 
 ##### Production Image #######################################################
 
