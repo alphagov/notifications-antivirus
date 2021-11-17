@@ -8,13 +8,13 @@ gunicorn==20.0.4
 # PaaS
 awscli-cwlogs==1.4.6
 
-git+https://github.com/alphagov/notifications-utils.git@43.9.0#egg=notifications-utils==43.9.0
+git+https://github.com/alphagov/notifications-utils.git@48.1.0#egg=notifications-utils==48.1.0
 
 ## The following requirements were added by pip freeze:
 amqp==2.6.1
 awscli==1.21.8
 billiard==3.6.4.0
-bleach==3.3.0
+bleach==4.1.0
 boto3==1.19.8
 botocore==1.22.8
 cachetools==4.2.4

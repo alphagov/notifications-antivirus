@@ -3,9 +3,9 @@ import time
 
 from flask import g, jsonify, request
 from notifications_utils import logging, request_helper
+from notifications_utils.celery import NotifyCelery
 from notifications_utils.clients.statsd.statsd_client import StatsdClient
 
-from app.celery.celery import NotifyCelery
 from app.commands import setup_commands
 
 notify_celery = NotifyCelery()
