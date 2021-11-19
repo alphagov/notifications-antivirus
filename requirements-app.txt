@@ -7,4 +7,4 @@ gunicorn==20.0.4
 # PaaS
 awscli-cwlogs==1.4.6
 
-git+https://github.com/alphagov/notifications-utils.git@48.1.0#egg=notifications-utils==48.1.0
+git+https://github.com/alphagov/notifications-utils.git@49.0.0#egg=notifications-utils==49.0.0
