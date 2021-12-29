@@ -41,13 +41,6 @@ freeze-requirements: ## create static requirements.txt
 	pip install --upgrade pip-tools
 	pip-compile requirements.in
 
-.PHONY: test-requirements
-test-requirements:
-	@diff requirements-app.txt requirements.txt | grep '<' \
-	    && { echo "requirements.txt doesn't match requirements-app.txt."; \
-	         echo "Run 'make freeze-requirements' to update."; exit 1; } \
-|| { echo "requirements.txt is up to date"; exit 0; }
-
 # ---- DOCKER COMMANDS ---- #
 
 .PHONY: bootstrap-with-docker
@@ -64,7 +57,7 @@ run-flask-with-docker: ## Run flask in Docker container
 	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
 .PHONY: test
-test: test-requirements ## Run tests (used by Concourse)
+test: ## Run tests (used by Concourse)
 	flake8 .
 	isort --check-only ./app ./tests
 	PYTHONPATH=. pytest
