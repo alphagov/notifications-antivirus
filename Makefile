@@ -33,7 +33,7 @@ generate-version-file:
 	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
 
 .PHONY: bootstrap
-bootstrap: generate-version-file
+bootstrap:
 	pip install -r requirements_for_test.txt
 
 .PHONY: freeze-requirements
