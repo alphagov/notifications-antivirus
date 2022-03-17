@@ -1,5 +1,7 @@
 FROM python:3.9.9-slim-bullseye as parent
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV CLAMAV_VERSION 0.103.5
 
 RUN apt-get update && \
