@@ -26,7 +26,8 @@ wheels/
 .installed.cfg
 *.egg
 
-# Auto-generated version file
+## A placeholder version of this file is still committed to avoid having to generate it for local
+## development. The committed file will get overwritten as part of building the Docker image.
 app/version.py
 
 # PyInstaller
