@@ -20,7 +20,11 @@ RUN mkdir /var/run/clamav && \
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
-RUN freshclam
+# make sure we exit with status 1 if we've been rate limited. otherwise we risk
+# deploying this image with no definitions, which will fail to detect viruses!
+RUN ! freshclam --stdout | \
+    tee /dev/stderr | \
+    grep -q "received error code 429"
 
 WORKDIR /home/vcap/app/
 
