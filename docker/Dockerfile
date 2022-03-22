@@ -1,5 +1,6 @@
 FROM python:3.9.9-slim-bullseye as parent
 
+# make sure we exit if `freshclam` fails, even if the later pipe commands succeed.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV CLAMAV_VERSION 0.103.5
