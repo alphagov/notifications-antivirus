@@ -1,8 +1,5 @@
 FROM python:3.9.9-slim-bullseye as parent
 
-# make sure we exit if `freshclam` fails, even if the later pipe commands succeed.
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
 ENV CLAMAV_VERSION 0.103.5
 
 RUN apt-get update && \
@@ -25,9 +22,10 @@ RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 
 # make sure we exit with status 1 if we've been rate limited. otherwise we risk
 # deploying this image with no definitions, which will fail to detect viruses!
-RUN ! freshclam --stdout | \
-    tee /dev/stderr | \
-    grep -q "received error code 429"
+# tee /dev/stderr means we can still see the full output from freshclam.
+RUN freshclam --stdout | tee /dev/stderr > freshclam.out
+RUN ! grep "received error code 429" freshclam.out
+RUN rm freshclam.out
 
 WORKDIR /home/vcap/app/
 
