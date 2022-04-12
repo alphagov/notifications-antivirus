@@ -7,9 +7,7 @@
 amqp==5.0.9
     # via kombu
 awscli==1.21.8
-    # via
-    #   awscli-cwlogs
-    #   notifications-utils
+    # via awscli-cwlogs
 awscli-cwlogs==1.4.6
     # via -r requirements.in
 billiard==3.6.4.0
@@ -88,7 +86,7 @@ markupsafe==2.0.1
     # via jinja2
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@51.3.0
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@55.1.4
     # via -r requirements.in
 orderedset==2.0.3
     # via notifications-utils
