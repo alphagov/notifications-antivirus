@@ -19,6 +19,8 @@ applications:
       NOTIFY_APP_NAME: notify-antivirus-api
       CW_APP_NAME: antivirus
       STATSD_HOST: 'notify-statsd-exporter-{{ environment }}.apps.internal'
+      NOTIFY_LOG_PATH: /home/vcap/logs/app.log
+      NOTIFY_ENVIRONMENT: {{ environment }}
 
       # Credentials variables
       AWS_ACCESS_KEY_ID: '{{ AWS_ACCESS_KEY_ID }}'
