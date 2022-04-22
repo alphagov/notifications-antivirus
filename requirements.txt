@@ -23,7 +23,7 @@ botocore==1.22.8
     #   s3transfer
 cachetools==4.2.4
     # via notifications-utils
-celery[sqs]==5.2.2
+celery[sqs]==5.2.6
     # via -r requirements.in
 certifi==2021.10.8
     # via
@@ -50,13 +50,13 @@ colorama==0.4.3
     # via awscli
 docutils==0.15.2
     # via awscli
-flask==1.1.1
+flask==2.1.1
     # via
     #   -r requirements.in
     #   flask-httpauth
     #   flask-redis
     #   notifications-utils
-flask-httpauth==3.3.0
+flask-httpauth==4.6.0
     # via -r requirements.in
 flask-redis==0.4.0
     # via notifications-utils
@@ -64,10 +64,12 @@ geojson==2.5.0
     # via notifications-utils
 govuk-bank-holidays==0.10
     # via notifications-utils
-gunicorn==20.0.4
+gunicorn==20.1.0
     # via -r requirements.in
 idna==3.3
     # via requests
+importlib-metadata==4.11.3
+    # via flask
 itsdangerous==2.0.1
     # via
     #   flask
@@ -158,6 +160,8 @@ webencodings==0.5.1
     # via bleach
 werkzeug==2.0.2
     # via flask
+zipp==3.8.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
