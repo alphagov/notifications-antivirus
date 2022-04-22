@@ -56,7 +56,7 @@ flask==2.1.1
     #   flask-httpauth
     #   flask-redis
     #   notifications-utils
-flask-httpauth==3.3.0
+flask-httpauth==4.6.0
     # via -r requirements.in
 flask-redis==0.4.0
     # via notifications-utils
