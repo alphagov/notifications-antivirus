@@ -45,7 +45,7 @@ freeze-requirements: ## create static requirements.txt
 
 .PHONY: bootstrap-with-docker
 bootstrap-with-docker: ## Setup environment to run app commands
-	docker build -f docker/Dockerfile --target test -t notifications-antivirus .
+	docker build -f docker/Dockerfile --target test -t notifications-antivirus --build-arg CLAMAV_USE_MIRROR=false .
 
 .PHONY: run-celery-with-docker
 run-celery-with-docker: ## Run celery in Docker container
