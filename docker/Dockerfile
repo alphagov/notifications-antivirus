@@ -1,6 +1,10 @@
 FROM python:3.9.9-slim-bullseye as parent
 
 ENV CLAMAV_VERSION 0.103.5
+ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
+
+# Use clamav database from private mirror. Disable with: --build-arg CLAMAV_USE_MIRROR=false for local builds
+ARG CLAMAV_USE_MIRROR=true
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -19,6 +23,7 @@ RUN mkdir /var/run/clamav && \
     chmod 750 /var/run/clamav
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
+RUN if [ "$CLAMAV_USE_MIRROR" = "true" ] ; then echo "PrivateMirror ${CLAMAV_MIRROR_URL}" >> /etc/clamav/freshclam.conf ; fi
 
 # make sure we exit with status 1 if we've been rate limited. otherwise we risk
 # deploying this image with no definitions, which will fail to detect viruses!
