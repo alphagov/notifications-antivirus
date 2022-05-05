@@ -1,6 +1,5 @@
 FROM python:3.9.9-slim-bullseye as parent
 
-ENV CLAMAV_VERSION 0.103.5
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
 
 # Use clamav database from private mirror. Disable with: --build-arg CLAMAV_USE_MIRROR=false for local builds
@@ -10,8 +9,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         git \
         build-essential \
-        clamav-daemon=${CLAMAV_VERSION}* \
-        clamav-freshclam=${CLAMAV_VERSION}* \
+        clamav-daemon \
+        clamav-freshclam \
         libcurl4-openssl-dev \
         libssl-dev \
     && \
