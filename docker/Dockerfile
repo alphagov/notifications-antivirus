@@ -6,6 +6,7 @@ ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.g
 ARG CLAMAV_USE_MIRROR=true
 
 RUN apt-get update && \
+    apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         git \
         build-essential \
