@@ -16,7 +16,7 @@ Because the container caches things like Python packages, you will need to run t
 
 ### AWS credentials
 
-To run the app you will need appropriate AWS credentials. See the [Wiki](https://github.com/alphagov/notifications-manuals/wiki/aws-accounts#how-to-set-up-local-development) for more details.
+To run the app you will need appropriate AWS credentials. See the [Wiki](https://github.com/alphagov/notifications-manuals/wiki/aws-accounts#set-up-local-development) for more details.
 
 ### `environment.sh`
 
