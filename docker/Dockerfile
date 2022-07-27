@@ -34,6 +34,9 @@ RUN rm freshclam.out
 
 WORKDIR /home/vcap/app/
 
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 ##### Test Image ##############################################################
 
 FROM parent as test
@@ -47,9 +50,6 @@ RUN make bootstrap
 FROM parent as production
 
 RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
-
-COPY requirements.txt .
-RUN pip install -r requirements.txt
 
 COPY app app
 COPY application.py .
