@@ -39,7 +39,7 @@ RUN pip install -r requirements.txt
 
 ##### Test Image ##############################################################
 
-FROM parent as test
+FROM ghcr.io/alphagov/notify/notifications-antivirus:base as test
 
 COPY . .
 
@@ -47,7 +47,7 @@ RUN make bootstrap
 
 ##### Production Image #######################################################
 
-FROM parent as production
+FROM ghcr.io/alphagov/notify/notifications-antivirus:base as production
 
 RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
 
