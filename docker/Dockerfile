@@ -61,5 +61,6 @@ COPY Makefile .
 COPY scripts/run_app.sh scripts/run_app.sh
 COPY scripts/run_celery.sh scripts/run_celery.sh
 COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
+COPY scripts/run_app_ecs.sh scripts/run_app_ecs.sh
 
 RUN make generate-version-file
