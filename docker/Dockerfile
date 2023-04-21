@@ -14,6 +14,7 @@ RUN apt-get update && \
         clamav-daemon \
         clamav-freshclam \
         libcurl4-openssl-dev \
+        curl \
         libssl-dev \
     && \
     apt-get clean && \
