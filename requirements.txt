@@ -6,6 +6,8 @@
 #
 amqp==5.0.9
     # via kombu
+async-timeout==4.0.2
+    # via redis
 awscli==1.21.8
     # via awscli-cwlogs
 awscli-cwlogs==1.4.6
@@ -130,7 +132,7 @@ pyyaml==5.4.1
     # via
     #   awscli
     #   notifications-utils
-redis==3.5.3
+redis==4.5.4
     # via flask-redis
 requests==2.26.0
     # via
