@@ -114,7 +114,7 @@ pyasn1==0.4.8
     # via rsa
 pyparsing==2.4.7
     # via packaging
-pypdf2==1.26.0
+pypdf2==2.12.1
     # via notifications-utils
 pyproj==3.2.1
     # via notifications-utils
@@ -159,6 +159,8 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==3.3.0
     # via notifications-utils
+typing-extensions==4.5.0
+    # via pypdf2
 urllib3==1.26.15
     # via
     #   botocore
