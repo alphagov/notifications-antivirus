@@ -1,6 +1,10 @@
-from flask import Flask
+from app.performance import init_performance_monitoring
 
-from app import create_app
+init_performance_monitoring()
+
+from flask import Flask  # noqa
+
+from app import create_app  # noqa
 
 application = Flask('app')
 
