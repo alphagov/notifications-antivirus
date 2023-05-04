@@ -6,6 +6,8 @@
 #
 amqp==5.0.9
     # via kombu
+async-timeout==4.0.2
+    # via redis
 awscli==1.21.8
     # via awscli-cwlogs
 awscli-cwlogs==1.4.6
@@ -15,7 +17,9 @@ billiard==3.6.4.0
 bleach==4.1.0
     # via notifications-utils
 blinker==1.6.2
-    # via sentry-sdk
+    # via
+    #   flask
+    #   sentry-sdk
 boto3==1.19.8
     # via notifications-utils
 botocore==1.22.8
@@ -38,7 +42,7 @@ charset-normalizer==2.0.7
     # via requests
 clamd==1.0.2
     # via -r requirements.in
-click==8.0.3
+click==8.1.3
     # via
     #   celery
     #   click-didyoumean
@@ -55,14 +59,14 @@ colorama==0.4.3
     # via awscli
 docutils==0.15.2
     # via awscli
-flask==2.1.1
+flask==2.3.2
     # via
     #   -r requirements.in
     #   flask-httpauth
     #   flask-redis
     #   notifications-utils
     #   sentry-sdk
-flask-httpauth==4.6.0
+flask-httpauth==4.8.0
     # via -r requirements.in
 flask-redis==0.4.0
     # via notifications-utils
@@ -76,11 +80,11 @@ idna==3.3
     # via requests
 importlib-metadata==4.11.3
     # via flask
-itsdangerous==2.0.1
+itsdangerous==2.1.2
     # via
     #   flask
     #   notifications-utils
-jinja2==3.0.2
+jinja2==3.1.2
     # via
     #   flask
     #   notifications-utils
@@ -90,8 +94,10 @@ jmespath==0.10.0
     #   botocore
 kombu==5.2.3
     # via celery
-markupsafe==2.0.1
-    # via jinja2
+markupsafe==2.1.2
+    # via
+    #   jinja2
+    #   werkzeug
 mistune==0.8.4
     # via notifications-utils
 notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@55.1.4
@@ -108,7 +114,7 @@ pyasn1==0.4.8
     # via rsa
 pyparsing==2.4.7
     # via packaging
-pypdf2==1.26.0
+pypdf2==2.12.1
     # via notifications-utils
 pyproj==3.2.1
     # via notifications-utils
@@ -126,7 +132,7 @@ pyyaml==5.4.1
     # via
     #   awscli
     #   notifications-utils
-redis==3.5.3
+redis==4.5.4
     # via flask-redis
 requests==2.26.0
     # via
@@ -153,6 +159,8 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==3.3.0
     # via notifications-utils
+typing-extensions==4.5.0
+    # via pypdf2
 urllib3==1.26.15
     # via
     #   botocore
@@ -167,7 +175,7 @@ wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
     # via bleach
-werkzeug==2.0.2
+werkzeug==2.3.3
     # via flask
 zipp==3.8.0
     # via importlib-metadata
