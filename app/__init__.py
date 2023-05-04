@@ -18,7 +18,7 @@ def create_app(application):
     from app.config import configs
     from app.views import main_blueprint
 
-    notify_environment = os.environ['NOTIFY_ENVIRONMENT']
+    notify_environment = os.environ["NOTIFY_ENVIRONMENT"]
 
     application.config.from_object(configs[notify_environment])
 
@@ -42,15 +42,15 @@ def init_app(app):
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE")
         return response
 
     @app.errorhandler(Exception)
     def exception(e):
-        return jsonify(result='error', message=str(e))
+        return jsonify(result="error", message=str(e))
 
     @app.errorhandler(404)
     def page_not_found(e):
-        return jsonify(result='error', message=str(e)), 404
+        return jsonify(result="error", message=str(e)), 404

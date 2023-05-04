@@ -10,6 +10,6 @@ from flask import Flask  # noqa
 from app import notify_celery, create_app  # noqa
 
 
-application = Flask('antivirus')
+application = Flask("antivirus")
 create_app(application)
 application.app_context().push()

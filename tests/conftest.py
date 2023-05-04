@@ -4,9 +4,9 @@ from flask import Flask
 from app import create_app
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def notify_antivirus():
-    application = Flask('app')
+    application = Flask("app")
 
     create_app(application)
 
@@ -18,7 +18,7 @@ def notify_antivirus():
     ctx.pop()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def client(notify_antivirus):
     with notify_antivirus.test_request_context(), notify_antivirus.test_client() as client:
         yield client

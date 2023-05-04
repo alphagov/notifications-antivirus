@@ -6,6 +6,6 @@ from flask import Flask  # noqa
 
 from app import create_app  # noqa
 
-application = Flask('app')
+application = Flask("app")
 
 create_app(application)
