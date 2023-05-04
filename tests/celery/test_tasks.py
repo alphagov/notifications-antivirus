@@ -22,7 +22,7 @@ def test_scan_no_virus(notify_antivirus, mocker):
     )
 
 
-def test_scan_virus_detected(notify_antivirus, mocker):
+def test_scan_virus_detected(notify_antivirus, mocker, caplog):
 
     mocker.patch("app.celery.tasks._get_letter_pdf", return_value=b"test")
     mocker.patch("app.celery.tasks.clamav_scan", return_value=False)
@@ -35,6 +35,8 @@ def test_scan_virus_detected(notify_antivirus, mocker):
         kwargs={"filename": TEST_FILENAME},
         queue=QueueNames.LETTERS,
     )
+
+    assert "VIRUS FOUND for file: EXAMPLE-SCAN-LETTER.pdf" in caplog.messages
 
 
 def test_scan_virus_clamav_error(notify_antivirus, mocker):
