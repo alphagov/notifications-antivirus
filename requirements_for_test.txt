@@ -1,6 +1,6 @@
 -r requirements.txt
-isort==5.10.1
-flake8==4.0.1
+black==22.8.0  # Also update `.pre-commit-config.yaml` if this changes
+ruff==0.0.261  # Also update `.pre-commit-config.yaml` if this changes
 freezegun==1.2.1
 pytest==7.1.1
 pytest-mock==3.7.0

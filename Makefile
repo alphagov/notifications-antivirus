@@ -58,8 +58,8 @@ run-flask-with-docker: ## Run flask in Docker container
 
 .PHONY: test
 test: ## Run tests (used by Concourse)
-	flake8 .
-	isort --check-only ./app ./tests
+	ruff check .
+	black --check .
 	PYTHONPATH=. pytest
 
 .PHONY: test-with-docker
