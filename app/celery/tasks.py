@@ -20,7 +20,7 @@ def scan_file(self, filename):
             task_name = "sanitise-letter"
         else:
             task_name = "process-virus-scan-failed"
-            current_app.logger.error("VIRUS FOUND for file: %s", filename)
+            current_app.logger.info("VIRUS FOUND for file: %s", filename)
 
         current_app.logger.info("Calling task: %s to process %s on API", task_name, filename)
         notify_celery.send_task(
