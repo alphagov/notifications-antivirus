@@ -30,7 +30,7 @@ help:
 
 .PHONY: generate-version-file
 generate-version-file:
-	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
+	@echo -e "__git_commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
 
 .PHONY: bootstrap
 bootstrap:
