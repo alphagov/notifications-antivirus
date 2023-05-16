@@ -30,10 +30,10 @@ help:
 
 .PHONY: generate-version-file
 generate-version-file:
-	@echo -e "__commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
+	@echo -e "__git_commit__ = \"${GIT_COMMIT}\"\n__time__ = \"${DATE}\"" > ${APP_VERSION_FILE}
 
 .PHONY: bootstrap
-bootstrap:
+bootstrap: generate-version-file
 	pip install -r requirements_for_test.txt
 
 .PHONY: freeze-requirements
@@ -44,7 +44,7 @@ freeze-requirements: ## create static requirements.txt
 # ---- DOCKER COMMANDS ---- #
 
 .PHONY: bootstrap-with-docker
-bootstrap-with-docker: ## Setup environment to run app commands
+bootstrap-with-docker: generate-version-file # Setup environment to run app commands
 	docker build --build-arg BASE_IMAGE=parent -f docker/Dockerfile --target test -t notifications-antivirus --build-arg CLAMAV_USE_MIRROR=false .
 
 .PHONY: run-celery-with-docker
