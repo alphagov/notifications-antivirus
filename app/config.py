@@ -53,6 +53,8 @@ class Config(object):
 
 
 class Development(Config):
+    SERVER_NAME = os.getenv("SERVER_NAME")
+
     NOTIFICATION_QUEUE_PREFIX = "development"
     DEBUG = True
     STATSD_ENABLED = False
