@@ -12,6 +12,8 @@ applications:
     health-check-type: http
     health-check-http-endpoint: /_status
 
+    command: ./scripts/paas_app_wrapper.sh
+
     services:
       - logit-ssl-syslog-drain
 

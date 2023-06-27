@@ -12,6 +12,8 @@ applications:
     services:
       - logit-ssl-syslog-drain
 
+    command: ./scripts/paas_app_wrapper.sh
+
     env:
       NOTIFY_APP_NAME: notify-antivirus
       CW_APP_NAME: antivirus
