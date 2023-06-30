@@ -14,8 +14,6 @@ awscli-cwlogs==1.4.6
     # via -r requirements.in
 billiard==3.6.4.0
     # via celery
-bleach==4.1.0
-    # via notifications-utils
 blinker==1.6.2
     # via
     #   flask
@@ -100,23 +98,19 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@55.1.4
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@65.0.0
     # via -r requirements.in
 orderedset==2.0.3
     # via notifications-utils
-packaging==21.2
-    # via bleach
 phonenumbers==8.12.36
     # via notifications-utils
 prompt-toolkit==3.0.24
     # via click-repl
 pyasn1==0.4.8
     # via rsa
-pyparsing==2.4.7
-    # via packaging
 pypdf2==2.12.1
     # via notifications-utils
-pyproj==3.2.1
+pyproj==3.6.0
     # via notifications-utils
 python-dateutil==2.8.2
     # via
@@ -152,7 +146,6 @@ shapely==1.8.0
 six==1.16.0
     # via
     #   awscli-cwlogs
-    #   bleach
     #   click-repl
     #   python-dateutil
 smartypants==2.0.1
@@ -173,8 +166,6 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.5
     # via prompt-toolkit
-webencodings==0.5.1
-    # via bleach
 werkzeug==2.3.3
     # via flask
 zipp==3.8.0
