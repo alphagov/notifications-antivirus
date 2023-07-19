@@ -8,7 +8,7 @@ amqp==5.0.9
     # via kombu
 async-timeout==4.0.2
     # via redis
-awscli==1.21.8
+awscli==1.29.7
     # via awscli-cwlogs
 awscli-cwlogs==1.4.6
     # via -r requirements.in
@@ -18,9 +18,11 @@ blinker==1.6.2
     # via
     #   flask
     #   sentry-sdk
-boto3==1.19.8
-    # via notifications-utils
-botocore==1.22.8
+boto3==1.28.7
+    # via
+    #   kombu
+    #   notifications-utils
+botocore==1.31.7
     # via
     #   awscli
     #   boto3
@@ -76,6 +78,8 @@ gunicorn==20.1.0
     # via -r requirements.in
 idna==3.3
     # via requests
+importlib-metadata==6.8.0
+    # via flask
 itsdangerous==2.1.2
     # via
     #   flask
@@ -88,7 +92,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.2.3
+kombu[sqs]==5.2.3
     # via celery
 markupsafe==2.1.2
     # via
@@ -106,6 +110,8 @@ prompt-toolkit==3.0.24
     # via click-repl
 pyasn1==0.4.8
     # via rsa
+pycurl==7.44.1
+    # via kombu
 pypdf2==2.12.1
     # via notifications-utils
 pyproj==3.6.0
@@ -120,7 +126,7 @@ pytz==2021.3
     # via
     #   celery
     #   notifications-utils
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   awscli
     #   notifications-utils
@@ -133,7 +139,7 @@ requests==2.31.0
     #   notifications-utils
 rsa==4.7.2
     # via awscli
-s3transfer==0.5.0
+s3transfer==0.6.1
     # via
     #   awscli
     #   boto3
@@ -150,9 +156,12 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==3.3.0
     # via notifications-utils
+typing-extensions==4.7.1
+    # via pypdf2
 urllib3==1.26.15
     # via
     #   botocore
+    #   kombu
     #   requests
     #   sentry-sdk
 vine==5.0.0
@@ -164,6 +173,8 @@ wcwidth==0.2.5
     # via prompt-toolkit
 werkzeug==2.3.3
     # via flask
+zipp==3.16.2
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
