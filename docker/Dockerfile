@@ -10,13 +10,10 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         git \
-        build-essential \
+        make \
         clamav-daemon \
         clamav-freshclam \
-        libcurl4-openssl-dev \
-        curl \
-        libssl-dev \
-    && \
+        libcurl4 \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,14 +33,34 @@ RUN rm freshclam.out
 
 WORKDIR /home/vcap/app/
 
+##### Python Build Image #####################################################
+FROM ${BASE_IMAGE} AS python_build
+
+RUN echo "Install OS dependencies for python app requirements" && apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        git \
+        libcurl4-openssl-dev \
+        curl \
+        libssl-dev \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/*
+
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+RUN echo "Installing python requirements" && \
+    python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install -r requirements.txt
 
 ##### Production Image #######################################################
 FROM ${BASE_IMAGE} as production
 
 RUN groupadd -r notify && useradd -r -g notify -ms /bin/bash notify && usermod -a -G clamav notify && chown -R notify:notify /home/vcap
 USER notify
+
+COPY --from=python_build --chown=root:root /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:${PATH}"
 
 COPY app app
 COPY scripts scripts
