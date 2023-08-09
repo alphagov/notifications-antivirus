@@ -5,7 +5,7 @@ case $NOTIFY_APP_NAME in
     ./scripts/run_app_paas.sh gunicorn -c gunicorn_config.py application
     ;;
   notify-antivirus)
-    ./scripts/run_app_paas.sh celery -A run_celery.notify_celery worker --loglevel=INFO --concurrency=4 --uid=`id -u celeryuser` 2> /dev/null
+    ./scripts/run_app_paas.sh celery -A run_celery.notify_celery worker --loglevel=INFO --concurrency=4 2> /dev/null
     ;;
   *)
     echo "Unknown notify_app_name $NOTIFY_APP_NAME"

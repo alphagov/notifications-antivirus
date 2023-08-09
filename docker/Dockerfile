@@ -42,7 +42,8 @@ RUN pip install -r requirements.txt
 ##### Production Image #######################################################
 FROM ${BASE_IMAGE} as production
 
-RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
+RUN groupadd -r notify && useradd -r -g notify -ms /bin/bash notify && usermod -a -G clamav notify && chown -R notify:notify /home/vcap
+USER notify
 
 COPY app app
 COPY application.py .
