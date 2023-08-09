@@ -62,7 +62,9 @@ FROM ${BASE_IMAGE} as production
 RUN groupadd -r notify && \
     useradd -r -g notify -ms /bin/bash notify && \
     usermod -a -G clamav notify && \
-    chown -R notify:notify /home/vcap
+    chown -R notify:notify /home/vcap && \
+    chown -R clamav:clamav /var/log/clamav && \
+    chmod -R g+rw /var/log/clamav /var/run/clamav  # Allow members of `clamav` group to read/write logs and clam socket
 USER notify
 
 COPY --from=python_build --chown=root:root /opt/venv /opt/venv
