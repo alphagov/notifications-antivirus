@@ -21,7 +21,9 @@ RUN apt-get update && \
 
 RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
-    chmod 750 /var/run/clamav
+    chmod 750 /var/run/clamav && \
+    chown clamav:clamav /usr/sbin/clamd && \
+    chmod u+s /usr/sbin/clamd
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 RUN if [ "$CLAMAV_USE_MIRROR" = "true" ] ; then echo "PrivateMirror ${CLAMAV_MIRROR_URL}" >> /etc/clamav/freshclam.conf ; fi
@@ -65,9 +67,7 @@ FROM ${BASE_IMAGE} as production
 RUN groupadd -r notify && \
     useradd -r -g notify -ms /bin/bash notify && \
     usermod -a -G clamav notify && \
-    chown -R notify:notify /home/vcap && \
-    chown -R clamav:clamav /var/log/clamav && \
-    chmod -R g+rw /var/log/clamav /var/run/clamav  # Allow members of `clamav` group to read/write logs and clam socket
+    chown -R notify:notify /home/vcap
 USER notify
 
 RUN mkdir /home/vcap/logs
