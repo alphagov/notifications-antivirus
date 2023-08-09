@@ -15,7 +15,7 @@ RUN apt-get update && \
         make \
         clamav-daemon \
         clamav-freshclam \
-        libcurl4 \
+        libcurl4 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,16 +38,17 @@ WORKDIR /home/vcap/app/
 ##### Python Build Image #####################################################
 FROM ${BASE_IMAGE} AS python_build
 
-RUN echo "Install OS dependencies for python app requirements" && apt-get update && \
+RUN echo "Install OS dependencies for python app requirements" && \
+    apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
         build-essential \
         git \
         libcurl4-openssl-dev \
         curl \
-        libssl-dev \
-    && apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/*
+        libssl-dev && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/*
 
 COPY requirements.txt .
 
@@ -58,7 +59,10 @@ RUN echo "Installing python requirements" && \
 ##### Production Image #######################################################
 FROM ${BASE_IMAGE} as production
 
-RUN groupadd -r notify && useradd -r -g notify -ms /bin/bash notify && usermod -a -G clamav notify && chown -R notify:notify /home/vcap
+RUN groupadd -r notify && \
+    useradd -r -g notify -ms /bin/bash notify && \
+    usermod -a -G clamav notify && \
+    chown -R notify:notify /home/vcap
 USER notify
 
 COPY --from=python_build --chown=root:root /opt/venv /opt/venv
