@@ -67,6 +67,8 @@ RUN groupadd -r notify && \
     chmod -R g+rw /var/log/clamav /var/run/clamav  # Allow members of `clamav` group to read/write logs and clam socket
 USER notify
 
+RUN mkdir /home/vcap/logs
+
 COPY --from=python_build --chown=root:root /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
 
