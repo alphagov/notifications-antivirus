@@ -46,16 +46,8 @@ RUN groupadd -r notify && useradd -r -g notify -ms /bin/bash notify && usermod -
 USER notify
 
 COPY app app
-COPY application.py .
-COPY run_celery.py .
-COPY gunicorn_config.py .
-COPY Makefile .
-
-COPY scripts/run_app.sh scripts/run_app.sh
-COPY scripts/run_celery.sh scripts/run_celery.sh
-COPY scripts/run_app_paas.sh scripts/run_app_paas.sh
-COPY scripts/run_app_ecs.sh scripts/run_app_ecs.sh
-COPY scripts/paas_app_wrapper.sh scripts/paas_app_wrapper.sh
+COPY scripts scripts
+COPY application.py run_celery.py gunicorn_config.py Makefile .
 
 RUN make generate-version-file
 
