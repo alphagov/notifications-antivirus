@@ -74,7 +74,7 @@ ENV PATH="/opt/venv/bin:${PATH}"
 
 COPY --chown=notify:notify app app
 COPY --chown=notify:notify scripts scripts
-COPY --chown=notify:notify application.py run_celery.py gunicorn_config.py Makefile .
+COPY --chown=notify:notify application.py run_celery.py gunicorn_config.py Makefile ./
 
 # .git folder used only for make generate-version-file but we don't wish to include it in our final production build
 COPY --chown=notify:notify .git .git
