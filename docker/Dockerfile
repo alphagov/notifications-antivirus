@@ -77,8 +77,23 @@ RUN make generate-version-file
 ##### Test Image ##############################################################
 FROM production as test
 
-COPY requirements.txt requirements.in ./
+USER root
+RUN chown -R notify:notify /opt/venv
+RUN echo "Install OS dependencies for test build" && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends git && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/*
+USER notify
 
+# Make sure the app/ directory is there so that "make bootstrap" can create app/version.py
+RUN mkdir -p app
+
+# Install dev/test requirements
+COPY --chown=notify:notify requirements.txt requirements_for_test.txt ./
 RUN make bootstrap
 
-COPY . .
+# Copy from the real world, one dir up (project root) into the environment's current working directory
+# Docker will rebuild from here down every time.
+COPY --chown=notify:notify . .
