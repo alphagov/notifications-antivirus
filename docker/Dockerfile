@@ -72,7 +72,10 @@ COPY app app
 COPY scripts scripts
 COPY application.py run_celery.py gunicorn_config.py Makefile .
 
+# .git folder used only for make generate-version-file but we don't wish to include it in our final production build
+COPY --chown=notify:notify .git .git
 RUN make generate-version-file
+RUN rm -rf .git
 
 ##### Test Image ##############################################################
 FROM production as test
@@ -94,6 +97,4 @@ RUN mkdir -p app
 COPY --chown=notify:notify requirements.txt requirements_for_test.txt ./
 RUN make bootstrap
 
-# Copy from the real world, one dir up (project root) into the environment's current working directory
-# Docker will rebuild from here down every time.
 COPY --chown=notify:notify . .
