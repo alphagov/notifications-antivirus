@@ -2,13 +2,15 @@ ARG BASE_IMAGE=ghcr.io/alphagov/notify/notifications-antivirus:base
 FROM python:3.9.9-slim-bullseye as base
 
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Use clamav database from private mirror. Disable with: --build-arg CLAMAV_USE_MIRROR=false for local builds
 ARG CLAMAV_USE_MIRROR=true
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    apt-get install --no-install-recommends -y \
         git \
         make \
         clamav-daemon \
