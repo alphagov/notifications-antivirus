@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=ghcr.io/alphagov/notify/notifications-antivirus:base
-FROM python:3.9.9-slim-bullseye as parent
+FROM python:3.9.9-slim-bullseye as base
 
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
 
@@ -39,16 +39,7 @@ WORKDIR /home/vcap/app/
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-##### Test Image ##############################################################
-
-FROM ${BASE_IMAGE} as test
-
-COPY . .
-
-RUN make bootstrap
-
 ##### Production Image #######################################################
-
 FROM ${BASE_IMAGE} as production
 
 RUN useradd -ms /bin/bash celeryuser && usermod -a -G clamav celeryuser
@@ -66,3 +57,12 @@ COPY scripts/run_app_ecs.sh scripts/run_app_ecs.sh
 COPY scripts/paas_app_wrapper.sh scripts/paas_app_wrapper.sh
 
 RUN make generate-version-file
+
+##### Test Image ##############################################################
+FROM production as test
+
+COPY requirements.txt requirements.in ./
+
+RUN make bootstrap
+
+COPY . .
