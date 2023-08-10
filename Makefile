@@ -45,7 +45,7 @@ freeze-requirements: ## create static requirements.txt
 
 .PHONY: bootstrap-with-docker
 bootstrap-with-docker: generate-version-file # Setup environment to run app commands
-	docker build --build-arg BASE_IMAGE=parent -f docker/Dockerfile --target test -t notifications-antivirus --build-arg CLAMAV_USE_MIRROR=false .
+	docker build --build-arg BASE_IMAGE=base -f docker/Dockerfile --target test -t notifications-antivirus --build-arg CLAMAV_USE_MIRROR=false .
 
 .PHONY: run-celery-with-docker
 run-celery-with-docker: ## Run celery in Docker container
@@ -71,7 +71,7 @@ upload-to-docker-registry: ## Upload the current version of the docker image to 
 	$(if ${DOCKER_USER_NAME},,$(error Must specify DOCKER_USER_NAME))
 	$(if ${CF_DOCKER_PASSWORD},,$(error Must specify CF_DOCKER_PASSWORD))
 	@docker login ${DOCKER_IMAGE} -u ${DOCKER_USER_NAME} -p ${CF_DOCKER_PASSWORD}
-	docker buildx build --build-arg BASE_IMAGE=parent --platform linux/amd64 --push -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME} .
+	docker buildx build --build-arg BASE_IMAGE=base --platform linux/amd64 --push -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME} .
 
 # ---- DEPLOYMENT ---- #
 
