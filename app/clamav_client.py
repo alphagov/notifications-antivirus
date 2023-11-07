@@ -3,7 +3,6 @@ from flask import current_app
 
 
 def clamav_scan(stream):
-
     cd = clamd.ClamdUnixSocket()
     result = cd.instream(stream)
 

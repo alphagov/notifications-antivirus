@@ -15,7 +15,6 @@ def scan_file(self, filename):
     current_app.logger.info("Scanning file: %s", filename)
 
     try:
-
         if clamav_scan(BytesIO(_get_letter_pdf(filename))):
             task_name = "sanitise-letter"
         else:
@@ -43,7 +42,6 @@ def scan_file(self, filename):
 
 
 def _get_letter_pdf(filename):
-
     bucket_name = current_app.config["LETTERS_SCAN_BUCKET_NAME"]
 
     s3 = boto3.resource("s3")

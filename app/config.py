@@ -75,17 +75,14 @@ class Test(Config):
 
 
 class Preview(Config):
-
     LETTERS_SCAN_BUCKET_NAME = "preview-letters-scan"
 
 
 class Staging(Config):
-
     LETTERS_SCAN_BUCKET_NAME = "staging-letters-scan"
 
 
 class Production(Config):
-
     LETTERS_SCAN_BUCKET_NAME = "production-letters-scan"
 
 
