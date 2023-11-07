@@ -32,6 +32,7 @@ cachetools==4.2.4
 celery[sqs]==5.2.6
     # via
     #   -r requirements.in
+    #   celery
     #   sentry-sdk
 certifi==2023.7.22
     # via
@@ -144,7 +145,9 @@ s3transfer==0.6.1
     #   awscli
     #   boto3
 sentry-sdk[celery,flask]==1.21.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   sentry-sdk
 shapely==1.8.0
     # via notifications-utils
 six==1.16.0
@@ -171,7 +174,7 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.5
     # via prompt-toolkit
-werkzeug==2.3.3
+werkzeug==3.0.1
     # via flask
 zipp==3.16.2
     # via importlib-metadata
