@@ -15,8 +15,9 @@ RUN apt-get update && \
         make \
         clamav-daemon \
         clamav-freshclam \
-        libcurl4 && \
-    apt-get clean && \
+        libcurl4 \
+        curl \ 
+        && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/clamav && \
@@ -47,7 +48,6 @@ RUN echo "Install OS dependencies for python app requirements" && \
         build-essential \
         git \
         libcurl4-openssl-dev \
-        curl \
         libssl-dev && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
