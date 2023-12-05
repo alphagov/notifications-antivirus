@@ -32,7 +32,6 @@ cachetools==4.2.4
 celery[sqs]==5.2.6
     # via
     #   -r requirements.in
-    #   celery
     #   sentry-sdk
 certifi==2023.7.22
     # via
@@ -80,7 +79,9 @@ gunicorn==20.1.0
 idna==3.3
     # via requests
 importlib-metadata==6.8.0
-    # via flask
+    # via
+    #   flask
+    #   segno
 itsdangerous==2.1.2
     # via
     #   flask
@@ -101,11 +102,11 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@65.0.0
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@73.1.0
     # via -r requirements.in
 orderedset==2.0.3
     # via notifications-utils
-phonenumbers==8.12.36
+phonenumbers==8.13.26
     # via notifications-utils
 prompt-toolkit==3.0.24
     # via click-repl
@@ -113,7 +114,7 @@ pyasn1==0.4.8
     # via rsa
 pycurl==7.44.1
     # via kombu
-pypdf2==2.12.1
+pypdf==3.17.1
     # via notifications-utils
 pyproj==3.6.0
     # via notifications-utils
@@ -144,10 +145,10 @@ s3transfer==0.6.1
     # via
     #   awscli
     #   boto3
+segno==1.6.0
+    # via notifications-utils
 sentry-sdk[celery,flask]==1.21.1
-    # via
-    #   -r requirements.in
-    #   sentry-sdk
+    # via -r requirements.in
 shapely==1.8.0
     # via notifications-utils
 six==1.16.0
@@ -160,7 +161,7 @@ smartypants==2.0.1
 statsd==3.3.0
     # via notifications-utils
 typing-extensions==4.7.1
-    # via pypdf2
+    # via pypdf
 urllib3==1.26.18
     # via
     #   botocore
