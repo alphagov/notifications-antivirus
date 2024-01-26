@@ -7,6 +7,6 @@ gunicorn==20.1.0
 # PaaS
 awscli-cwlogs==1.4.6
 
-git+https://github.com/alphagov/notifications-utils.git@74.6.0
+git+https://github.com/alphagov/notifications-utils.git@74.8.0
 
 sentry_sdk[flask,celery]>=1.0.0,<2.0.0
