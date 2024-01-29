@@ -1,10 +1,13 @@
 #!/bin/bash
+
+shopt -s extglob
+
 case $NOTIFY_APP_NAME in
   notify-antivirus-api)
     unset GUNICORN_CMD_ARGS
     ./scripts/run_app_paas.sh gunicorn -c gunicorn_config.py application
     ;;
-  notify-antivirus)
+  notify-antivirus?(-ecs-fixup))
     ./scripts/run_app_paas.sh celery -A run_celery.notify_celery worker --loglevel=INFO --concurrency=4 2> /dev/null
     ;;
   *)
