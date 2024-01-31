@@ -120,8 +120,13 @@ cf-deploy: ## Deploys the app to Cloud Foundry
 	# cancel any existing deploys to ensure we can apply manifest (if a deploy is in progress you'll see ScaleDisabledDuringDeployment)
 	cf cancel-deployment ${CF_APP} || true
 	make -s generate-manifest > ${CF_MANIFEST_PATH}
+
+	# a dirty way to detect zero-instances manifests given we don't necessarily have a yaml parser
+	# available. should handle multiple values and pick the latter one
+	$(eval ZERO_DESIRED_INSTANCES := $(shell grep -E '^\s*instances:' ${CF_MANIFEST_PATH} | tail -n 1 | grep -xE '\s*instances:\s*0+\s*'))
+
 	# fails after 5 mins if deploy doesn't work
-	cf push ${CF_APP} --strategy=rolling -f ${CF_MANIFEST_PATH} --docker-image ${DOCKER_IMAGE_NAME} --docker-username ${DOCKER_USER_NAME}
+	cf push ${CF_APP} --strategy=rolling -f ${CF_MANIFEST_PATH} --docker-image ${DOCKER_IMAGE_NAME} --docker-username ${DOCKER_USER_NAME} $(if ${ZERO_DESIRED_INSTANCES},--no-start,)
 	rm -f ${CF_MANIFEST_PATH}
 
 .PHONY: cf-rollback
