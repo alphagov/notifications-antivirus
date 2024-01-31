@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=ghcr.io/alphagov/notify/notifications-antivirus:base
-FROM python:3.9.18-slim-bookworm as base
+FROM python:3.11-slim-bookworm as base
 
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
 ENV PYTHONUNBUFFERED=1
@@ -16,7 +16,7 @@ RUN apt-get update && \
         clamav-daemon \
         clamav-freshclam \
         libcurl4 \
-        curl \ 
+        curl \
         && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
