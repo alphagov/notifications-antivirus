@@ -32,7 +32,6 @@ cachetools==4.2.4
 celery[sqs]==5.2.6
     # via
     #   -r requirements.in
-    #   celery
     #   sentry-sdk
 certifi==2023.7.22
     # via
@@ -96,7 +95,7 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@74.8.0
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@74.12.2
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
