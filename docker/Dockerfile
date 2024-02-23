@@ -88,7 +88,10 @@ RUN chown -R notify:notify /opt/venv
 RUN echo "Install OS dependencies for test build" && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends \
+    git \
+    libcurl4-openssl-dev \
+    libssl-dev && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 USER notify
