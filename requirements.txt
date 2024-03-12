@@ -8,10 +8,6 @@ amqp==5.0.9
     # via kombu
 async-timeout==4.0.2
     # via redis
-awscli==1.29.7
-    # via awscli-cwlogs
-awscli-cwlogs==1.4.6
-    # via -r requirements.in
 billiard==3.6.4.0
     # via celery
 blinker==1.6.2
@@ -24,7 +20,6 @@ boto3==1.28.7
     #   notifications-utils
 botocore==1.31.7
     # via
-    #   awscli
     #   boto3
     #   s3transfer
 cachetools==4.2.4
@@ -54,10 +49,6 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.2.0
     # via celery
-colorama==0.4.3
-    # via awscli
-docutils==0.15.2
-    # via awscli
 flask==2.3.2
     # via
     #   -r requirements.in
@@ -103,16 +94,12 @@ phonenumbers==8.13.26
     # via notifications-utils
 prompt-toolkit==3.0.24
     # via click-repl
-pyasn1==0.4.8
-    # via rsa
 pycurl==7.44.1
     # via kombu
 pypdf==3.17.1
     # via notifications-utils
 python-dateutil==2.8.2
-    # via
-    #   awscli-cwlogs
-    #   botocore
+    # via botocore
 python-json-logger==2.0.2
     # via notifications-utils
 pytz==2021.3
@@ -120,22 +107,15 @@ pytz==2021.3
     #   celery
     #   notifications-utils
 pyyaml==6.0.1
-    # via
-    #   awscli
-    #   notifications-utils
+    # via notifications-utils
 redis==4.5.4
     # via flask-redis
 requests==2.31.0
     # via
-    #   awscli-cwlogs
     #   govuk-bank-holidays
     #   notifications-utils
-rsa==4.7.2
-    # via awscli
 s3transfer==0.6.1
-    # via
-    #   awscli
-    #   boto3
+    # via boto3
 segno==1.6.0
     # via notifications-utils
 sentry-sdk[celery,flask]==1.21.1
@@ -144,7 +124,6 @@ sentry-sdk[celery,flask]==1.21.1
     #   sentry-sdk
 six==1.16.0
     # via
-    #   awscli-cwlogs
     #   click-repl
     #   python-dateutil
 smartypants==2.0.1
