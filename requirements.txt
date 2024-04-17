@@ -92,6 +92,8 @@ notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@76
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
+packaging==24.0
+    # via gunicorn
 phonenumbers==8.13.26
     # via notifications-utils
 prompt-toolkit==3.0.24
@@ -147,6 +149,3 @@ wcwidth==0.2.5
     # via prompt-toolkit
 werkzeug==2.3.3
     # via flask
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
