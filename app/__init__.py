@@ -15,12 +15,14 @@ statsd_client = StatsdClient()
 def create_app(application):
     setup_commands(application)
 
-    from app.config import configs
+    from app.config import Config, configs
     from app.views import main_blueprint
 
     notify_environment = os.environ["NOTIFY_ENVIRONMENT"]
-
-    application.config.from_object(configs[notify_environment])
+    if notify_environment in configs:
+        application.config.from_object(configs[notify_environment])
+    else:
+        application.config.from_object(Config)
 
     init_app(application)
 
