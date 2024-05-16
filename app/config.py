@@ -43,7 +43,7 @@ class Config(object):
         "task_queues": [Queue(QueueNames.ANTIVIRUS, Exchange("default"), routing_key=QueueNames.ANTIVIRUS)],
     }
 
-    LETTERS_SCAN_BUCKET_NAME = None
+    LETTERS_SCAN_BUCKET_NAME = os.environ.get("LETTERS_SCAN_BUCKET_NAME")
 
 
 ######################
@@ -73,22 +73,7 @@ class Test(Config):
     LETTERS_SCAN_BUCKET_NAME = "test-letters-pdf"
 
 
-class Preview(Config):
-    LETTERS_SCAN_BUCKET_NAME = "preview-letters-scan"
-
-
-class Staging(Config):
-    LETTERS_SCAN_BUCKET_NAME = "staging-letters-scan"
-
-
-class Production(Config):
-    LETTERS_SCAN_BUCKET_NAME = "production-letters-scan"
-
-
 configs = {
     "development": Development,
     "test": Test,
-    "preview": Preview,
-    "staging": Staging,
-    "production": Production,
 }
