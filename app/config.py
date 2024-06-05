@@ -40,7 +40,13 @@ class Config(object):
         },
         "timezone": "Europe/London",
         "imports": ["app.celery.tasks"],
-        "task_queues": [Queue(QueueNames.ANTIVIRUS, Exchange("default"), routing_key=QueueNames.ANTIVIRUS)],
+        "task_queues": [
+            Queue(
+                QueueNames.ANTIVIRUS,
+                Exchange("default"),
+                routing_key=QueueNames.ANTIVIRUS,
+            )
+        ],
     }
 
     LETTERS_SCAN_BUCKET_NAME = os.environ.get("LETTERS_SCAN_BUCKET_NAME")
