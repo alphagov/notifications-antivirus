@@ -24,7 +24,9 @@ def test_scan_document_no_auth(client, mocker):
     mocker.patch("app.views.clamav_scan", return_value=True)
 
     response = client.post(
-        "/scan", content_type="multipart/form-data", data={"document": (io.BytesIO(b"pdf file contents"), "file.pdf")}
+        "/scan",
+        content_type="multipart/form-data",
+        data={"document": (io.BytesIO(b"pdf file contents"), "file.pdf")},
     )
 
     assert response.status_code == 401

@@ -1,3 +1,5 @@
+# ruff: noqa: T201
+
 from flask import current_app
 
 
