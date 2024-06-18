@@ -26,6 +26,8 @@ class Config(object):
     NOTIFY_APP_NAME = "antivirus"
     AWS_REGION = os.getenv("AWS_REGION", "eu-west-1")
 
+    NOTIFY_REQUEST_LOG_LEVEL = os.getenv("NOTIFY_REQUEST_LOG_LEVEL", "INFO")
+
     ANTIVIRUS_API_KEY = os.getenv("ANTIVIRUS_API_KEY")
 
     CELERY = {
