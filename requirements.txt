@@ -132,7 +132,7 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==3.3.0
     # via notifications-utils
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   botocore
     #   kombu
