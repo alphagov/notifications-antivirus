@@ -11,7 +11,6 @@ ARG CLAMAV_USE_MIRROR=true
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install --no-install-recommends -y \
-        git \
         make \
         clamav-daemon \
         clamav-freshclam \
