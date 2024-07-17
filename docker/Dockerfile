@@ -79,6 +79,8 @@ COPY --chown=notify:notify scripts scripts
 COPY --chown=notify:notify application.py run_celery.py gunicorn_config.py Makefile ./
 COPY --from=python_build --chown=notify:notify /home/vcap/app/app/version.py app/version.py
 
+RUN python -m compileall .
+
 ##### Test Image ##############################################################
 FROM production as test
 
