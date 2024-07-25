@@ -13,6 +13,10 @@ class Config(object):
     STATSD_HOST = os.getenv("STATSD_HOST")
     STATSD_PORT = 8125
 
+    # The config option NOTIFY_ENVIRONMENT is purely used for logging.
+    # It should not be used for any logical conditionals in the code.
+    NOTIFY_ENVIRONMENT = os.environ["NOTIFY_ENVIRONMENT"]
+
     NOTIFICATION_QUEUE_PREFIX = os.getenv("NOTIFICATION_QUEUE_PREFIX")
 
     # Logging
