@@ -3,12 +3,12 @@ import os
 from kombu import Exchange, Queue
 
 
-class QueueNames(object):
+class QueueNames:
     LETTERS = "letter-tasks"
     ANTIVIRUS = "antivirus-tasks"
 
 
-class Config(object):
+class Config:
     STATSD_ENABLED = True
     STATSD_HOST = os.getenv("STATSD_HOST")
     STATSD_PORT = 8125
