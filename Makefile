@@ -51,7 +51,7 @@ run-celery-with-docker: ## Run celery in Docker container
 
 .PHONY: run-flask-with-docker
 run-flask-with-docker: ## Run flask in Docker container
-	export DOCKER_ARGS="-p 6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
+	export DOCKER_ARGS="-p 127.0.0.1:6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
 .PHONY: test
 test: ## Run tests (used by Concourse)
