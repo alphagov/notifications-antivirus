@@ -26,8 +26,9 @@ generate-version-file:
 
 .PHONY: bootstrap
 bootstrap: generate-version-file
+	pip install -r requirements.txt
+	python -c "from notifications_utils.version_tools import copy_config; copy_config()"
 	pip install -r requirements_for_test.txt
-	python -c "from notifications_utils.version_tools import copy_pyproject_toml; copy_pyproject_toml()"
 
 .PHONY: freeze-requirements
 freeze-requirements: ## create static requirements.txt
