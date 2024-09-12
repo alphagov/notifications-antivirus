@@ -27,7 +27,6 @@ wheels/
 *.egg
 pyproject.toml
 .pre-commit-config.yaml
-requirements_for_test_common.txt
 
 ## A placeholder version of this file is still committed to avoid having to generate it for local
 ## development. The committed file will get overwritten as part of building the Docker image.
