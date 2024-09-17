@@ -13,6 +13,7 @@ billiard==3.6.4.0
 blinker==1.6.2
     # via
     #   flask
+    #   gds-metrics
     #   sentry-sdk
 boto3==1.28.7
     # via
@@ -54,12 +55,15 @@ flask==2.3.2
     #   -r requirements.in
     #   flask-httpauth
     #   flask-redis
+    #   gds-metrics
     #   notifications-utils
     #   sentry-sdk
 flask-httpauth==4.8.0
     # via -r requirements.in
 flask-redis==0.4.0
     # via notifications-utils
+gds-metrics @ git+https://github.com/alphagov/gds_metrics_python.git@6f1840a57b6fb1ee40b7e84f2f18ec229de8aa72
+    # via -r requirements.in
 govuk-bank-holidays==0.10
     # via notifications-utils
 gunicorn==20.1.0
@@ -94,6 +98,10 @@ ordered-set==4.1.0
     # via notifications-utils
 phonenumbers==8.13.26
     # via notifications-utils
+prometheus-client==0.15.0
+    # via
+    #   -r requirements.in
+    #   gds-metrics
 prompt-toolkit==3.0.24
     # via click-repl
 pycurl==7.44.1
@@ -121,9 +129,7 @@ s3transfer==0.6.1
 segno==1.6.0
     # via notifications-utils
 sentry-sdk[celery,flask]==1.21.1
-    # via
-    #   -r requirements.in
-    #   sentry-sdk
+    # via -r requirements.in
 six==1.16.0
     # via
     #   click-repl
