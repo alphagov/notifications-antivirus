@@ -46,8 +46,8 @@ echo "Run script pid: $$"
 
 trap "on_exit" EXIT
 
-cat >> /etc/clamd.conf <<EOF
-MaxScanTime ${CLAMD_MAX_SCAN_TIME_MS:-120000}
+cat >> /etc/clamav/clamd.conf <<EOF
+MaxScanTime ${CLAMD_MAX_SCAN_TIME_MS:-50}
 EOF
 
 start_clamd
