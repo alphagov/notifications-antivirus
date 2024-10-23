@@ -23,8 +23,10 @@ RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
     chmod 750 /var/run/clamav && \
     chown clamav:clamav /usr/sbin/clamd && \
-    chmod u+s /usr/sbin/clamd && \
-    chown clamav:clamav /etc/clamav/clamd.conf && \
+    chmod u+s /usr/sbin/clamd
+
+# allow final amendments to clamd.conf at startup
+RUN chown notify:clamav /etc/clamav/clamd.conf && \
     chmod 0644 /etc/clamav/clamd.conf
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
