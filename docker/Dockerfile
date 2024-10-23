@@ -67,13 +67,14 @@ RUN groupadd -r notify && \
     useradd -r -g notify -ms /bin/bash notify && \
     usermod -a -G clamav notify && \
     chown -R notify:notify /home/vcap
-USER notify
-
-RUN mkdir /home/vcap/logs
 
 # allow final amendments to clamd.conf at startup
 RUN chown notify:clamav /etc/clamav/clamd.conf && \
     chmod 0644 /etc/clamav/clamd.conf
+
+USER notify
+
+RUN mkdir /home/vcap/logs
 
 COPY --from=python_build --chown=root:root /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
