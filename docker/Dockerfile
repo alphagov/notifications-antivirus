@@ -25,10 +25,6 @@ RUN mkdir /var/run/clamav && \
     chown clamav:clamav /usr/sbin/clamd && \
     chmod u+s /usr/sbin/clamd
 
-# allow final amendments to clamd.conf at startup
-RUN chown notify:clamav /etc/clamav/clamd.conf && \
-    chmod 0644 /etc/clamav/clamd.conf
-
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 RUN if [ "$CLAMAV_USE_MIRROR" = "true" ] ; then echo "PrivateMirror ${CLAMAV_MIRROR_URL}" >> /etc/clamav/freshclam.conf ; fi
 
@@ -74,6 +70,10 @@ RUN groupadd -r notify && \
 USER notify
 
 RUN mkdir /home/vcap/logs
+
+# allow final amendments to clamd.conf at startup
+RUN chown notify:clamav /etc/clamav/clamd.conf && \
+    chmod 0644 /etc/clamav/clamd.conf
 
 COPY --from=python_build --chown=root:root /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
