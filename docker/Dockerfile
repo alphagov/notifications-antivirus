@@ -23,7 +23,9 @@ RUN mkdir /var/run/clamav && \
     chown clamav:clamav /var/run/clamav && \
     chmod 750 /var/run/clamav && \
     chown clamav:clamav /usr/sbin/clamd && \
-    chmod u+s /usr/sbin/clamd
+    chmod u+s /usr/sbin/clamd && \
+    chown clamav:clamav /etc/clamav/clamd.conf && \
+    chmod 0644 /etc/clamav/clamd.conf
 
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
 RUN if [ "$CLAMAV_USE_MIRROR" = "true" ] ; then echo "PrivateMirror ${CLAMAV_MIRROR_URL}" >> /etc/clamav/freshclam.conf ; fi
