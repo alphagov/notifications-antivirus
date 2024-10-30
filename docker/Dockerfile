@@ -1,4 +1,3 @@
-ARG BASE_IMAGE=ghcr.io/alphagov/notify/notifications-antivirus:base
 FROM python:3.11-slim-bookworm as base
 
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
@@ -38,7 +37,7 @@ RUN rm freshclam.out
 WORKDIR /home/vcap/app/
 
 ##### Python Build Image #####################################################
-FROM ${BASE_IMAGE} AS python_build
+FROM base AS python_build
 
 RUN echo "Install OS dependencies for python app requirements" && \
     apt-get update && \
@@ -61,7 +60,7 @@ COPY . .
 RUN make generate-version-file  # This file gets copied across
 
 ##### Production Image #######################################################
-FROM ${BASE_IMAGE} as production
+FROM base as production
 
 RUN groupadd -r notify && \
     useradd -r -g notify -ms /bin/bash notify && \
