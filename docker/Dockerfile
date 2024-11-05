@@ -100,7 +100,7 @@ USER notify
 RUN mkdir -p app
 
 # Install dev/test requirements
-COPY --chown=notify:notify requirements.txt requirements_for_test.txt ./
+COPY --chown=notify:notify requirements.txt requirements_for_test.txt requirements_for_test_common.txt ./
 RUN make bootstrap
 
 COPY --chown=notify:notify . .
