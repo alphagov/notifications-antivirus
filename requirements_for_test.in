@@ -1,0 +1,4 @@
+-r requirements.txt
+-r requirements_for_test_common.txt
+
+jinja2-cli[yaml]==0.8.2
