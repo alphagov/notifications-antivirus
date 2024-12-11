@@ -4,6 +4,7 @@ ENV CLAMAV_MIRROR_URL https://s3.eu-west-2.amazonaws.com/notify-deploy-clamav-da
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 ENV UV_CACHE_DIR='/tmp/uv-cache/'
+ENV UV_COMPILE_BYTECODE=1
 
 
 # Use clamav database from private mirror. Disable with: --build-arg CLAMAV_USE_MIRROR=false for local builds
