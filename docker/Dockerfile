@@ -3,6 +3,8 @@ FROM python:3.11-slim-bookworm as base
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-2.amazonaws.com/notify-deploy-clamav-database-mirror/clam
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
+ENV UV_CACHE_DIR='/tmp/uv-cache/'
+
 
 # Use clamav database from private mirror. Disable with: --build-arg CLAMAV_USE_MIRROR=false for local builds
 ARG CLAMAV_USE_MIRROR=true
@@ -52,9 +54,11 @@ RUN echo "Install OS dependencies for python app requirements" && \
 
 COPY requirements.txt .
 
+RUN pip install uv
+
 RUN echo "Installing python requirements" && \
     python3 -m venv /opt/venv && \
-    /opt/venv/bin/pip install -r requirements.txt
+    uv pip sync --python /opt/venv/bin/python requirements.txt
 
 COPY . .
 RUN make generate-version-file  # This file gets copied across
@@ -100,6 +104,7 @@ USER notify
 RUN mkdir -p app
 
 # Install dev/test requirements
+RUN pip install uv
 COPY --chown=notify:notify requirements_for_test.txt ./
 RUN make bootstrap
 
