@@ -58,7 +58,7 @@ run-flask-with-docker: ## Run flask in Docker container
 .PHONY: test
 test: ## Run tests (used by Concourse)
 	ruff check .
-	black --check .
+	ruff format --check .
 	PYTHONPATH=. pytest
 
 .PHONY: test-with-docker
