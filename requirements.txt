@@ -70,7 +70,7 @@ gunicorn==20.1.0
     # via
     #   -r requirements.in
     #   notifications-utils
-idna==3.3
+idna==3.7
     # via requests
 itsdangerous==2.1.2
     # via
