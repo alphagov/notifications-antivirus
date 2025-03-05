@@ -147,7 +147,7 @@ mistune==0.8.4
     # via
     #   -r requirements.txt
     #   notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@361486ff4960b5d02c162118b1fd64b097f9cb96
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@a82c8541b709a735ed11b49fea92d99216d98c1d
     # via -r requirements.txt
 ordered-set==4.1.0
     # via
