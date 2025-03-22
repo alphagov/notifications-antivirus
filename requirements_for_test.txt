@@ -106,7 +106,7 @@ greenlet==3.0.3
     # via
     #   -r requirements.txt
     #   eventlet
-gunicorn==20.1.0
+gunicorn==23.0.0
     # via
     #   -r requirements.txt
     #   notifications-utils
@@ -153,8 +153,11 @@ ordered-set==4.1.0
     # via
     #   -r requirements.txt
     #   notifications-utils
-packaging==24.2
-    # via pytest
+packaging==25.0
+    # via
+    #   -r requirements.txt
+    #   gunicorn
+    #   pytest
 phonenumbers==8.13.50
     # via
     #   -r requirements.txt
@@ -233,10 +236,6 @@ segno==1.6.1
     #   notifications-utils
 sentry-sdk==1.21.1
     # via -r requirements.txt
-setuptools==75.6.0
-    # via
-    #   -r requirements.txt
-    #   gunicorn
 six==1.16.0
     # via
     #   -r requirements.txt
