@@ -7,6 +7,20 @@ class QueueNames(object):
     LETTERS = "letter-tasks"
     ANTIVIRUS = "antivirus-tasks"
 
+    @staticmethod
+    def all_queues():
+        return [
+            QueueNames.LETTERS,
+            QueueNames.ANTIVIRUS,
+        ]
+
+    @staticmethod
+    def predefined_queues(prefix, aws_region, aws_account_id):
+        return {
+            f"{prefix}{queue}": {"url": f"https://sqs.{aws_region}.amazonaws.com/{aws_account_id}/{prefix}{queue}"}
+            for queue in QueueNames.all_queues()
+        }
+
 
 class Config(object):
     STATSD_ENABLED = True
@@ -34,15 +48,16 @@ class Config(object):
 
     ANTIVIRUS_API_KEY = os.getenv("ANTIVIRUS_API_KEY")
 
+    AWS_ACCOUNT_ID = os.environ.get("AWS_ACCOUNT_ID", "123456789012")
     CELERY = {
         "broker_url": "https://sqs.eu-west-1.amazonaws.com",
         "broker_transport": "sqs",
         "broker_transport_options": {
             "region": AWS_REGION,
-            "visibility_timeout": 310,
             "queue_name_prefix": NOTIFICATION_QUEUE_PREFIX,
             "is_secure": True,
             "wait_time_seconds": 20,  # enable long polling, with a wait time of 20 seconds
+            "predefined_queues": QueueNames.predefined_queues(NOTIFICATION_QUEUE_PREFIX, AWS_REGION, AWS_ACCOUNT_ID),
         },
         "timezone": "Europe/London",
         "imports": ["app.celery.tasks"],
@@ -74,6 +89,14 @@ class Development(Config):
 
     LETTERS_SCAN_BUCKET_NAME = "development-letters-scan"
 
+    CELERY = {
+        **Config.CELERY,
+        "broker_transport_options": {
+            **Config.CELERY["broker_transport_options"],
+            "predefined_queues": None,
+        },
+    }
+
 
 class Test(Config):
     DEBUG = True
@@ -83,6 +106,14 @@ class Test(Config):
     ANTIVIRUS_API_KEY = "test-key"
 
     LETTERS_SCAN_BUCKET_NAME = "test-letters-pdf"
+
+    CELERY = {
+        **Config.CELERY,
+        "broker_transport_options": {
+            **Config.CELERY["broker_transport_options"],
+            "predefined_queues": None,
+        },
+    }
 
 
 configs = {
