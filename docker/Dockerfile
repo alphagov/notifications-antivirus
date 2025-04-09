@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm as base
 
-ENV CLAMAV_MIRROR_URL https://s3.eu-west-1.amazonaws.com/notifications.service.gov.uk-clamav-database-mirror/clam
+ENV CLAMAV_MIRROR_URL https://s3.eu-west-2.amazonaws.com/notify-deploy-clamav-database-mirror/clam
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
