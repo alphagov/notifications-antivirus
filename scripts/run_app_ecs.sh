@@ -46,6 +46,12 @@ echo "Run script pid: $$"
 
 trap "on_exit" EXIT
 
+TMP_CLAMD_CONF=$(mktemp)
+sed '/^MaxScanTime.*/d' /etc/clamav/clamd.conf > "$TMP_CLAMD_CONF"
+cat "$TMP_CLAMD_CONF" - >> /etc/clamav/clamd.conf <<EOF
+MaxScanTime ${CLAMD_MAX_SCAN_TIME_MS:-50}
+EOF
+
 start_clamd
 
 # The application has to start first!
