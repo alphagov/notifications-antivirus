@@ -18,6 +18,14 @@ Because the container caches things like Python packages, you will need to run t
 
 To run the app you will need appropriate AWS credentials. See the [Wiki](https://github.com/alphagov/notifications-manuals/wiki/aws-accounts#set-up-local-development) for more details.
 
+### uv
+
+We use [uv](https://github.com/astral-sh/uv) for Python dependency management. Follow the [install instructions](https://github.com/astral-sh/uv?tab=readme-ov-file#installation) or run:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 ### `environment.sh`
 
 In the root directory of the application, run:
