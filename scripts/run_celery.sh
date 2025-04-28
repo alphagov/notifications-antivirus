@@ -3,5 +3,4 @@
 set -e
 
 clamd
-
-celery -A run_celery.notify_celery worker --loglevel=INFO
+CELERY_LOG_LEVEL=INFO celery -A run_celery.notify_celery worker

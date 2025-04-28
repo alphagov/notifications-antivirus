@@ -14,6 +14,7 @@ docker run -it --rm \
   -e SENTRY_DSN=${SENTRY_DSN:-} \
   -e SENTRY_ERRORS_SAMPLE_RATE=${SENTRY_ERRORS_SAMPLE_RATE:-} \
   -e SENTRY_TRACES_SAMPLE_RATE=${SENTRY_TRACES_SAMPLE_RATE:-} \
+  -e CELERY_LOG_LEVEL=INFO \
   -v $(pwd):/home/vcap/app \
   ${DOCKER_ARGS} \
   ${DOCKER_IMAGE_NAME} \
