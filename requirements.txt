@@ -51,7 +51,7 @@ click-repl==0.2.0
     # via celery
 dnspython==2.6.1
     # via eventlet
-eventlet==0.36.1
+eventlet==0.39.1
     # via gunicorn
 flask==3.1.0
     # via
@@ -70,7 +70,7 @@ govuk-bank-holidays==0.15
     # via notifications-utils
 greenlet==3.0.3
     # via eventlet
-gunicorn==20.1.0
+gunicorn==23.0.0
     # via notifications-utils
 idna==3.7
     # via requests
@@ -100,6 +100,8 @@ notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@84
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
+packaging==25.0
+    # via gunicorn
 phonenumbers==8.13.50
     # via notifications-utils
 prometheus-client==0.15.0
@@ -136,8 +138,6 @@ segno==1.6.1
     # via notifications-utils
 sentry-sdk==1.21.1
     # via -r requirements.in
-setuptools==75.6.0
-    # via gunicorn
 six==1.16.0
     # via
     #   click-repl
