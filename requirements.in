@@ -10,4 +10,4 @@ notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@99
 prometheus-client==0.15.0
 git+https://github.com/alphagov/gds_metrics_python.git@6f1840a57b6fb1ee40b7e84f2f18ec229de8aa72
 
-sentry_sdk[flask,celery]>=1.0.0,<2.0.0
+sentry_sdk[flask,celery]==1.45.1
