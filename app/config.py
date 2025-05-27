@@ -19,6 +19,8 @@ class Config:
 
     NOTIFICATION_QUEUE_PREFIX = os.getenv("NOTIFICATION_QUEUE_PREFIX")
 
+    OTEL_METRICS_EXPORT = os.getenv("OTEL_METRICS_EXPORT", "otlp")
+
     # Logging
     DEBUG = False
     LOGGING_STDOUT_JSON = os.getenv("LOGGING_STDOUT_JSON") == "1"
@@ -66,6 +68,8 @@ class Config:
 class Development(Config):
     SERVER_NAME = os.getenv("SERVER_NAME")
 
+    OTEL_METRICS_EXPORT = os.getenv("OTEL_METRICS_EXPORT", "none")
+
     NOTIFICATION_QUEUE_PREFIX = "development"
     DEBUG = True
     STATSD_ENABLED = False
@@ -77,6 +81,7 @@ class Development(Config):
 
 class Test(Config):
     DEBUG = True
+    OTEL_METRICS_EXPORT = os.getenv("OTEL_METRICS_EXPORT", "none")
     STATSD_HOST = "localhost"
     STATSD_PORT = 1000
 
