@@ -98,8 +98,7 @@ class Development(Config):
     CELERY = {
         **Config.CELERY,
         "broker_transport_options": {
-            **Config.CELERY["broker_transport_options"],
-            "predefined_queues": None,
+            key: value for key, value in Config.CELERY["broker_transport_options"].items() if key != "predefined_queues"
         },
     }
 
@@ -118,8 +117,7 @@ class Test(Config):
     CELERY = {
         **Config.CELERY,
         "broker_transport_options": {
-            **Config.CELERY["broker_transport_options"],
-            "predefined_queues": None,
+            key: value for key, value in Config.CELERY["broker_transport_options"].items() if key != "predefined_queues"
         },
     }
 
