@@ -1,6 +1,8 @@
 import os
 import time
 
+from opentelemetry.instrumentation.celery import CeleryInstrumentor
+
 from flask import g, jsonify, request
 from gds_metrics import GDSMetrics
 from notifications_utils import request_helper
@@ -19,6 +21,9 @@ metrics = GDSMetrics()
 
 def create_app(application):
     global notify_otel_client
+
+    CeleryInstrumentor().instrument()
+
     setup_commands(application)
 
     from app.config import Config, configs
