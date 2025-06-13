@@ -4,7 +4,7 @@ amqp==5.3.1
     # via
     #   -r requirements.txt
     #   kombu
-async-timeout==4.0.2
+async-timeout==5.0.1
     # via
     #   -r requirements.txt
     #   redis
@@ -102,7 +102,7 @@ govuk-bank-holidays==0.15
     # via
     #   -r requirements.txt
     #   notifications-utils
-greenlet==3.0.3
+greenlet==3.2.3
     # via
     #   -r requirements.txt
     #   eventlet
@@ -173,7 +173,7 @@ prompt-toolkit==3.0.24
     # via
     #   -r requirements.txt
     #   click-repl
-pycurl==7.44.1
+pycurl==7.45.6
     # via -r requirements.txt
 pypdf==3.17.1
     # via
@@ -194,7 +194,7 @@ pytest-testmon==2.1.1
     # via -r requirements_for_test_common.in
 pytest-xdist==3.6.1
     # via -r requirements_for_test_common.in
-python-dateutil==2.8.2
+python-dateutil==2.9.0
     # via
     #   -r requirements.txt
     #   botocore
