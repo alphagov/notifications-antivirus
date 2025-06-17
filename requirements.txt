@@ -2,7 +2,7 @@
 #    uv pip compile requirements.in -o requirements.txt
 amqp==5.3.1
     # via kombu
-async-timeout==4.0.2
+async-timeout==5.0.1
     # via redis
 awscrt==0.20.11
     # via botocore
@@ -68,7 +68,7 @@ gds-metrics @ git+https://github.com/alphagov/gds_metrics_python.git@6f1840a57b6
     # via -r requirements.in
 govuk-bank-holidays==0.15
     # via notifications-utils
-greenlet==3.0.3
+greenlet==3.2.3
     # via eventlet
 gunicorn==23.0.0
     # via notifications-utils
@@ -112,13 +112,13 @@ prometheus-client==0.15.0
     #   gds-metrics
 prompt-toolkit==3.0.24
     # via click-repl
-pycurl==7.44.1
+pycurl==7.45.6
     # via
     #   celery
     #   kombu
 pypdf==3.17.1
     # via notifications-utils
-python-dateutil==2.8.2
+python-dateutil==2.9.0
     # via
     #   botocore
     #   celery
