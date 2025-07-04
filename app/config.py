@@ -1,6 +1,7 @@
 import os
 
 from kombu import Exchange, Queue
+from notifications_utils.config import BaseConfig
 
 
 class QueueNames:
@@ -22,10 +23,12 @@ class QueueNames:
         }
 
 
-class Config:
+class Config(BaseConfig):
     STATSD_ENABLED = True
     STATSD_HOST = os.getenv("STATSD_HOST")
     STATSD_PORT = 8125
+
+    OTEL_EXPORT_TYPE = os.environ.get("OTEL_EXPORT_TYPE", "otlp").lower().strip()
 
     # The config option NOTIFY_ENVIRONMENT is purely used for logging.
     # It should not be used for any logical conditionals in the code.
