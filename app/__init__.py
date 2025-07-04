@@ -5,6 +5,7 @@ from flask import g, jsonify, request
 from gds_metrics import GDSMetrics
 from notifications_utils import request_helper
 from notifications_utils.celery import NotifyCelery
+from notifications_utils.clients.otel.otel_client import init_otel_app
 from notifications_utils.clients.statsd.statsd_client import StatsdClient
 from notifications_utils.logging import flask as utils_logging
 
@@ -31,6 +32,7 @@ def create_app(application):
 
     # Metrics intentionally high up to give the most accurate timing and reliability that the metric is recorded
     metrics.init_app(application)
+    init_otel_app(application)
 
     statsd_client.init_app(application)
     utils_logging.init_app(application, statsd_client)
