@@ -148,7 +148,7 @@ mistune==0.8.4
     # via
     #   -r requirements.txt
     #   notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@a97b36f6a32e7bb917152c8cd716fe65fa15ac9f
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@bb31f41dd194802ced5ea814f84cc25855467234
     # via -r requirements.txt
 ordered-set==4.1.0
     # via
@@ -159,7 +159,7 @@ packaging==25.0
     #   -r requirements.txt
     #   gunicorn
     #   pytest
-phonenumbers==8.13.50
+phonenumbers==9.0.10
     # via
     #   -r requirements.txt
     #   notifications-utils
@@ -200,6 +200,7 @@ python-dateutil==2.9.0
     #   botocore
     #   celery
     #   freezegun
+    #   notifications-utils
 python-json-logger==3.3.0
     # via
     #   -r requirements.txt
