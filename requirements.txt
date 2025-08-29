@@ -13,18 +13,18 @@ blinker==1.9.0
     #   flask
     #   gds-metrics
     #   sentry-sdk
-boto3==1.34.150
+boto3[crt]==1.34.150
     # via
     #   celery
     #   kombu
     #   notifications-utils
-botocore==1.34.150
+botocore[crt]==1.34.150
     # via
     #   boto3
     #   s3transfer
 cachetools==5.5.0
     # via notifications-utils
-celery==5.4.0
+celery[sqs]==5.4.0
     # via
     #   -r requirements.in
     #   sentry-sdk
@@ -51,7 +51,7 @@ click-repl==0.2.0
     # via celery
 dnspython==2.6.1
     # via eventlet
-eventlet==0.39.1
+eventlet==0.40.3
     # via gunicorn
 flask==3.1.1
     # via
@@ -70,10 +70,14 @@ govuk-bank-holidays==0.15
     # via notifications-utils
 greenlet==3.2.3
     # via eventlet
-gunicorn==23.0.0
+gunicorn[eventlet]==23.0.0
     # via notifications-utils
 idna==3.7
     # via requests
+importlib-metadata==8.7.0
+    # via
+    #   flask
+    #   segno
 itsdangerous==2.2.0
     # via
     #   flask
@@ -86,7 +90,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.3.7
+kombu[sqs]==5.3.7
     # via
     #   -r requirements.in
     #   celery
@@ -98,7 +102,7 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@bb31f41dd194802ced5ea814f84cc25855467234
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@100.2.0
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
@@ -139,8 +143,10 @@ s3transfer==0.10.2
     # via boto3
 segno==1.6.1
     # via notifications-utils
-sentry-sdk==1.45.1
-    # via -r requirements.in
+sentry-sdk[celery,flask]==1.45.1
+    # via
+    #   -r requirements.in
+    #   sentry-sdk
 six==1.16.0
     # via
     #   click-repl
@@ -149,6 +155,11 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==4.0.1
     # via notifications-utils
+typing-extensions==4.15.0
+    # via
+    #   kombu
+    #   pypdf
+    #   python-json-logger
 tzdata==2025.2
     # via celery
 urllib3==1.26.19
@@ -167,3 +178,5 @@ wcwidth==0.2.5
     # via prompt-toolkit
 werkzeug==3.1.3
     # via flask
+zipp==3.23.0
+    # via importlib-metadata
