@@ -4,10 +4,6 @@ amqp==5.3.1
     # via
     #   -r requirements.txt
     #   kombu
-async-timeout==5.0.1
-    # via
-    #   -r requirements.txt
-    #   redis
 awscrt==0.20.11
     # via
     #   -r requirements.txt
