@@ -25,7 +25,7 @@ def scan_file(self, filename):
             "Calling task: %s to process %s on API",
             task_name,
             filename,
-            extra={"celery_task_name": task_name, "file_name": filename},
+            extra={"celery_task": task_name, "file_name": filename},
         )
         notify_celery.send_task(
             name=task_name,
