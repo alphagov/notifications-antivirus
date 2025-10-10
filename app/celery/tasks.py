@@ -19,9 +19,14 @@ def scan_file(self, filename):
             task_name = "sanitise-letter"
         else:
             task_name = "process-virus-scan-failed"
-            current_app.logger.info("VIRUS FOUND for file: %s", filename)
+            current_app.logger.info("VIRUS FOUND for file: %s", filename, extra={"file_name": filename})
 
-        current_app.logger.info("Calling task: %s to process %s on API", task_name, filename)
+        current_app.logger.info(
+            "Calling task: %s to process %s on API",
+            task_name,
+            filename,
+            extra={"celery_task": task_name, "file_name": filename},
+        )
         notify_celery.send_task(
             name=task_name,
             kwargs={"filename": filename},
@@ -29,10 +34,12 @@ def scan_file(self, filename):
         )
     except (clamd.ClamdError, BotoClientError) as e:
         try:
-            current_app.logger.exception("Scanning error file: %s %s", filename, e)
+            current_app.logger.exception("Scanning error on file %s: %s", filename, e, extra={"file_name": filename})
             self.retry(queue=QueueNames.ANTIVIRUS)
         except self.MaxRetriesExceededError:
-            current_app.logger.exception("MAX RETRY EXCEEDED: Task scan_file failed for file: %s", filename)
+            current_app.logger.exception(
+                "MAX RETRY EXCEEDED: Task scan_file failed for file: %s", filename, extra={"file_name": filename}
+            )
 
             notify_celery.send_task(
                 name="process-virus-scan-error",
