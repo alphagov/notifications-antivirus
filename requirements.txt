@@ -96,7 +96,7 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@db63d6b30f95512695bff55c3f61306bbff96d3b
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@5c030d51f30cebf7800787fb68d8789b5f9757ef
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
@@ -122,8 +122,6 @@ python-dateutil==2.9.0
     #   celery
     #   notifications-utils
 python-json-logger==3.3.0
-    # via notifications-utils
-pytz==2024.2
     # via notifications-utils
 pyyaml==6.0.2
     # via notifications-utils
