@@ -22,7 +22,7 @@ botocore==1.34.150
     #   s3transfer
 cachetools==5.5.0
     # via notifications-utils
-celery==5.4.0
+celery==5.5.3
     # via
     #   -r requirements.in
     #   sentry-sdk
@@ -84,7 +84,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.3.7
+kombu==5.5.4
     # via
     #   -r requirements.in
     #   celery
@@ -101,7 +101,9 @@ notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@b2
 ordered-set==4.1.0
     # via notifications-utils
 packaging==25.0
-    # via gunicorn
+    # via
+    #   gunicorn
+    #   kombu
 phonenumbers==9.0.10
     # via notifications-utils
 prometheus-client==0.15.0
@@ -110,10 +112,6 @@ prometheus-client==0.15.0
     #   gds-metrics
 prompt-toolkit==3.0.24
     # via click-repl
-pycurl==7.45.6
-    # via
-    #   celery
-    #   kombu
 pypdf==3.17.1
     # via notifications-utils
 python-dateutil==2.9.0
@@ -146,7 +144,7 @@ smartypants==2.0.1
 statsd==4.0.1
     # via notifications-utils
 tzdata==2025.2
-    # via celery
+    # via kombu
 urllib3==1.26.19
     # via
     #   botocore

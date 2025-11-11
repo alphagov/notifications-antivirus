@@ -32,8 +32,8 @@ class Config:
     NOTIFY_ENVIRONMENT = os.environ["NOTIFY_ENVIRONMENT"]
 
     # Celery log levels
-    CELERY_WORKER_LOG_LEVEL = os.getenv("CELERY_WORKER_LOG_LEVEL", "CRITICAL").upper()
-    CELERY_BEAT_LOG_LEVEL = os.getenv("CELERY_BEAT_LOG_LEVEL", "INFO").upper()
+    CELERY_WORKER_LOG_LEVEL = os.getenv("CELERY_WORKER_LOG_LEVEL", "DEBUG").upper()
+    CELERY_BEAT_LOG_LEVEL = os.getenv("CELERY_BEAT_LOG_LEVEL", "DEBUG").upper()
 
     NOTIFICATION_QUEUE_PREFIX = os.getenv("NOTIFICATION_QUEUE_PREFIX")
 
@@ -85,7 +85,7 @@ class Config:
 class Development(Config):
     SERVER_NAME = os.getenv("SERVER_NAME")
 
-    CELERY_WORKER_LOG_LEVEL = "INFO"
+    CELERY_WORKER_LOG_LEVEL = "DEBUG"
 
     NOTIFICATION_QUEUE_PREFIX = "development"
     DEBUG = True
@@ -110,7 +110,7 @@ class Test(Config):
 
     ANTIVIRUS_API_KEY = "test-key"
 
-    CELERY_WORKER_LOG_LEVEL = "INFO"
+    CELERY_WORKER_LOG_LEVEL = "DEBUG"
 
     LETTERS_SCAN_BUCKET_NAME = "test-letters-pdf"
 

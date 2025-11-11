@@ -1,6 +1,6 @@
 clamd==1.0.2
-celery[sqs]==5.4.0
-kombu==5.3.7
+celery[sqs]==5.5.3
+kombu==5.5.4
 Flask-HTTPAuth==4.8.0
 
 # Run `make bump-utils` to update to the latest version
