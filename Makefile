@@ -62,7 +62,7 @@ lint: ## Run static analysis
 
 .PHONY: test
 test: lint ## Run tests (used by Concourse)
-	PYTHONPATH=. pytest
+	py.test --maxfail=10 tests/
 
 .PHONY: test-with-docker
 test-with-docker: ## Run tests in Docker container
