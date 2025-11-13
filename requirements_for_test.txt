@@ -32,7 +32,7 @@ cachetools==5.5.0
     # via
     #   -r requirements.txt
     #   notifications-utils
-celery==5.4.0
+celery==5.5.3
     # via -r requirements.txt
 certifi==2024.7.4
     # via
@@ -130,7 +130,7 @@ jmespath==0.10.0
     #   -r requirements.txt
     #   boto3
     #   botocore
-kombu==5.3.7
+kombu==5.5.4
     # via
     #   -r requirements.txt
     #   celery
@@ -144,7 +144,7 @@ mistune==0.8.4
     # via
     #   -r requirements.txt
     #   notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@b2c6b779da8f2da0edc885059f91ca8fb9733913
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@7772125aec72ccc5651bfd53c0ab1bb9ce6a3efe
     # via -r requirements.txt
 ordered-set==4.1.0
     # via
@@ -154,6 +154,7 @@ packaging==25.0
     # via
     #   -r requirements.txt
     #   gunicorn
+    #   kombu
     #   pytest
 phonenumbers==9.0.10
     # via
@@ -169,8 +170,6 @@ prompt-toolkit==3.0.24
     # via
     #   -r requirements.txt
     #   click-repl
-pycurl==7.45.6
-    # via -r requirements.txt
 pypdf==3.17.1
     # via
     #   -r requirements.txt
@@ -248,7 +247,7 @@ statsd==4.0.1
 tzdata==2025.2
     # via
     #   -r requirements.txt
-    #   celery
+    #   kombu
 urllib3==1.26.19
     # via
     #   -r requirements.txt
