@@ -55,11 +55,14 @@ run-celery-with-docker: ## Run celery in Docker container
 run-flask-with-docker: ## Run flask in Docker container
 	export DOCKER_ARGS="-p 127.0.0.1:6016:6016" && ./scripts/run_with_docker.sh ./scripts/run_app.sh
 
-.PHONY: test
-test: ## Run tests (used by Concourse)
+.PHONY: lint
+lint: ## Run static analysis
 	ruff check .
 	ruff format --check .
-	PYTHONPATH=. pytest
+
+.PHONY: test
+test: lint ## Run tests (used by Concourse)
+	pytest --maxfail=10 tests/
 
 .PHONY: test-with-docker
 test-with-docker: ## Run tests in Docker container
