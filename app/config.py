@@ -41,6 +41,9 @@ class Config:
     DEBUG = False
     LOGGING_STDOUT_JSON = os.getenv("LOGGING_STDOUT_JSON") == "1"
 
+    NOTIFY_RUNTIME_PLATFORM = os.getenv("NOTIFY_RUNTIME_PLATFORM", "paas")
+    NOTIFY_REQUEST_LOG_LEVEL = os.getenv("NOTIFY_REQUEST_LOG_LEVEL", "INFO")
+
     ###########################
     # Default config values ###
     ###########################
