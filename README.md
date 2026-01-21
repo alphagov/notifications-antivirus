@@ -71,3 +71,7 @@ If you need to run a specific command, such as a single test, you can use the `r
 ## Further documentation
 
 - [Updating dependencies](https://github.com/alphagov/notifications-manuals/wiki/Dependencies)
+
+## Licence
+
+Unless stated otherwise, the codebase is released under [the MIT License](LICENCE). This covers both the codebase and any sample code in the documentation.
