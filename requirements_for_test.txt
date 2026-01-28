@@ -171,7 +171,7 @@ prompt-toolkit==3.0.24
     #   click-repl
 pycurl==7.45.6
     # via -r requirements.txt
-pypdf==3.17.1
+pypdf==6.6.2
     # via
     #   -r requirements.txt
     #   notifications-utils
