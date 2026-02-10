@@ -96,7 +96,7 @@ markupsafe==2.1.2
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@b2c6b779da8f2da0edc885059f91ca8fb9733913
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@c3b3711d9b63cf131151087be7726f7b9b1b0e55
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
@@ -127,7 +127,7 @@ pyyaml==6.0.2
     # via notifications-utils
 redis==4.5.4
     # via flask-redis
-requests==2.32.4
+requests==2.32.5
     # via
     #   govuk-bank-holidays
     #   notifications-utils
