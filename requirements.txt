@@ -11,18 +11,18 @@ blinker==1.9.0
     #   flask
     #   gds-metrics
     #   sentry-sdk
-boto3==1.42.46
+boto3[crt]==1.42.46
     # via
     #   celery
     #   kombu
     #   notifications-utils
-botocore==1.42.46
+botocore[crt]==1.42.46
     # via
     #   boto3
     #   s3transfer
 cachetools==7.0.1
     # via notifications-utils
-celery==5.4.0
+celery[sqs]==5.4.0
     # via
     #   -r requirements.in
     #   sentry-sdk
@@ -68,7 +68,7 @@ govuk-bank-holidays==0.18
     # via notifications-utils
 greenlet==3.3.1
     # via eventlet
-gunicorn==25.0.3
+gunicorn[eventlet]==25.0.3
     # via notifications-utils
 idna==3.11
     # via requests
@@ -84,7 +84,7 @@ jmespath==1.1.0
     # via
     #   boto3
     #   botocore
-kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
+kombu[sqs] @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
     # via
     #   -r requirements.in
     #   celery
@@ -96,7 +96,7 @@ markupsafe==3.0.3
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@c3b3711d9b63cf131151087be7726f7b9b1b0e55
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@108.0.0
     # via -r requirements.in
 ordered-set==4.1.0
     # via notifications-utils
@@ -137,8 +137,10 @@ s3transfer==0.16.0
     # via boto3
 segno==1.6.6
     # via notifications-utils
-sentry-sdk==1.45.1
-    # via -r requirements.in
+sentry-sdk[celery,flask]==1.45.1
+    # via
+    #   -r requirements.in
+    #   sentry-sdk
 six==1.17.0
     # via python-dateutil
 smartypants==2.0.2
@@ -163,5 +165,5 @@ vine==5.1.0
     #   kombu
 wcwidth==0.6.0
     # via prompt-toolkit
-werkzeug==3.1.5
+werkzeug==3.1.6
     # via flask
