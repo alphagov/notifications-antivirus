@@ -130,7 +130,7 @@ jmespath==1.1.0
     #   -r requirements.txt
     #   boto3
     #   botocore
-kombu==5.3.7
+kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
     # via
     #   -r requirements.txt
     #   celery
@@ -154,6 +154,7 @@ packaging==26.0
     # via
     #   -r requirements.txt
     #   gunicorn
+    #   kombu
     #   pytest
 phonenumbers==9.0.23
     # via
@@ -248,6 +249,7 @@ tzdata==2025.3
     # via
     #   -r requirements.txt
     #   celery
+    #   kombu
 urllib3==2.6.3
     # via
     #   -r requirements.txt
