@@ -5,7 +5,7 @@ kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f
 Flask-HTTPAuth==4.8.0
 
 # Run `make bump-utils` to update to the latest version
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@108.0.0
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@108.5.0
 
 # gds-metrics requires prometheseus 0.2.0, override that requirement as later versions bring significant performance gains
 prometheus-client==0.15.0
