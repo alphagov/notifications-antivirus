@@ -32,7 +32,7 @@ cachetools==7.0.1
     # via
     #   -r requirements.txt
     #   notifications-utils
-celery==5.4.0
+celery==5.6.2
     # via -r requirements.txt
 certifi==2026.1.4
     # via
@@ -144,7 +144,7 @@ mistune==0.8.4
     # via
     #   -r requirements.txt
     #   notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@043dcf4df0ebd183dc26b99d82362dab5d3ce47c
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@7b3ed394d8c211e0bfcc55fe037fedbe82d8c30e
     # via -r requirements.txt
 ordered-set==4.1.0
     # via
@@ -219,7 +219,7 @@ requests==2.32.5
     #   requests-mock
 requests-mock==1.12.1
     # via -r requirements_for_test_common.in
-ruff==0.11.4
+ruff==0.15.2
     # via -r requirements_for_test_common.in
 s3transfer==0.16.0
     # via
@@ -248,8 +248,11 @@ statsd==4.0.1
 tzdata==2025.3
     # via
     #   -r requirements.txt
-    #   celery
     #   kombu
+tzlocal==5.3.1
+    # via
+    #   -r requirements.txt
+    #   celery
 urllib3==2.6.3
     # via
     #   -r requirements.txt
