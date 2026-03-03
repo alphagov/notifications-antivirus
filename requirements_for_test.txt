@@ -19,11 +19,14 @@ blinker==1.9.0
     #   -r requirements.txt
     #   flask
     #   gds-metrics
-boto3==1.42.55
+    #   sentry-sdk
+boto3[crt]==1.42.55
     # via
     #   -r requirements.txt
+    #   celery
+    #   kombu
     #   notifications-utils
-botocore==1.42.55
+botocore[crt]==1.42.55
     # via
     #   -r requirements.txt
     #   boto3
@@ -32,8 +35,10 @@ cachetools==7.0.1
     # via
     #   -r requirements.txt
     #   notifications-utils
-celery==5.4.0
-    # via -r requirements.txt
+celery[sqs]==5.4.0
+    # via
+    #   -r requirements.txt
+    #   sentry-sdk
 certifi==2026.1.4
     # via
     #   -r requirements.txt
@@ -84,6 +89,7 @@ flask==3.1.3
     #   flask-redis
     #   gds-metrics
     #   notifications-utils
+    #   sentry-sdk
 flask-httpauth==4.8.0
     # via -r requirements.txt
 flask-redis==0.4.0
@@ -102,7 +108,7 @@ greenlet==3.3.2
     # via
     #   -r requirements.txt
     #   eventlet
-gunicorn==25.1.0
+gunicorn[eventlet]==25.1.0
     # via
     #   -r requirements.txt
     #   notifications-utils
@@ -123,14 +129,14 @@ jinja2==3.1.6
     #   flask
     #   jinja2-cli
     #   notifications-utils
-jinja2-cli==0.8.2
+jinja2-cli[yaml]==0.8.2
     # via -r requirements_for_test.in
 jmespath==1.1.0
     # via
     #   -r requirements.txt
     #   boto3
     #   botocore
-kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
+kombu[sqs] @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
     # via
     #   -r requirements.txt
     #   celery
@@ -139,12 +145,13 @@ markupsafe==3.0.3
     #   -r requirements.txt
     #   flask
     #   jinja2
+    #   sentry-sdk
     #   werkzeug
 mistune==0.8.4
     # via
     #   -r requirements.txt
     #   notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@043dcf4df0ebd183dc26b99d82362dab5d3ce47c
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@108.5.0
     # via -r requirements.txt
 ordered-set==4.1.0
     # via
@@ -171,8 +178,11 @@ prompt-toolkit==3.0.52
     #   -r requirements.txt
     #   click-repl
 pycurl==7.45.7
-    # via -r requirements.txt
-pypdf==6.7.2
+    # via
+    #   -r requirements.txt
+    #   celery
+    #   kombu
+pypdf==6.7.5
     # via
     #   -r requirements.txt
     #   notifications-utils
@@ -229,7 +239,7 @@ segno==1.6.6
     # via
     #   -r requirements.txt
     #   notifications-utils
-sentry-sdk==1.45.1
+sentry-sdk[celery,flask]==1.45.1
     # via -r requirements.txt
 six==1.17.0
     # via
@@ -254,6 +264,8 @@ urllib3==2.6.3
     # via
     #   -r requirements.txt
     #   botocore
+    #   celery
+    #   kombu
     #   requests
     #   sentry-sdk
 vine==5.1.0
