@@ -1,14 +1,13 @@
-clamd==1.0.2
-celery[sqs]==5.4.0
+clamd~=1.0
+celery[sqs]~=5.6
+
 # Pin kombu to merge of PR #2342 (SQS fair queue / MessageGroupId support) until kombu 5.7 is released
 kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
 Flask-HTTPAuth==4.8.0
 
 # Run `make bump-utils` to update to the latest version
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@108.5.0
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@110.0.1
 
-# gds-metrics requires prometheseus 0.2.0, override that requirement as later versions bring significant performance gains
-prometheus-client==0.15.0
 git+https://github.com/alphagov/gds_metrics_python.git@6f1840a57b6fb1ee40b7e84f2f18ec229de8aa72
 
-sentry_sdk[flask,celery]==1.45.1
+sentry_sdk[flask,celery]~=1.45
