@@ -31,6 +31,7 @@ def scan_file(self, filename):
             name=task_name,
             kwargs={"filename": filename},
             queue=QueueNames.LETTERS,
+            MessageGroupId=self.message_group_id,
         )
     except (clamd.ClamdError, BotoClientError) as e:
         try:
@@ -45,6 +46,7 @@ def scan_file(self, filename):
                 name="process-virus-scan-error",
                 kwargs={"filename": filename},
                 queue=QueueNames.LETTERS,
+                MessageGroupId=self.message_group_id,
             )
 
 
