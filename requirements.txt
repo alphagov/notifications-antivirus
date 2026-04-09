@@ -11,18 +11,18 @@ blinker==1.9.0
     #   flask
     #   gds-metrics
     #   sentry-sdk
-boto3==1.42.61
+boto3[crt]==1.42.61
     # via
     #   celery
     #   kombu
     #   notifications-utils
-botocore==1.42.61
+botocore[crt]==1.42.61
     # via
     #   boto3
     #   s3transfer
 cachetools==7.0.2
     # via notifications-utils
-celery==5.6.2
+celery[sqs]==5.6.2
     # via
     #   -r requirements.in
     #   sentry-sdk
@@ -74,7 +74,7 @@ greenlet==3.3.2
     # via eventlet
 grpcio==1.80.0
     # via opentelemetry-exporter-otlp-proto-grpc
-gunicorn==25.1.0
+gunicorn[eventlet]==25.1.0
     # via notifications-utils
 idna==3.11
     # via requests
@@ -92,7 +92,7 @@ jmespath==1.1.0
     # via
     #   boto3
     #   botocore
-kombu @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
+kombu[sqs] @ git+https://github.com/celery/kombu.git@860e40a6c904c4d8551577d9f4e8c00f03b6e06c
     # via
     #   -r requirements.in
     #   celery
@@ -104,7 +104,7 @@ markupsafe==3.0.3
     #   werkzeug
 mistune==0.8.4
     # via notifications-utils
-notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@58855282da48d522d0639e3f7732027f6ac73ab3
+notifications-utils @ git+https://github.com/alphagov/notifications-utils.git@113.3.0
     # via -r requirements.in
 opentelemetry-api==1.40.0
     # via
@@ -133,7 +133,7 @@ opentelemetry-api==1.40.0
     #   opentelemetry-propagator-aws-xray
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
-opentelemetry-distro==0.61b0
+opentelemetry-distro[otlp]==0.61b0
     # via -r requirements.in
 opentelemetry-exporter-otlp==1.40.0
     # via opentelemetry-distro
@@ -261,7 +261,7 @@ pycurl==7.45.7
     # via
     #   celery
     #   kombu
-pypdf==6.7.5
+pypdf==6.9.2
     # via notifications-utils
 python-dateutil==2.9.0.post0
     # via
@@ -283,8 +283,10 @@ s3transfer==0.16.0
     # via boto3
 segno==1.6.6
     # via notifications-utils
-sentry-sdk==1.45.1
-    # via -r requirements.in
+sentry-sdk[celery,flask]==1.45.1
+    # via
+    #   -r requirements.in
+    #   sentry-sdk
 six==1.17.0
     # via python-dateutil
 smartypants==2.0.2
