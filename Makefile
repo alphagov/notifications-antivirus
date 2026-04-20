@@ -12,7 +12,7 @@ DOCKER_IMAGE = ghcr.io/alphagov/notify/notifications-antivirus
 DOCKER_IMAGE_TAG = $(shell git describe --always --dirty)
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
 
-EXCLUDE_REQUIREMENTS_NEWER_THAN_DAYS ?= 30
+EXCLUDE_REQUIREMENTS_NEWER_THAN_DAYS ?= 7
 
 
 .PHONY: help
