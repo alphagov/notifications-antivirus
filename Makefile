@@ -12,7 +12,7 @@ DOCKER_IMAGE = ghcr.io/alphagov/notify/notifications-antivirus
 DOCKER_IMAGE_TAG = $(shell git describe --always --dirty)
 DOCKER_IMAGE_NAME = ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
 
-EXCLUDE_REQUIREMENTS_NEWER_THAN_DAYS ?= 30
+EXCLUDE_REQUIREMENTS_NEWER_THAN_DAYS ?= 7
 
 
 .PHONY: help
@@ -41,6 +41,10 @@ freeze-requirements: ## create static requirements.txt
 .PHONY: refreeze-requirements
 refreeze-requirements: ## Upgrade unpinned requirements
 	EXTRA_UV_PIP_COMPILE_FLAGS="--upgrade --exclude-newer $(EXCLUDE_REQUIREMENTS_NEWER_THAN_DAYS)d" make freeze-requirements
+
+.PHONY: show-outdated-requirements
+show-outdated-requirements: ## Audit requirements.in
+	python -c "from notifications_utils.version_tools import show_outdated_requirements; show_outdated_requirements()"
 
 .PHONY: bump-utils
 bump-utils:  # Bump notifications-utils package to latest version
