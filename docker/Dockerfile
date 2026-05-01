@@ -1,6 +1,6 @@
 FROM python:3.13-slim-bookworm as base
 
-COPY --from=ghcr.io/astral-sh/uv:0.5.30 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /bin/
 
 ENV CLAMAV_MIRROR_URL https://s3.eu-west-2.amazonaws.com/notify-deploy-clamav-database-mirror/clam
 ENV PYTHONUNBUFFERED=1
