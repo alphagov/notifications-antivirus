@@ -47,7 +47,7 @@ class Config:
     ###########################
 
     NOTIFY_APP_NAME = "antivirus"
-    AWS_REGION = os.getenv("AWS_REGION", "eu-west-1")
+    AWS_REGION = os.getenv("AWS_REGION", "eu-west-2")
 
     NOTIFY_REQUEST_LOG_LEVEL = os.getenv("NOTIFY_REQUEST_LOG_LEVEL", "INFO")
 
@@ -55,7 +55,7 @@ class Config:
 
     AWS_ACCOUNT_ID = os.environ.get("AWS_ACCOUNT_ID", "123456789012")
     CELERY = {
-        "broker_url": "https://sqs.eu-west-1.amazonaws.com",
+        "broker_url": "https://sqs.eu-west-2.amazonaws.com",
         "broker_transport": "sqs",
         "broker_transport_options": {
             "region": AWS_REGION,
