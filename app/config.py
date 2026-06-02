@@ -23,10 +23,6 @@ class QueueNames:
 
 
 class Config:
-    STATSD_ENABLED = True
-    STATSD_HOST = os.getenv("STATSD_HOST")
-    STATSD_PORT = 8125
-
     # The config option NOTIFY_ENVIRONMENT is purely used for logging.
     # It should not be used for any logical conditionals in the code.
     NOTIFY_ENVIRONMENT = os.environ["NOTIFY_ENVIRONMENT"]
@@ -90,7 +86,6 @@ class Development(Config):
 
     NOTIFICATION_QUEUE_PREFIX = "development"
     DEBUG = True
-    STATSD_ENABLED = False
 
     ANTIVIRUS_API_KEY = "test-key"
 
@@ -106,8 +101,6 @@ class Development(Config):
 
 class Test(Config):
     DEBUG = True
-    STATSD_HOST = "localhost"
-    STATSD_PORT = 1000
 
     ANTIVIRUS_API_KEY = "test-key"
 
