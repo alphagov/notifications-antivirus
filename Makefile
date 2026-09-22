@@ -67,6 +67,7 @@ run-flask-with-docker: ## Run flask in Docker container
 lint: ## Run static analysis
 	ruff check .
 	ruff format --check .
+	grep '^\*\*/\.git/config$$' ./.dockerignore > /dev/null
 
 .PHONY: test
 test: lint ## Run tests (used by Concourse)
