@@ -83,3 +83,4 @@ upload-to-docker-registry: ## Upload the current version of the docker image to 
 	$(if ${CF_DOCKER_PASSWORD},,$(error Must specify CF_DOCKER_PASSWORD))
 	@docker login ${DOCKER_IMAGE} -u ${DOCKER_USER_NAME} -p ${CF_DOCKER_PASSWORD}
 	docker buildx build --platform linux/amd64 --push -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME} .
+## bla
