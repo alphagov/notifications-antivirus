@@ -2,7 +2,6 @@ import os
 import time
 
 from flask import g, jsonify, request
-from gds_metrics import GDSMetrics
 from notifications_utils import request_helper
 from notifications_utils.celery import NotifyCelery
 from notifications_utils.logging import flask as utils_logging
@@ -10,7 +9,6 @@ from notifications_utils.logging import flask as utils_logging
 from app.commands import setup_commands
 
 notify_celery = NotifyCelery()
-metrics = GDSMetrics()
 
 
 def create_app(application):
@@ -26,9 +24,6 @@ def create_app(application):
         application.config.from_object(Config)
 
     init_app(application)
-
-    # Metrics intentionally high up to give the most accurate timing and reliability that the metric is recorded
-    metrics.init_app(application)
 
     utils_logging.init_app(application)
     request_helper.init_app(application)
